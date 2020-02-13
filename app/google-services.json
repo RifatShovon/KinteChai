@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "849681613479",
+    "firebase_url": "https://kinte-chai.firebaseio.com",
+    "project_id": "kinte-chai",
+    "storage_bucket": "kinte-chai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849681613479:android:0079970c7253818a981182",
+        "android_client_info": {
+          "package_name": "com.example.kintechai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849681613479-vlqk0iu3u3tv0sv58vnhq018meriraal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgasftBw8vHd13MUTqtz9Qr020VyGNPs8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "849681613479-vlqk0iu3u3tv0sv58vnhq018meriraal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
