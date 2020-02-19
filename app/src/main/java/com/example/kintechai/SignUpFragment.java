@@ -102,6 +102,13 @@ public class SignUpFragment extends Fragment {
             }
         });
 
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainIntent();
+            }
+        });
+
         emailId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -238,9 +245,7 @@ public class SignUpFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentReference> task) {
                                                     if (task.isSuccessful()){
-                                                        Intent mainIntent = new Intent(getActivity(),Main2Activity.class);
-                                                        startActivity(mainIntent);
-                                                        getActivity().finish();
+                                                        mainIntent();
                                                     }else{
                                                         signUpBtn.setEnabled(true);
                                                         signUpBtn.setTextColor(Color.rgb(255, 255, 255));
@@ -265,5 +270,11 @@ public class SignUpFragment extends Fragment {
         }else {
             emailId.setError("Invalid Email!",customErrorIcon);
         }
+    }
+
+    private void mainIntent(){
+        Intent mainIntent = new Intent(getActivity(),Main2Activity.class);
+        startActivity(mainIntent);
+        getActivity().finish();
     }
 }

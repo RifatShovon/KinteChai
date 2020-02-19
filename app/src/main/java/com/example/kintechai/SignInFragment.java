@@ -45,6 +45,8 @@ public class SignInFragment extends Fragment {
     private EditText email;
     private EditText password;
 
+    private TextView forgotPassword;
+
     private ImageButton closeBtn;
     private Button signInBtn;
 
@@ -59,6 +61,8 @@ public class SignInFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         parentFrameLayout = getActivity().findViewById(R.id.register_framelayout);
         dontHaveAnAccount = view.findViewById(R.id.tv_dont_have_an_account);
+
+        forgotPassword = view.findViewById(R.id.sign_in_forget_password);
 
         email = view.findViewById(R.id.sign_in_email);
         password = view.findViewById(R.id.sign_in_password);
@@ -80,6 +84,20 @@ public class SignInFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 setFragment(new SignUpFragment());
+            }
+        });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFragment(new ResetPasswordFragment());
+            }
+        });
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainIntent();
             }
         });
 
@@ -155,9 +173,7 @@ public class SignInFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()){
-                                    Intent mainIntent = new Intent(getActivity(),Main2Activity.class);
-                                    startActivity(mainIntent);
-                                    getActivity().finish();
+                                    mainIntent();
                                 }else{
                                     String error = task.getException().getMessage();
                                     Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
@@ -171,5 +187,10 @@ public class SignInFragment extends Fragment {
         }else{
             Toast.makeText(getActivity(), "Incorrect Email or Password!", Toast.LENGTH_SHORT).show();
         }
+    }
+    private void mainIntent(){
+        Intent mainIntent = new Intent(getActivity(),Main2Activity.class);
+        startActivity(mainIntent);
+        getActivity().finish();
     }
 }
