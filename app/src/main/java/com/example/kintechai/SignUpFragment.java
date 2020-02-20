@@ -255,7 +255,6 @@ public class SignUpFragment extends Fragment {
                                                 }
                                             });
 
-
                                 }else{
                                     signUpBtn.setEnabled(true);
                                     signUpBtn.setTextColor(Color.rgb(255, 255, 255));

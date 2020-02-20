@@ -16,6 +16,9 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -116,7 +119,39 @@ public class ResetPasswordFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getActivity(),"email sent successfully!",Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(getActivity(),"email sent successfully!",Toast.LENGTH_LONG).show();
+
+                                    ScaleAnimation scaleAnimation = new ScaleAnimation(1,0,1,0,emailIcon.getWidth()/2,emailIcon.getHeight()/2);
+                                    scaleAnimation.setDuration(100);
+                                    scaleAnimation.setInterpolator(new AccelerateInterpolator());
+                                    scaleAnimation.setRepeatMode(Animation.REVERSE);
+                                    scaleAnimation.setRepeatCount(1);
+
+                                    scaleAnimation.setAnimationListener(new Animation.AnimationListener(){
+                                        @Override
+                                        public void onAnimationStart(Animation animation) {
+
+                                        }
+
+                                        @Override
+                                        public void onAnimationEnd(Animation animation) {
+                                            emailIconText.setText("Recovery email sent successfully ! check your inbox");
+                                            emailIconText.setTextColor(getResources().getColor(R.color.successGreen));
+
+                                            TransitionManager.beginDelayedTransition(emailIconContainer);
+                                            emailIcon.setVisibility(View.VISIBLE);
+                                        }
+
+                                        @Override
+                                        public void onAnimationRepeat(Animation animation) {
+                                            emailIcon.setImageResource(R.mipmap.forget_email_icon2);
+                                        }
+
+                                    });
+
+                                    emailIcon.startAnimation(scaleAnimation);
+
+
                                 } else {
                                     String error = task.getException().getMessage();
 
