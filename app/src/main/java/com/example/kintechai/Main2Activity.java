@@ -8,6 +8,8 @@ import com.google.android.material.snackbar.Snackbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -21,8 +23,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.FrameLayout;
 
 public class Main2Activity extends AppCompatActivity {
+
+
+    private FrameLayout frameLayout;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -32,20 +38,15 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        frameLayout = findViewById(R.id.main_framelayout);
+        setFragment(new HomeFragment());
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -66,17 +67,17 @@ public class Main2Activity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Inflate the menu; this adds items to the action bar if it is present.
         int id = item.getItemId();
 
-        if (id == R.id.main_search_icon){
+        if (id == R.id.main_search_icon) {
             //todo: search
             return true;
-        }else if (id == R.id.main_notification_icon){
+        } else if (id == R.id.main_notification_icon) {
             //todo: notification
             return true;
-        }else if (id == R.id.main_cart_icon){
+        } else if (id == R.id.main_cart_icon) {
             //todo: cart
             return true;
         }
@@ -88,7 +89,9 @@ public class Main2Activity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         int id = item.getItemId();
 
-        if (id == R.id.nav_my_orders) {
+        if (id == R.id.nav_my_mall) {
+
+        } else if (id == R.id.nav_my_orders) {
 
         } else if (id == R.id.nav_my_rewards) {
 
@@ -97,6 +100,8 @@ public class Main2Activity extends AppCompatActivity {
         } else if (id == R.id.nav_my_wishlist) {
 
         } else if (id == R.id.nav_my_account) {
+
+        } else if (id == R.id.nav_sign_out){
 
         }
     }
@@ -108,4 +113,11 @@ public class Main2Activity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    private void setFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(frameLayout.getId(),fragment);
+        fragmentTransaction.commit();
+    }
+
 }
