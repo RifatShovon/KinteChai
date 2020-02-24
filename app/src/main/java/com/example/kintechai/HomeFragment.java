@@ -11,12 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
-import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,14 @@ public class HomeFragment extends Fragment {
     private ConstraintLayout stripAdContainer;
 
     ////////// Strip Ad
+
+    ////////// Horizontal Product Layout
+
+    private TextView horizontalLayoutTitle;
+    private Button horizontalLayoutViewAllBtn;
+    private RecyclerView horizontalRecyclerView;
+
+    ////////// Horizontal Product Layout
 
 
     @Override
@@ -158,6 +168,35 @@ public class HomeFragment extends Fragment {
         stripAdContainer.setBackgroundColor(Color.parseColor("#E07816"));
 
         ////////// Strip Ad
+
+
+        ////////// Horizontal Product Layout
+
+        horizontalLayoutTitle = view.findViewById(R.id.horizontal_scroll_layout_title);
+        horizontalLayoutViewAllBtn = view.findViewById(R.id.horizontal_scroll_view_all_button);
+        horizontalRecyclerView = view.findViewById(R.id.horizontal_scroll_layout_recyclerview);
+
+        List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
+
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.image2,"Iphone X","64GB","BDT 80,000"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.samsung,"Samsung A4","16GB","BDT 14,000"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.xiaomi,"Xiaomi P6","32GB","BDT 19,000"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.alcatle,"Alcatle 8","64GB","BDT 22,000"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.sony,"Sony Xperia","16GB","BDT 27,500"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.nokia,"Nokia Z1","64GB","BDT 30,500"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.ruggear,"RugGear V4","128GB","BDT 23,000"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.pixel,"Pixel 2 XL","64GB","BDT 64,000"));
+        horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.huwaei,"Huwaei P20","256GB","BDT 55,000"));
+
+        HorizontalProductScrollAdapter horizontalProductScrollAdapter = new HorizontalProductScrollAdapter(horizontalProductScrollModelList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        horizontalRecyclerView.setLayoutManager(linearLayoutManager);
+
+        horizontalRecyclerView.setAdapter(horizontalProductScrollAdapter);
+        horizontalProductScrollAdapter.notifyDataSetChanged();
+
+        ////////// Horizontal Product Layout
 
         return view;
     }
