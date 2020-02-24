@@ -24,6 +24,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         android:text="Home Appliances"
+        android:textStyle="bold"
         android:textAlignment="center"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
