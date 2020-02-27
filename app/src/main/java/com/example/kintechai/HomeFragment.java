@@ -217,11 +217,14 @@ public class HomeFragment extends Fragment {
         testing.setLayoutManager(testingLayoutManager);
 
         List<HomePageModel> homePageModelList = new ArrayList<>();
+        homePageModelList.add(new HomePageModel(0,sliderModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#ff0000"));
-        homePageModelList.add(new HomePageModel(0,sliderModelList));
-        homePageModelList.add(new HomePageModel(0,sliderModelList));
+        homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#000000"));
-        homePageModelList.add(new HomePageModel(1,R.drawable.banner,"#ffff00"));
+        homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(1,R.drawable.iphone,"#DFC660"));
         homePageModelList.add(new HomePageModel(0,sliderModelList));
 
         HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
