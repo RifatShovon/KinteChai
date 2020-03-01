@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         categoryRecyclerView.setLayoutManager(layoutManager);
 
-        List<CategoryModel> categoryModelList = new ArrayList<CategoryModel>();
+        final List<CategoryModel> categoryModelList = new ArrayList<CategoryModel>();
         categoryModelList.add(new CategoryModel("link","Home"));
         categoryModelList.add(new CategoryModel("link","Electronics"));
         categoryModelList.add(new CategoryModel("link","Appliances"));

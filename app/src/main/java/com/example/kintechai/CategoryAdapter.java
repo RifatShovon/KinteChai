@@ -1,6 +1,7 @@
 package com.example.kintechai;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                         categoryIntent.putExtra("CategoryName",name);
                         itemView.getContext().startActivity(categoryIntent);
                     }
-
                 }
             });
         }
