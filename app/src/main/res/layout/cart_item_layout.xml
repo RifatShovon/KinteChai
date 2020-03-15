@@ -5,11 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#ffffff"
     android:elevation="3dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/product_title"
+        android:id="@+id/product_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
@@ -19,7 +21,7 @@
         app:srcCompat="@mipmap/ruggear" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/product_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -28,7 +30,7 @@
         android:textSize="16sp"
         android:textColor="#000000"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/product_title"
+        app:layout_constraintStart_toEndOf="@+id/product_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -36,8 +38,9 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:tint="#8000ff"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_free_coupon"
+        app:layout_constraintStart_toStartOf="@+id/product_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_free_coupon"
         app:srcCompat="@mipmap/coupen" />
 
     <TextView
@@ -50,7 +53,7 @@
         android:textSize="12sp"
 
         app:layout_constraintStart_toEndOf="@+id/free_coupon_icon"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/product_title" />
 
     <TextView
         android:id="@+id/product_price"
@@ -71,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="BDT.40,500/="
-
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/product_price"
         app:layout_constraintEnd_toStartOf="@+id/product_price" />
 
@@ -121,7 +124,7 @@
         android:drawableEnd="@mipmap/drop_down_arrow"
         android:drawablePadding="6dp"
         app:layout_constraintBottom_toBottomOf="@+id/coupons_applied"
-        app:layout_constraintStart_toEndOf="@+id/product_title"
+        app:layout_constraintStart_toEndOf="@+id/product_image"
         app:layout_constraintTop_toBottomOf="@+id/cutted_price" />
 
     <LinearLayout
