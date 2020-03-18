@@ -1,5 +1,7 @@
 package com.example.kintechai;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -52,13 +54,21 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
         private TextView deliveryStatus;
         private LinearLayout rateNowContainer;
 
-        public Viewholder(@NonNull View itemView) {
+        public Viewholder(@NonNull final View itemView) {
             super(itemView);
             productImage = itemView.findViewById(R.id.product_image);
             productTitle = itemView.findViewById(R.id.product_title);
             orderIndicator = itemView.findViewById(R.id.order_indicator);
             deliveryStatus = itemView.findViewById(R.id.order_delivered_date);
             rateNowContainer = itemView.findViewById(R.id.rate_now_container);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent orderDetailsIntent = new Intent(itemView.getContext(),OrderDetailsActivity.class);
+                    itemView.getContext().startActivity(orderDetailsIntent);
+                }
+            });
 
         }
 

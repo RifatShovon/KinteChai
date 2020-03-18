@@ -1,5 +1,6 @@
 package com.example.kintechai;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.MenuItem;
@@ -60,7 +61,7 @@ public class Main2Activity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
 
         frameLayout = findViewById(R.id.main_framelayout);
-        setFragment(new OrderDetailsFragment(),HOME_FRAGMENT);
+        setFragment(new MyOrdersFragment(),HOME_FRAGMENT);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

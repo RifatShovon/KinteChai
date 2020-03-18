@@ -41,7 +41,7 @@ public class MyOrdersFragment extends Fragment {
         myOrdersRecyclerView.setLayoutManager(layoutManager);
 
         List<MyOrderItemModel> myOrderItemModelList = new ArrayList<>();
-        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.product_image,2,"Hondda CB Trigger","Delivered on Mon, 15th JAN 2019"));
+        myOrderItemModelList.add(new MyOrderItemModel(R.drawable.product_image,2,"Honda CB Trigger","Delivered on Mon, 15th JAN 2019"));
         myOrderItemModelList.add(new MyOrderItemModel(R.drawable.laptop,1,"Lenovo IdeaPad","Delivered on Mon, 15th JAN 2019"));
         myOrderItemModelList.add(new MyOrderItemModel(R.drawable.iphone,0,"Iphone X","Cancelled"));
         myOrderItemModelList.add(new MyOrderItemModel(R.drawable.product_image,4,"Hondda CB Trigger","Delivered on Mon, 15th JAN 2019"));
