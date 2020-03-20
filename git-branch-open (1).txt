@@ -1,0 +1,47 @@
+git checkout zihad
+// it will switched to zihad branch
+
+git pull origin master
+// it will fetch all data from master
+
+git add .
+// it will add all folder, or git add "file-name with extensions " 
+	
+git commit -m ""
+
+git checkout master
+// it will switch to master
+
+git merge zihad
+// it will merge with master
+
+git push -u origin master
+// it will push all unspecified file and folder to the master
+
+git checkout zihad
+
+git push -u origin zihad
+
+
+abar  ...
+
+If there is an existence branch then 
+	git branch
+If you want to open a branch 
+
+git branch <name>
+
+example : git branch zihad
+
+// zihad will be created as a branch
+
+git status 
+
+// it will check updates 
+
+git clone githublink
+
+// clone all the files into the specific folder
+
+
+ 
