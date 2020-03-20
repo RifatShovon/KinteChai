@@ -31,6 +31,7 @@ public class Main2Activity extends AppCompatActivity
     private static final int HOME_FRAGMENT = 0;
     private static final int CART_FRAGMENT = 1;
     private static final int ORDERS_FRAGMENT = 2;
+    private static final int WISHLIST_FRAGMENT = 3;
 
 
     private FrameLayout frameLayout;
@@ -61,7 +62,7 @@ public class Main2Activity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
 
         frameLayout = findViewById(R.id.main_framelayout);
-        setFragment(new MyOrdersFragment(),HOME_FRAGMENT);
+        setFragment(new My(),HOME_FRAGMENT);
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -82,7 +83,14 @@ public class Main2Activity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (currentFragment == HOME_FRAGMENT) {
+                super.onBackPressed();
+            }else {
+                actionBarLogo.setVisibility(View.VISIBLE);
+                invalidateOptionsMenu();
+                setFragment(new HomeFragment(), HOME_FRAGMENT);
+                navigationView.getMenu().getItem(0).setChecked(true);
+            }
         }
     }
 
@@ -142,7 +150,7 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.nav_my_cart) {
             gotoFragment("My Cart",new MyCartFragment(), CART_FRAGMENT);
         } else if (id == R.id.nav_my_wishlist) {
-
+            gotoFragment("My Wishlist",new MyWishlistFragment(), WISHLIST_FRAGMENT);
         } else if (id == R.id.nav_my_account) {
 
         } else if (id == R.id.nav_sign_out){
