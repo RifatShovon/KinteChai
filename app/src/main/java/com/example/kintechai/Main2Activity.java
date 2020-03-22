@@ -1,10 +1,14 @@
 package com.example.kintechai;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,7 +17,9 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -22,8 +28,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,6 +41,11 @@ public class Main2Activity extends AppCompatActivity
     private static final int CART_FRAGMENT = 1;
     private static final int ORDERS_FRAGMENT = 2;
     private static final int WISHLIST_FRAGMENT = 3;
+<<<<<<< HEAD
+=======
+    private static final int REWARDS_FRAGMENT = 4;
+    private static final int ACCOUNT_FRAGMENT = 5;
+>>>>>>> 91063c26166a123e4f8aab7839466133b3295a3d
 
 
     private FrameLayout frameLayout;
@@ -39,15 +53,21 @@ public class Main2Activity extends AppCompatActivity
     private static int currentFragment = -1;
     private NavigationView navigationView;
 
+    private Window window;
+    private Toolbar toolbar;
+
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBarLogo = findViewById(R.id.actionbar_logo);
+
+        window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -62,7 +82,11 @@ public class Main2Activity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
 
         frameLayout = findViewById(R.id.main_framelayout);
+<<<<<<< HEAD
         setFragment(new My(),HOME_FRAGMENT);
+=======
+        setFragment(new HomeFragment(),HOME_FRAGMENT);
+>>>>>>> 91063c26166a123e4f8aab7839466133b3295a3d
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -74,6 +98,7 @@ public class Main2Activity extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
 
@@ -146,13 +171,13 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.nav_my_orders) {
             gotoFragment("My Orders",new MyOrdersFragment(), ORDERS_FRAGMENT);
         } else if (id == R.id.nav_my_rewards) {
-
+            gotoFragment("My Rewards",new MyRewardsFragment(), REWARDS_FRAGMENT );
         } else if (id == R.id.nav_my_cart) {
             gotoFragment("My Cart",new MyCartFragment(), CART_FRAGMENT);
         } else if (id == R.id.nav_my_wishlist) {
             gotoFragment("My Wishlist",new MyWishlistFragment(), WISHLIST_FRAGMENT);
         } else if (id == R.id.nav_my_account) {
-
+            gotoFragment("My Account",new MyAccountFragment(), ACCOUNT_FRAGMENT);
         } else if (id == R.id.nav_sign_out){
 
         }
@@ -161,7 +186,6 @@ public class Main2Activity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 
     @Override
@@ -173,6 +197,13 @@ public class Main2Activity extends AppCompatActivity
 
     private void setFragment(Fragment fragment, int fragmentNo){
         if (fragmentNo != currentFragment) {
+            if (fragmentNo == REWARDS_FRAGMENT){
+                window.setStatusBarColor(Color.parseColor("#FF0070"));
+                toolbar.setBackgroundColor(Color.parseColor("#FF0070"));
+            }else {
+                window.setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+                toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            }
             currentFragment = fragmentNo;
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
@@ -180,5 +211,4 @@ public class Main2Activity extends AppCompatActivity
             fragmentTransaction.commit();
         }
     }
-
 }
