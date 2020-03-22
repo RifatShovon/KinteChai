@@ -64,6 +64,7 @@ public class Main2Activity extends AppCompatActivity
         setContentView(R.layout.activity_main2);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
         actionBarLogo = findViewById(R.id.actionbar_logo);
 
         window = getWindow();
@@ -134,6 +135,7 @@ public class Main2Activity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         // Inflate the menu; this adds items to the action bar if it is present.
         int id = item.getItemId();
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
 
         if (id == R.id.main_search_icon) {
             //todo: search
@@ -163,6 +165,7 @@ public class Main2Activity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Inflate the menu; this adds items to the action bar if it is present.
         int id = item.getItemId();
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
 
         if (id == R.id.nav_my_mall) {
             actionBarLogo.setVisibility(View.VISIBLE);
@@ -172,6 +175,7 @@ public class Main2Activity extends AppCompatActivity
             gotoFragment("My Orders",new MyOrdersFragment(), ORDERS_FRAGMENT);
         } else if (id == R.id.nav_my_rewards) {
             gotoFragment("My Rewards",new MyRewardsFragment(), REWARDS_FRAGMENT );
+            toolbar.setTitleTextColor(getResources().getColor(R.color.btnWhite));
         } else if (id == R.id.nav_my_cart) {
             gotoFragment("My Cart",new MyCartFragment(), CART_FRAGMENT);
         } else if (id == R.id.nav_my_wishlist) {

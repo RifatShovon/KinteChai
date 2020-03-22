@@ -24,6 +24,7 @@ public class CategoryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         String title = getIntent().getStringExtra("CategoryName");
         getSupportActionBar().setTitle(title);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         categoryRecyclerView = findViewById(R.id.category_recyclerview);
