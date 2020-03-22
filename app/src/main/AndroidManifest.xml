@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/logo_icon2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OrderDetailsActivity"></activity>
+        <activity android:name=".DeliveryActivity"></activity>
+        <activity android:name=".OrderDetailsActivity" />
         <activity android:name=".ProductDetailsActivity" />
         <activity android:name=".CategoryActivity" />
         <activity
