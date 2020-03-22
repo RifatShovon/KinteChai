@@ -2,6 +2,7 @@ package com.example.kintechai;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
     private RecyclerView deliveryRecyclerView;
     private Button changeORaddNewAddressBtn;
+    public static final int SELECT_ADDRESS = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class DeliveryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setTitle("Delivery");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+
 
         deliveryRecyclerView = findViewById(R.id.delivery_recyclerview);
         changeORaddNewAddressBtn = findViewById(R.id.change_or_add_address_btn);
@@ -48,6 +52,14 @@ public class DeliveryActivity extends AppCompatActivity {
         cartAdapter.notifyDataSetChanged();
 
         changeORaddNewAddressBtn.setVisibility(View.VISIBLE);
+        changeORaddNewAddressBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myAddressesIntent = new Intent(DeliveryActivity.this,MyAddressesActivity.class);
+                myAddressesIntent.putExtra("MODE",SELECT_ADDRESS);
+                startActivity(myAddressesIntent);
+            }
+        });
     }
 
     @Override
