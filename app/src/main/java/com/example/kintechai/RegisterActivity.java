@@ -13,6 +13,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FrameLayout framelayout;
     public static boolean onResetPasswordFragment = false;
+    public static boolean setSignUpFragment = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,13 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         framelayout = findViewById(R.id.register_framelayout);
-        setDefaultFragment(new SignInFragment());
+
+        if (setSignUpFragment){
+            setSignUpFragment = false;
+            setDefaultFragment(new SignUpFragment());
+        }else {
+            setDefaultFragment(new SignInFragment());
+        }
     }
 
     @Override

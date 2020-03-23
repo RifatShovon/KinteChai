@@ -1,5 +1,7 @@
 package com.example.kintechai;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,11 +30,15 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import static com.example.kintechai.RegisterActivity.setSignUpFragment;
 
 
 public class Main2Activity extends AppCompatActivity
@@ -57,6 +63,7 @@ public class Main2Activity extends AppCompatActivity
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,21 +88,15 @@ public class Main2Activity extends AppCompatActivity
         frameLayout = findViewById(R.id.main_framelayout);
 
         if (showCart){
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setTitle("My Cart");
-            toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+            drawer.setDrawerLockMode(1);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            /*drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
             gotoFragment("My Cart",new MyCartFragment(),-2);
 
         }else {
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+            drawer.addDrawerListener(toggle);
+            toggle.syncState();
             setFragment(new HomeFragment(), HOME_FRAGMENT);
         }
         // Passing each menu ID as a set of Ids because each
@@ -110,7 +111,6 @@ public class Main2Activity extends AppCompatActivity
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
 
     @Override
     public void onBackPressed() {
@@ -159,7 +159,37 @@ public class Main2Activity extends AppCompatActivity
             //todo: notification
             return true;
         } else if (id == R.id.main_cart_icon) {
-            gotoFragment("My Cart",new MyCartFragment(), CART_FRAGMENT);
+
+            final Dialog signInDialog = new Dialog(Main2Activity.this);
+            signInDialog.setContentView(R.layout.sign_in_dialog);
+            signInDialog.setCancelable(true);
+            signInDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            Button dialogSignInBtn = signInDialog.findViewById(R.id.sign_in_btn);
+            Button dialogSignUpBtn = signInDialog.findViewById(R.id.sign_up_btn);
+            final Intent registerIntent = new Intent(Main2Activity.this,RegisterActivity.class);
+
+
+            dialogSignInBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signInDialog.dismiss();
+                    setSignUpFragment = false;
+                    startActivity(registerIntent);
+                }
+            });
+
+            dialogSignUpBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    signInDialog.dismiss();
+                    setSignUpFragment = true;
+                    startActivity(registerIntent);
+                }
+            });
+            signInDialog.show();
+
+            //gotoFragment("My Cart",new MyCartFragment(), CART_FRAGMENT);
             return true;
         }else if (id == android.R.id.home){
             if (showCart){
