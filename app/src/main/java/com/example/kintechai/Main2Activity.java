@@ -34,6 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,16 +42,14 @@ public class Main2Activity extends AppCompatActivity
     private static final int CART_FRAGMENT = 1;
     private static final int ORDERS_FRAGMENT = 2;
     private static final int WISHLIST_FRAGMENT = 3;
-<<<<<<< HEAD
-=======
     private static final int REWARDS_FRAGMENT = 4;
     private static final int ACCOUNT_FRAGMENT = 5;
->>>>>>> 91063c26166a123e4f8aab7839466133b3295a3d
+    public static Boolean showCart = false;
 
 
     private FrameLayout frameLayout;
     private ImageView actionBarLogo;
-    private static int currentFragment = -1;
+    private int currentFragment = -1;
     private NavigationView navigationView;
 
     private Window window;
@@ -72,10 +71,7 @@ public class Main2Activity extends AppCompatActivity
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();*/
+
 
 
         navigationView = findViewById(R.id.nav_view);
@@ -83,12 +79,25 @@ public class Main2Activity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
 
         frameLayout = findViewById(R.id.main_framelayout);
-<<<<<<< HEAD
-        setFragment(new My(),HOME_FRAGMENT);
-=======
-        setFragment(new HomeFragment(),HOME_FRAGMENT);
->>>>>>> 91063c26166a123e4f8aab7839466133b3295a3d
 
+        if (showCart){
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setTitle("My Cart");
+            toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            /*drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+            gotoFragment("My Cart",new MyCartFragment(),-2);
+
+        }else {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+            setFragment(new HomeFragment(), HOME_FRAGMENT);
+        }
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -110,12 +119,18 @@ public class Main2Activity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             if (currentFragment == HOME_FRAGMENT) {
+                currentFragment = -1;
                 super.onBackPressed();
             }else {
-                actionBarLogo.setVisibility(View.VISIBLE);
-                invalidateOptionsMenu();
-                setFragment(new HomeFragment(), HOME_FRAGMENT);
-                navigationView.getMenu().getItem(0).setChecked(true);
+                if (showCart){
+                    showCart = false;
+                    finish();
+                }else {
+                    actionBarLogo.setVisibility(View.VISIBLE);
+                    invalidateOptionsMenu();
+                    setFragment(new HomeFragment(), HOME_FRAGMENT);
+                    navigationView.getMenu().getItem(0).setChecked(true);
+                }
             }
         }
     }
@@ -146,6 +161,12 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.main_cart_icon) {
             gotoFragment("My Cart",new MyCartFragment(), CART_FRAGMENT);
             return true;
+        }else if (id == android.R.id.home){
+            if (showCart){
+                showCart = false;
+                finish();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

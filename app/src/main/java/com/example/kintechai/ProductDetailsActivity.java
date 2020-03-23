@@ -21,6 +21,8 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.kintechai.Main2Activity.showCart;
+
 public class ProductDetailsActivity extends AppCompatActivity {
 
     private ViewPager productImagesViewPager;
@@ -157,7 +159,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
             //todo: notification
             return true;
         } else if (id == R.id.main_cart_icon) {
-            //todo: cart
+            Intent cartIntent = new Intent(ProductDetailsActivity.this, Main2Activity.class);
+            showCart = true;
+            startActivity(cartIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);

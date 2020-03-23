@@ -72,20 +72,14 @@ public class HomeFragment extends Fragment {
 
         List<SliderModel> sliderModelList = new ArrayList<SliderModel>();
 
-        sliderModelList.add(new SliderModel(R.mipmap.home_icon,"#63A1E7"));
-        sliderModelList.add(new SliderModel(R.mipmap.custom_error_icon,"#63A1E7"));
         sliderModelList.add(new SliderModel(R.mipmap.forget_email_icon2,"#63A1E7"));
-
         sliderModelList.add(new SliderModel(R.mipmap.forget_email_icon1,"#63A1E7"));
         sliderModelList.add(new SliderModel(R.mipmap.logo_icon1,"#63A1E7"));
         sliderModelList.add(new SliderModel(R.mipmap.ic_launcher,"#63A1E7"));
         sliderModelList.add(new SliderModel(R.mipmap.cart_black,"#63A1E7"));
         sliderModelList.add(new SliderModel(R.mipmap.profile_placeholder,"#63A1E7"));
         sliderModelList.add(new SliderModel(R.mipmap.home_icon,"#63A1E7"));
-
         sliderModelList.add(new SliderModel(R.mipmap.custom_error_icon,"#63A1E7"));
-        sliderModelList.add(new SliderModel(R.mipmap.forget_email_icon2,"#63A1E7"));
-        sliderModelList.add(new SliderModel(R.mipmap.forget_email_icon1,"#63A1E7"));
 
         //////////Banner Slider
 
@@ -117,11 +111,22 @@ public class HomeFragment extends Fragment {
         homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#ff0000"));
         homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(1,R.drawable.iphone,"#DFC660"));
+        homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#000000"));
+        homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(1,R.drawable.iphone,"#DFC660"));
+        homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#000000"));
         homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.iphone,"#DFC660"));
-        homePageModelList.add(new HomePageModel(0,sliderModelList));
+        homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
+        homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#000000"));
 
         HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
         testing.setAdapter(adapter);

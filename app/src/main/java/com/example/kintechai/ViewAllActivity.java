@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,28 +30,36 @@ public class ViewAllActivity extends AppCompatActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = findViewById(R.id.recyclerview);
-        gridView = findViewById(R.id.grid_view);
+        recyclerView = findViewById(R.id.recycler_view);
+        gridView = findViewById(R.id.grid_layout);
 
         int layout_code = getIntent().getIntExtra("layout_code",-1);
 
         if (layout_code == 0) {
+            gridView.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(layoutManager);
 
             List<WishlistModel> wishlistModelList = new ArrayList<>();
-            wishlistModelList.add(new WishlistModel(R.drawable.product_image, "Honda CB Trigger", 1, "3.5", 145, "BDT.5,55,0000/=", "BDT.5,80,000/=", "Cash On Delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.iphone, "Iphone X", 0, "4.5", 280, "BDT.70,0000/=", "BDT.88,000/=", "Cash On Delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.laptop, "Lenovo Ideapad", 2, "2.6", 132, "BDT.55,0000/=", "BDT.80,000/=", "Cash On Delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.product_image, "Honda CB Trigger", 4, "5", 165, "BDT.5,55,0000/=", "BDT.5,80,000/=", "Cash On Delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.laptop, "Lenovo Ideapad", 1, "1.9", 1451, "BDT.55,0000/=", "BDT.80,000/=", "Cash On Delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.product_image, "Honda CB Trigger", 1, "3.5", 145, "BDT.5,55,0000/=", "BDT.5,80,000/=", "Cash On Delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.iphone, "Iphone X", 0, "4.5", 280, "BDT.70,0000/=", "BDT.88,000/=", "Cash On Delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.laptop, "Lenovo Ideapad", 2, "2.6", 132, "BDT.55,0000/=", "BDT.80,000/=", "Cash On Delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.product_image, "Honda CB Trigger", 4, "5", 165, "BDT.5,55,0000/=", "BDT.5,80,000/=", "Cash On Delivery"));
-            wishlistModelList.add(new WishlistModel(R.drawable.laptop, "Lenovo Ideapad", 1, "1.9", 1451, "BDT.55,0000/=", "BDT.80,000/=", "Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.product_image,"Honda CB Trigger",1,"3.5",145,"BDT.5,55,0000/=","BDT.5,80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.iphone,"Iphone X",0,"4.5",280,"BDT.70,0000/=","BDT.88,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",2,"2.6",132,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.product_image,"Honda CB Trigger",4,"5",165,"BDT.5,55,0000/=","BDT.5,80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",1,"1.9",1451,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.iphone,"Iphone X",0,"4.5",280,"BDT.70,0000/=","BDT.88,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",2,"2.6",132,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.product_image,"Honda CB Trigger",4,"5",165,"BDT.5,55,0000/=","BDT.5,80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",1,"1.9",1451,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.iphone,"Iphone X",0,"4.5",280,"BDT.70,0000/=","BDT.88,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",2,"2.6",132,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.product_image,"Honda CB Trigger",4,"5",165,"BDT.5,55,0000/=","BDT.5,80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",1,"1.9",1451,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.iphone,"Iphone X",0,"4.5",280,"BDT.70,0000/=","BDT.88,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",2,"2.6",132,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.product_image,"Honda CB Trigger",4,"5",165,"BDT.5,55,0000/=","BDT.5,80,000/=","Cash On Delivery"));
+            wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",1,"1.9",1451,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
 
             WishlistAdapter adapter = new WishlistAdapter(wishlistModelList, false);
             recyclerView.setAdapter(adapter);
@@ -90,7 +97,6 @@ public class ViewAllActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if (item.getItemId() == android.R.id.home){
             finish();
             return true;
