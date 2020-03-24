@@ -74,7 +74,7 @@
         android:id="@+id/addresses_recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@color/RecyclerViewBackground"
         app:layout_constraintBottom_toTopOf="@+id/deliver_here_btn"
         app:layout_constraintEnd_toEndOf="parent"

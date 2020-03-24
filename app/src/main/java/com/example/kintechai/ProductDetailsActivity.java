@@ -2,8 +2,11 @@ package com.example.kintechai;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -11,9 +14,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -27,6 +32,16 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     private ViewPager productImagesViewPager;
     private TabLayout viewpagerIndicator;
+    private Button couponRedeemBtn;
+
+    //////coupondialog
+
+    public static TextView couponTitle;
+    public static TextView coupopnExpiryDate;
+    public static TextView couponBody;
+    private static RecyclerView couponsRecyclerView;
+    private static LinearLayout selectedCoupon;
+    //////coupondialog
 
     private ViewPager productDetailsViewpager;
     private TabLayout productDetailsTablayout;
@@ -59,6 +74,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productDetailsViewpager = findViewById(R.id.product_details_viewpager);
         productDetailsTablayout = findViewById(R.id.product_details_tablayout);
         buyNowBtn = findViewById(R.id.buy_now_btn);
+        couponRedeemBtn = findViewById(R.id.coupon_redemption_btn);
 
         List<Integer> productImages = new ArrayList<>();
         productImages.add(R.drawable.laptop);
@@ -127,6 +143,66 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         });
 
+        ////// Coupon dialog
+
+        final Dialog checkCouponPriceDialog = new Dialog(ProductDetailsActivity.this);
+        checkCouponPriceDialog.setContentView(R.layout.coupon_redeem_dialog);
+        checkCouponPriceDialog.setCancelable(true);
+        checkCouponPriceDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        ImageView toggleRecyclerView = checkCouponPriceDialog.findViewById(R.id.toggle_recyclerview);
+        couponsRecyclerView = checkCouponPriceDialog.findViewById(R.id.coupons_recyclerview);
+        selectedCoupon = checkCouponPriceDialog.findViewById(R.id.selected_coupon);
+        couponTitle = checkCouponPriceDialog.findViewById(R.id.coupon_title);
+        coupopnExpiryDate = checkCouponPriceDialog.findViewById(R.id.coupon_validity);
+        couponBody = checkCouponPriceDialog.findViewById(R.id.coupon_body);
+
+        TextView originalPrice = checkCouponPriceDialog.findViewById(R.id.original_price);
+        TextView discountedPrice = checkCouponPriceDialog.findViewById(R.id.discounted_price);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(ProductDetailsActivity.this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        couponsRecyclerView.setLayoutManager(layoutManager);
+
+        List<RewardModel> rewardModelList = new ArrayList<>();
+        rewardModelList.add(new RewardModel("Cashback","till 2nd July, 2020","GET 30% Cashback on any Product above BDT.1000/= and below BDT.5000/="));
+        rewardModelList.add(new RewardModel("Discount","till 10th March, 2020","GET 20% OFF on any Product above BDT.2000/= and below BDT.4000/="));
+        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free","till 2nd April, 2020","Buy one and get one free!!"));
+        rewardModelList.add(new RewardModel("Cashback","till 4th May, 2020","GET 20% Cashback on any Product above BDT.1500/= and below BDT.5000/="));
+        rewardModelList.add(new RewardModel("Discount","till 18th June, 2020","GET 50% OFF on any Product above BDT.2000/= and below BDT.5000/="));
+        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free","till 2nd July, 2020","Buy one get one free!!"));
+        rewardModelList.add(new RewardModel("20% OFF","till 10th August, 2020","GET 20% OFF on any Product above BDT.5000/= and below BDT.7000/="));
+        rewardModelList.add(new RewardModel("Dicount","till 26th September, 2020","GET 20% OFF on any Product above BDT.1000/= and below BDT.5000/="));
+
+        MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(rewardModelList,true);
+        couponsRecyclerView.setAdapter(myRewardsAdapter);
+        myRewardsAdapter.notifyDataSetChanged();
+
+        toggleRecyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialogRecyclerView();
+            }
+        });
+
+        ////////// coupon dialog
+
+        couponRedeemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCouponPriceDialog.show();
+            }
+        });
+    }
+
+    public static void showDialogRecyclerView(){
+        if (couponsRecyclerView.getVisibility() == View.GONE){
+            couponsRecyclerView.setVisibility(View.VISIBLE);
+            selectedCoupon.setVisibility(View.GONE);
+        }else {
+            couponsRecyclerView.setVisibility(View.GONE);
+            selectedCoupon.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setRating(int starPosition) {

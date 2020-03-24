@@ -16,19 +16,14 @@
             android:id="@+id/sign_in_close"
             android:layout_width="31dp"
             android:layout_height="24dp"
-            android:layout_marginStart="332dp"
-            android:layout_marginTop="90dp"
-            android:layout_marginBottom="2511dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/todo"
             android:padding="16dp"
             android:src="@mipmap/last_cross"
-            app:layout_constraintBottom_toTopOf="@+id/sign_in_email"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.875"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.036" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/sign_in_logo"
