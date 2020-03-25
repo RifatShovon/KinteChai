@@ -31,7 +31,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         //////////Banner Slider
 
-        List<SliderModel> sliderModelList = new ArrayList<SliderModel>();
+        /*List<SliderModel> sliderModelList = new ArrayList<SliderModel>();
 
         sliderModelList.add(new SliderModel(R.mipmap.home_icon,"#63A1E7"));
         sliderModelList.add(new SliderModel(R.mipmap.custom_error_icon,"#63A1E7"));
@@ -48,9 +48,9 @@ public class CategoryActivity extends AppCompatActivity {
         sliderModelList.add(new SliderModel(R.mipmap.forget_email_icon2,"#63A1E7"));
         sliderModelList.add(new SliderModel(R.mipmap.forget_email_icon1,"#63A1E7"));
 
-        //////////Banner Slider
+        //////////Banner Slider*/
 
-        ////////// Horizontal Product Layout
+        /*////////// Horizontal Product Layout
 
         List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
 
@@ -64,7 +64,7 @@ public class CategoryActivity extends AppCompatActivity {
         horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.pixel,"Pixel 2 XL","64GB","BDT 64,000"));
         horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.huwaei,"Huwaei P20","256GB","BDT 55,000"));
 
-        ////////// Horizontal Product Layout
+        ////////// Horizontal Product Layout*/
 
         ////////// ////////////////// //////
 
@@ -73,14 +73,14 @@ public class CategoryActivity extends AppCompatActivity {
         categoryRecyclerView.setLayoutManager(testingLayoutManager);
 
         List<HomePageModel> homePageModelList = new ArrayList<>();
-        homePageModelList.add(new HomePageModel(0,sliderModelList));
+        /*homePageModelList.add(new HomePageModel(0,sliderModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#ff0000"));
         homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#000000"));
         homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
-        homePageModelList.add(new HomePageModel(1,R.drawable.iphone,"#DFC660"));
+        homePageModelList.add(new HomePageModel(1,R.drawable.iphone,"#DFC660"));*/
 
         HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
         categoryRecyclerView.setAdapter(adapter);

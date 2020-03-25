@@ -70,7 +70,7 @@ public class ViewAllActivity extends AppCompatActivity {
             gridView.setVisibility(View.VISIBLE);
 
             List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
-            horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.iphone, "Iphone X", "64GB", "BDT 80,000"));
+            /*horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.iphone, "Iphone X", "64GB", "BDT 80,000"));
             horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.samsung, "Samsung A4", "16GB", "BDT 14,000"));
             horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.xiaomi, "Xiaomi P6", "32GB", "BDT 19,000"));
             horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.alcatle, "Alcatle 8", "64GB", "BDT 22,000"));
@@ -88,7 +88,7 @@ public class ViewAllActivity extends AppCompatActivity {
             horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.ruggear, "RugGear V4", "128GB", "BDT 23,000"));
             horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.pixel, "Pixel 2 XL", "64GB", "BDT 64,000"));
             horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.huwaei, "Huwaei P20", "256GB", "BDT 55,000"));
-
+*/
             GridProductLayoutAdapter gridProductLayoutAdapter = new GridProductLayoutAdapter(horizontalProductScrollModelList);
             gridView.setAdapter(gridProductLayoutAdapter);
             //gridProductLayoutAdapter.notifyDataSetChanged();
