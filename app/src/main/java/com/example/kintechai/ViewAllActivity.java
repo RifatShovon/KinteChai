@@ -18,6 +18,7 @@ public class ViewAllActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private GridView gridView;
+    public static List<WishlistModel> wishlistModelList;
     public static List<HorizontalProductScrollModel> horizontalProductScrollModelList;
 
     @Override
@@ -43,7 +44,7 @@ public class ViewAllActivity extends AppCompatActivity {
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(layoutManager);
 
-            List<WishlistModel> wishlistModelList = new ArrayList<>();
+            /*List<WishlistModel> wishlistModelList = new ArrayList<>();
             wishlistModelList.add(new WishlistModel(R.drawable.product_image,"Honda CB Trigger",1,"3.5",145,"BDT.5,55,0000/=","BDT.5,80,000/=","Cash On Delivery"));
             wishlistModelList.add(new WishlistModel(R.drawable.iphone,"Iphone X",0,"4.5",280,"BDT.70,0000/=","BDT.88,000/=","Cash On Delivery"));
             wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",2,"2.6",132,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
@@ -61,7 +62,7 @@ public class ViewAllActivity extends AppCompatActivity {
             wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",2,"2.6",132,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
             wishlistModelList.add(new WishlistModel(R.drawable.product_image,"Honda CB Trigger",4,"5",165,"BDT.5,55,0000/=","BDT.5,80,000/=","Cash On Delivery"));
             wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",1,"1.9",1451,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
-
+*/
             WishlistAdapter adapter = new WishlistAdapter(wishlistModelList, false);
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
