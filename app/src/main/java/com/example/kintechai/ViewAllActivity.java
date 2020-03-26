@@ -18,6 +18,7 @@ public class ViewAllActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private GridView gridView;
+    public static List<HorizontalProductScrollModel> horizontalProductScrollModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class ViewAllActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setTitle("Deals of the Day");
+        getSupportActionBar().setTitle(getIntent().getStringExtra("title"));
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -68,8 +69,6 @@ public class ViewAllActivity extends AppCompatActivity {
         } else if (layout_code == 1) {
 
             gridView.setVisibility(View.VISIBLE);
-
-            List<HorizontalProductScrollModel> horizontalProductScrollModelList = new ArrayList<>();
             /*horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.drawable.iphone, "Iphone X", "64GB", "BDT 80,000"));
             horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.samsung, "Samsung A4", "16GB", "BDT 14,000"));
             horizontalProductScrollModelList.add(new HorizontalProductScrollModel(R.mipmap.xiaomi, "Xiaomi P6", "32GB", "BDT 19,000"));
