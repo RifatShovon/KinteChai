@@ -12,9 +12,14 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.kintechai.DBqueries.lists;
+import static com.example.kintechai.DBqueries.loadFragmentData;
+import static com.example.kintechai.DBqueries.loadedCategoriesNames;
+
 public class CategoryActivity extends AppCompatActivity {
 
     private RecyclerView categoryRecyclerView;
+    private HomePageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +76,6 @@ public class CategoryActivity extends AppCompatActivity {
         LinearLayoutManager testingLayoutManager = new LinearLayoutManager(this);
         testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         categoryRecyclerView.setLayoutManager(testingLayoutManager);
-
-        List<HomePageModel> homePageModelList = new ArrayList<>();
         /*homePageModelList.add(new HomePageModel(0,sliderModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#ff0000"));
         homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
@@ -81,12 +84,25 @@ public class CategoryActivity extends AppCompatActivity {
         homePageModelList.add(new HomePageModel(3, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.iphone,"#DFC660"));*/
+        int listPosition = 0;
+        for (int x = 0;x < loadedCategoriesNames.size();x++){
+            if (loadedCategoriesNames.get(x).equals(title.toUpperCase())){
+                listPosition = x;
+            }
+        }
+        if (listPosition == 0){
+            loadedCategoriesNames.add(title.toUpperCase());
+            lists.add(new ArrayList<HomePageModel>());
+            adapter = new HomePageAdapter(lists.get(loadedCategoriesNames.size() - 1));
+            loadFragmentData(adapter, this,loadedCategoriesNames.size() - 1, title);
+        }else {
+            adapter = new HomePageAdapter(lists.get(listPosition));
+        }
 
-        HomePageAdapter adapter = new HomePageAdapter(homePageModelList);
         categoryRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

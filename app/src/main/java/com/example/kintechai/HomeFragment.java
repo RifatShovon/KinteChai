@@ -37,9 +37,10 @@ import java.util.TimerTask;
 
 import static com.example.kintechai.DBqueries.categoryModelList;
 import static com.example.kintechai.DBqueries.firebaseFirestore;
-import static com.example.kintechai.DBqueries.homePageModelList;
+import static com.example.kintechai.DBqueries.lists;
 import static com.example.kintechai.DBqueries.loadCategories;
 import static com.example.kintechai.DBqueries.loadFragmentData;
+import static com.example.kintechai.DBqueries.loadedCategoriesNames;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -128,14 +129,17 @@ public class HomeFragment extends Fragment {
             testingLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             homePageRecyclerView.setLayoutManager(testingLayoutManager);
 
-            adapter = new HomePageAdapter(homePageModelList);
-            homePageRecyclerView.setAdapter(adapter);
 
-            if (homePageModelList.size() == 0){
-                loadFragmentData(adapter, getContext());
+            if (lists.size() == 0){
+                loadedCategoriesNames.add("HOME");
+                lists.add(new ArrayList<HomePageModel>());
+                adapter = new HomePageAdapter(lists.get(0));
+                loadFragmentData(adapter, getContext(),0, "Home");
             }else {
-                categoryAdapter.notifyDataSetChanged();
+                adapter = new HomePageAdapter(lists.get(0));
+                adapter.notifyDataSetChanged();
             }
+            homePageRecyclerView.setAdapter(adapter);
 
         /*homePageModelList.add(new HomePageModel(0,sliderModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#ff0000"));
@@ -158,7 +162,6 @@ public class HomeFragment extends Fragment {
         homePageModelList.add(new HomePageModel(2, "Deals of the day!" , horizontalProductScrollModelList));
         homePageModelList.add(new HomePageModel(1,R.drawable.stripadd,"#000000"));*/
             ///////// ////////////////// ///////
-
 
         }else {
             Glide.with(this).load(R.drawable.no_internet_connection).into(noInternetConnection);
