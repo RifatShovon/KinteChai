@@ -26,6 +26,8 @@ public class ProductSpecificationFragment extends Fragment {
     }
 
     private RecyclerView productSpecificationRecyclerView;
+    public List<ProductSpecificationModel> productSpecificationModelList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,8 +42,7 @@ public class ProductSpecificationFragment extends Fragment {
 
         productSpecificationRecyclerView.setLayoutManager(linearLayoutManager);
 
-        List<ProductSpecificationModel> productSpecificationModelList = new ArrayList<>();
-        productSpecificationModelList.add(new ProductSpecificationModel(0,"GENERAL"));
+        /*productSpecificationModelList.add(new ProductSpecificationModel(0,"GENERAL"));
         productSpecificationModelList.add(new ProductSpecificationModel(1,"BRAND","LENOVO"));
         productSpecificationModelList.add(new ProductSpecificationModel(1,"MODEL","THINKPAD"));
         productSpecificationModelList.add(new ProductSpecificationModel(1,"SERIES","THINKPAD"));
@@ -74,7 +75,7 @@ public class ProductSpecificationFragment extends Fragment {
         productSpecificationModelList.add(new ProductSpecificationModel(1,"FINGER PRINT SENSOR","NO"));
         productSpecificationModelList.add(new ProductSpecificationModel(0,"POTS AND SLOTS"));
         productSpecificationModelList.add(new ProductSpecificationModel(1,"NUMBER OF USB PORTS","3"));
-
+*/
 
         ProductSpecificationAdapter productSpecificationAdapter = new ProductSpecificationAdapter(productSpecificationModelList);
         productSpecificationRecyclerView.setAdapter(productSpecificationAdapter);
