@@ -27,7 +27,6 @@ public class MyWishlistFragment extends Fragment {
 
     private RecyclerView wishlistRecyclerview;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -45,14 +45,11 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         boolean paymentMethod = wishlistModelList.get(position).isCOD();
         viewHolder.setData(resource,title,freeCoupons,rating,totalRatings,productPrice,cuttedPrice,paymentMethod);
     }
-
     @Override
     public int getItemCount() {
         return wishlistModelList.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder{
-
         private ImageView productImage;
         private TextView productTitle;
         private TextView freeCoupons;
