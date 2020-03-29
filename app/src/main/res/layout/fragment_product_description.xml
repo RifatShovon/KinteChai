@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/tv_product_description"
         android:layout_width="wrap_content"
-        android:layout_height="205dp"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="Lenovo ThinkPad is a Windows 10 laptop with a 14.00-inch
 display that has a resolution of 1920x1080 pixels.

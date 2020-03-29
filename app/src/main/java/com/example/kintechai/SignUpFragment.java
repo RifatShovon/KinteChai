@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,6 +68,8 @@ public class SignUpFragment extends Fragment {
     private FirebaseFirestore firebaseFirestore;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
 
+    public static boolean disableCloseBtn = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,9 +88,14 @@ public class SignUpFragment extends Fragment {
         closeBtn = view.findViewById(id.sign_up_close);
         signUpBtn = view.findViewById(id.sign_up_btn);
 
-
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+        if (disableCloseBtn){
+            closeBtn.setVisibility(View.GONE);
+        }else {
+            closeBtn.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }
@@ -177,8 +185,6 @@ public class SignUpFragment extends Fragment {
 
             }
         });
-
-
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,8 +278,12 @@ public class SignUpFragment extends Fragment {
     }
 
     private void mainIntent(){
-        Intent mainIntent = new Intent(getActivity(),Main2Activity.class);
-        startActivity(mainIntent);
+        if (disableCloseBtn){
+            disableCloseBtn = false;
+        }else {
+            Intent mainIntent = new Intent(getActivity(), Main2Activity.class);
+            startActivity(mainIntent);
+        }
         getActivity().finish();
     }
 }

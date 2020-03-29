@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +56,8 @@ public class SignInFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+";
 
+    public static boolean disableCloseBtn = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +77,11 @@ public class SignInFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        if (disableCloseBtn){
+            closeBtn.setVisibility(View.GONE);
+        }else {
+            closeBtn.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
@@ -192,8 +200,12 @@ public class SignInFragment extends Fragment {
         }
     }
     private void mainIntent(){
-        Intent mainIntent = new Intent(getActivity(),Main2Activity.class);
-        startActivity(mainIntent);
+        if (disableCloseBtn){
+            disableCloseBtn = false;
+        }else {
+            Intent mainIntent = new Intent(getActivity(), Main2Activity.class);
+            startActivity(mainIntent);
+        }
         getActivity().finish();
     }
 }

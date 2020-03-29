@@ -21,6 +21,7 @@
         android:layout_height="?attr/actionBarSize"
         app:theme="@style/AppTheme.PopupOverlay"
         android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <ImageView

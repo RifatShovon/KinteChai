@@ -26,8 +26,8 @@
 
     <TextView
         android:id="@+id/product_details_body"
-        android:layout_width="416dp"
-        android:layout_height="212dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="Lenovo ThinkPad is a Windows 10 laptop with a 14.00-inch
 display that has a resolution of 1920x1080 pixels.
@@ -38,7 +38,7 @@ Graphics are powered by Intel HD Graphics 520. Connectivity options include
 Wi-Fi 802.11 ac, Bluetooth and it comes with 3 USB ports ports.As of 1ast
 March 2020, Lenovo ThinkPad price in Bangladesh starts at BDT 70,000/="
         android:textColor="#000000"
-        android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

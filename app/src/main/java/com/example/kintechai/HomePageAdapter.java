@@ -319,6 +319,7 @@ public class HomePageAdapter extends RecyclerView.Adapter {
             gridLayoutTitle.setText(title);
 
             for (int x = 0;x < 4;x++){
+
                 ImageView productImage = gridProductLayout.getChildAt(x).findViewById(R.id.h_s_product_image);
                 TextView productTitle = gridProductLayout.getChildAt(x).findViewById(R.id.h_s_product_title);
                 TextView productDescription = gridProductLayout.getChildAt(x).findViewById(R.id.h_s_product_descreption);
@@ -332,10 +333,12 @@ public class HomePageAdapter extends RecyclerView.Adapter {
 
 
                 if (!title.equals("")) {
+                    final int finalX = x;
                     gridProductLayout.getChildAt(x).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent productDetailsIntent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
+                            productDetailsIntent.putExtra("PRODUCT_ID",horizontalProductScrollModelList.get(finalX).getProductID());
                             itemView.getContext().startActivity(productDetailsIntent);
                         }
                     });
