@@ -1,5 +1,6 @@
 package com.example.kintechai;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -28,6 +30,7 @@ public class DBqueries {
 
     public static List<List<HomePageModel>> lists = new ArrayList<>();
     public static List<String> loadedCategoriesNames = new ArrayList<>();
+    public static List<String> wishList = new ArrayList<>();
 
 
     public static void loadCategories(final RecyclerView categoryRecyclerView, final Context context){
@@ -119,5 +122,23 @@ public class DBqueries {
                         }
                     }
                 });
+    }
+
+    public static void loadWishlist(final Context context, final Dialog dialog){
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_WISHLIST")
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    for (long x = 0;x <(long) task.getResult().get("list_size");x++){
+                        wishList.add(task.getResult().get("product_ID_"+x).toString());
+                    }
+                }else {
+                    String error = task.getException().getMessage();
+                    Toast.makeText(context,error,Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
     }
 }
