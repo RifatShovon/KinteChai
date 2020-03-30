@@ -77,7 +77,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     //// rating layout
 
-    private LinearLayout rateNowContainer;
+    public static LinearLayout rateNowContainer;
     private TextView totalRatings;
     private LinearLayout ratingsNoContainer;
     private TextView totalRatingsFigure;
@@ -233,6 +233,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     productDetailsViewpager.setAdapter(new ProductDetailsAdapter(getSupportFragmentManager(),productDetailsTablayout.getTabCount(),productDescription,productOtherDetails,productSpecificationModelList));
 
                     if (currentUser != null) {
+                        if (DBqueries.myRating.size() == 0){
+                            DBqueries.loadRatingList(ProductDetailsActivity.this);
+                        }
                         if (DBqueries.wishList.size() == 0) {
                             DBqueries.loadWishlist(ProductDetailsActivity.this, loadingDialog,false);
                         } else {
@@ -491,6 +494,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
             couponRedemptionLayout.setVisibility(View.VISIBLE);
         }
         if (currentUser != null) {
+            if (DBqueries.myRating.size() == 0){
+                DBqueries.loadRatingList(ProductDetailsActivity.this);
+            }
             if (DBqueries.wishList.size() == 0) {
                 DBqueries.loadWishlist(ProductDetailsActivity.this, loadingDialog,false);
             } else {
@@ -519,7 +525,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         }
     }
 
-    private void setRating(int starPosition) {
+    public static void setRating(int starPosition) {
         for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
             ImageView starBtn = (ImageView) rateNowContainer.getChildAt(x);
             starBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#A79D9D")));
