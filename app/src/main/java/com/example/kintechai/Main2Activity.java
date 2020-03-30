@@ -263,6 +263,7 @@ public class Main2Activity extends AppCompatActivity
                 gotoFragment("My Account", new MyAccountFragment(), ACCOUNT_FRAGMENT);
             } else if (id == R.id.nav_sign_out) {
                 FirebaseAuth.getInstance().signOut();
+                DBqueries.clearData();
                 Intent registerIntent = new Intent(Main2Activity.this,RegisterActivity.class);
                 startActivity(registerIntent);
                 finish();
