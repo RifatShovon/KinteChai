@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.hardware.camera2.DngCreator;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +46,7 @@ import static com.example.kintechai.RegisterActivity.setSignUpFragment;
 public class ProductDetailsActivity extends AppCompatActivity {
 
     public static boolean running_wishlist_query = false;
+    public static boolean running_rating_query = false;
 
     private ViewPager productImagesViewPager;
     private TextView productTitle;
@@ -75,8 +77,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     //////////////////// product description ///////////////////
 
-    //// rating layout
+    ///////////////////////////// rating layout
 
+    public static int initialRating;
     public static LinearLayout rateNowContainer;
     private TextView totalRatings;
     private LinearLayout ratingsNoContainer;
@@ -84,7 +87,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private LinearLayout ratingsProgressBarContainer;
     private TextView averageRating;
 
-    //// rating layout
+    ////////////////////////////// rating layout //////////////////////////////////
 
     private Button buyNowBtn;
     private LinearLayout addToCartBtn;
@@ -148,6 +151,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
         averageRating = findViewById(R.id.average_rating);
         addToCartBtn = findViewById(R.id.add_to_cart_btn);
         couponRedemptionLayout = findViewById(R.id.coupon_redemption_layout);
+
+        initialRating = -1;
 
         ////////////////////////////// loading dialog
         loadingDialog = new Dialog(ProductDetailsActivity.this);
@@ -243,6 +248,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         }
                     }else {
                         loadingDialog.dismiss();
+                    }
+
+                    if (DBqueries.myRatedIds.contains(productID)){
+                        int index = DBqueries.myRatedIds.indexOf(productID);
+                        initialRating = Integer.parseInt(String.valueOf(DBqueries.myRating.get(index))) - 1;
+                        setRating(initialRating);
                     }
 
                     if (DBqueries.wishList.contains(productID)){
@@ -357,7 +368,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         });
 
-        /////////////////////////// rating layout ////////////////////////
+        /////////////////////////// rating layout
 
         rateNowContainer = findViewById(R.id.rate_now_container);
         for (int x = 0; x < rateNowContainer.getChildCount(); x++){
@@ -368,7 +379,75 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     if (currentUser == null) {
                         signInDialog.show();
                     }else {
-                        setRating(starPosition);
+                        if (!running_rating_query) {
+                            running_rating_query = true;
+
+                            setRating(starPosition);
+                            if (DBqueries.myRatedIds.contains(productID)) {
+
+                            } else {
+                                Map<String, Object> productRating = new HashMap<>();
+                                productRating.put(starPosition + 1 + "_star", (long) documentSnapshot.get(starPosition + 1 + "_star") + 1);
+                                productRating.put("average_rating", calculateAverageRating(starPosition + 1));
+                                productRating.put("total_ratings", (long) documentSnapshot.get("total_ratings") + 1);
+
+                                firebaseFirestore.collection("PRODUCTS").document(productID)
+                                        .update(productRating).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Map<String, Object> rating = new HashMap<>();
+                                            rating.put("list_size",(long)DBqueries.myRatedIds.size()+1);
+                                            rating.put("product_ID_" + DBqueries.myRatedIds.size(), productID);
+                                            rating.put("rating_" + DBqueries.myRatedIds.size(), (long) starPosition + 1);
+
+                                            firebaseFirestore.collection("USERS").document(currentUser.getUid()).collection("USER_DATA").document("MY_RATINGS")
+                                                    .update(rating).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        DBqueries.myRatedIds.add(productID);
+                                                        DBqueries.myRating.add((long)starPosition+1);
+
+                                                        TextView rating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
+                                                        rating.setText(String.valueOf(Integer.parseInt(rating.getText().toString()) + 1));
+
+                                                        totalRatingsMiniview.setText("("+((long)documentSnapshot.get("total_ratings") + 1) +")total ratings");
+                                                        totalRatings.setText((long)documentSnapshot.get("total_ratings") + 1 + " ratings");
+                                                        totalRatingsFigure.setText(String.valueOf((long)documentSnapshot.get("total_ratings")+1));
+
+                                                        averageRating.setText(String.valueOf(calculateAverageRating(starPosition + 1)));
+                                                        averageRatingMiniview.setText(String.valueOf(calculateAverageRating(starPosition + 1)));
+
+                                                        for (int x = 0;x < 5;x++){
+                                                            TextView ratingfigures = (TextView) ratingsNoContainer.getChildAt(x);
+
+                                                            ProgressBar progressBar = (ProgressBar) ratingsProgressBarContainer.getChildAt(x);
+                                                            int maxProgress = Integer.parseInt(String.valueOf((long)documentSnapshot.get("total_ratings")+1));
+                                                            progressBar.setMax(maxProgress);
+                                                            progressBar.setProgress(Integer.parseInt(ratingfigures.getText().toString()));
+
+                                                        }
+
+                                                        Toast.makeText(ProductDetailsActivity.this, "Thanks for your rating", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        setRating(initialRating);
+                                                        String error = task.getException().getMessage();
+                                                        Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    running_rating_query = false;
+                                                }
+                                            });
+                                        } else {
+                                            running_rating_query = false;
+                                            setRating(initialRating);
+                                            String error = task.getException().getMessage();
+                                            Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
+                        }
                     }
                 }
             });
@@ -506,6 +585,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
             loadingDialog.dismiss();
         }
 
+        if (DBqueries.myRatedIds.contains(productID)){
+            int index = DBqueries.myRatedIds.indexOf(productID);
+            initialRating = Integer.parseInt(String.valueOf(DBqueries.myRating.get(index))) - 1;
+            setRating(initialRating);
+        }
+
         if (DBqueries.wishList.contains(productID)){
             ALREADY_ADDED_TO_WISHLIST = true;
             addToWishlistBtn.setSupportImageTintList(getResources().getColorStateList(R.color.colorRed));
@@ -526,13 +611,22 @@ public class ProductDetailsActivity extends AppCompatActivity {
     }
 
     public static void setRating(int starPosition) {
-        for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
-            ImageView starBtn = (ImageView) rateNowContainer.getChildAt(x);
-            starBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#A79D9D")));
-            if (x <= starPosition) {
-                starBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#ffbb00")));
+            for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
+                ImageView starBtn = (ImageView) rateNowContainer.getChildAt(x);
+                starBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#A79D9D")));
+                if (x <= starPosition) {
+                    starBtn.setImageTintList(ColorStateList.valueOf(Color.parseColor("#ffbb00")));
+                }
             }
         }
+
+    private long calculateAverageRating(long currentUserRating){
+        long totalStars = 0;
+        for (int x = 1;x < 6;x++){
+            totalStars = totalStars + ((long)documentSnapshot.get(x+"_star"))*x;
+        }
+        totalStars = totalStars + currentUserRating;
+        return totalStars/((long)documentSnapshot.get("total_ratings")+1);
     }
 
 
