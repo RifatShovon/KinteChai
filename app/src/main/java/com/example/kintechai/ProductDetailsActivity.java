@@ -221,7 +221,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         productOnlyDescriptionBody.setText(documentSnapshot.get("product_description").toString());
                     }
 
-                    totalRatings.setText((long)documentSnapshot.get("total_ratings") + "ratings");
+                    totalRatings.setText((long)documentSnapshot.get("total_ratings") + " ratings");
 
                     for (int x = 0;x < 5;x++){
                         TextView rating = (TextView) ratingsNoContainer.getChildAt(x);
@@ -383,70 +383,101 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             running_rating_query = true;
 
                             setRating(starPosition);
+                            Map<String, Object> updateRating = new HashMap<>();
                             if (DBqueries.myRatedIds.contains(productID)) {
 
+                                TextView oldRating = (TextView) ratingsNoContainer.getChildAt(5 - initialRating - 1);
+                                TextView finalRating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
+
+                                updateRating.put(initialRating +1 +"_star",Long.parseLong(oldRating.getText().toString()) - 1);
+                                updateRating.put(starPosition+1+"_star",Long.parseLong(finalRating.getText().toString()) + 1);
+                                updateRating.put("average_rating",String.valueOf(calculateAverageRating((long)starPosition+1)));
                             } else {
-                                Map<String, Object> productRating = new HashMap<>();
-                                productRating.put(starPosition + 1 + "_star", (long) documentSnapshot.get(starPosition + 1 + "_star") + 1);
-                                productRating.put("average_rating", calculateAverageRating(starPosition + 1));
-                                productRating.put("total_ratings", (long) documentSnapshot.get("total_ratings") + 1);
+                                updateRating.put(starPosition + 1 + "_star", (long) documentSnapshot.get(starPosition + 1 + "_star") + 1);
+                                updateRating.put("average_rating",String.valueOf(calculateAverageRating((long)starPosition+1)));
+                                updateRating.put("total_ratings", (long) documentSnapshot.get("total_ratings") + 1);
+                            }
+                            firebaseFirestore.collection("PRODUCTS").document(productID)
+                                    .update(updateRating).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
 
-                                firebaseFirestore.collection("PRODUCTS").document(productID)
-                                        .update(productRating).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Map<String, Object> rating = new HashMap<>();
-                                            rating.put("list_size",(long)DBqueries.myRatedIds.size()+1);
-                                            rating.put("product_ID_" + DBqueries.myRatedIds.size(), productID);
-                                            rating.put("rating_" + DBqueries.myRatedIds.size(), (long) starPosition + 1);
+                                        Map<String, Object> myRating = new HashMap<>();
+                                        if (DBqueries.myRatedIds.contains(productID)){
+                                            myRating.put("rating_"+DBqueries.myRatedIds.indexOf(productID),(long)starPosition+1);
+                                        }else {
+                                            myRating.put("list_size",(long)DBqueries.myRatedIds.size()+1);
+                                            myRating.put("product_ID_" + DBqueries.myRatedIds.size(), productID);
+                                            myRating.put("rating_" + DBqueries.myRatedIds.size(), (long) starPosition + 1);
+                                        }
 
-                                            firebaseFirestore.collection("USERS").document(currentUser.getUid()).collection("USER_DATA").document("MY_RATINGS")
-                                                    .update(rating).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
+                                        firebaseFirestore.collection("USERS").document(currentUser.getUid()).collection("USER_DATA").document("MY_RATINGS")
+                                                .update(myRating).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+
+
+
+                                                    if (DBqueries.myRatedIds.contains(productID)){
+                                                        DBqueries.myRating.set(DBqueries.myRatedIds.indexOf(productID),(long)starPosition+1);
+
+                                                        TextView oldRating = (TextView) ratingsNoContainer.getChildAt(5 - initialRating - 1);
+                                                        TextView finalRating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
+                                                        oldRating.setText(String.valueOf(Integer.parseInt(oldRating.getText().toString()) - 1));
+                                                        finalRating.setText(String.valueOf(Integer.parseInt(finalRating.getText().toString()) + 1));
+                                                    }else {
+
                                                         DBqueries.myRatedIds.add(productID);
-                                                        DBqueries.myRating.add((long)starPosition+1);
+                                                        DBqueries.myRating.add((long) starPosition + 1);
 
                                                         TextView rating = (TextView) ratingsNoContainer.getChildAt(5 - starPosition - 1);
                                                         rating.setText(String.valueOf(Integer.parseInt(rating.getText().toString()) + 1));
 
-                                                        totalRatingsMiniview.setText("("+((long)documentSnapshot.get("total_ratings") + 1) +")total ratings");
-                                                        totalRatings.setText((long)documentSnapshot.get("total_ratings") + 1 + " ratings");
-                                                        totalRatingsFigure.setText(String.valueOf((long)documentSnapshot.get("total_ratings")+1));
-
-                                                        averageRating.setText(String.valueOf(calculateAverageRating(starPosition + 1)));
-                                                        averageRatingMiniview.setText(String.valueOf(calculateAverageRating(starPosition + 1)));
-
-                                                        for (int x = 0;x < 5;x++){
-                                                            TextView ratingfigures = (TextView) ratingsNoContainer.getChildAt(x);
-
-                                                            ProgressBar progressBar = (ProgressBar) ratingsProgressBarContainer.getChildAt(x);
-                                                            int maxProgress = Integer.parseInt(String.valueOf((long)documentSnapshot.get("total_ratings")+1));
-                                                            progressBar.setMax(maxProgress);
-                                                            progressBar.setProgress(Integer.parseInt(ratingfigures.getText().toString()));
-
-                                                        }
-
+                                                        totalRatingsMiniview.setText("(" + ((long) documentSnapshot.get("total_ratings") + 1) + ")total ratings");
+                                                        totalRatings.setText((long) documentSnapshot.get("total_ratings") + 1 + " ratings");
+                                                        totalRatingsFigure.setText(String.valueOf((long) documentSnapshot.get("total_ratings") + 1));
                                                         Toast.makeText(ProductDetailsActivity.this, "Thanks for your rating", Toast.LENGTH_SHORT).show();
-                                                    } else {
-                                                        setRating(initialRating);
-                                                        String error = task.getException().getMessage();
-                                                        Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
                                                     }
-                                                    running_rating_query = false;
+
+                                                    for (int x = 0; x < 5; x++) {
+                                                        TextView ratingfigures = (TextView) ratingsNoContainer.getChildAt(x);
+
+                                                        ProgressBar progressBar = (ProgressBar) ratingsProgressBarContainer.getChildAt(x);
+                                                        if (!DBqueries.myRatedIds.contains(productID)) {
+                                                            int maxProgress = Integer.parseInt(String.valueOf((long) documentSnapshot.get("total_ratings") + 1));
+                                                            progressBar.setMax(maxProgress);
+                                                        }
+                                                        progressBar.setProgress(Integer.parseInt(ratingfigures.getText().toString()));
+                                                    }
+                                                    initialRating = starPosition;
+                                                    averageRating.setText(String.valueOf(calculateAverageRating(0)));
+                                                    averageRatingMiniview.setText(String.valueOf(calculateAverageRating(0)));
+
+                                                    if (DBqueries.wishList.contains(productID) && DBqueries.wishlistModelList.size() != 0){
+                                                        int index = DBqueries.wishList.indexOf(productID);
+                                                        DBqueries.wishlistModelList.get(index).setRating(averageRating.getText().toString());
+                                                        DBqueries.wishlistModelList.get(index).setTotalRatings(Long.parseLong(totalRatingsFigure.getText().toString()));
+
+                                                    }
+
+                                                } else {
+                                                    setRating(initialRating);
+                                                    String error = task.getException().getMessage();
+                                                    Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
                                                 }
-                                            });
-                                        } else {
-                                            running_rating_query = false;
-                                            setRating(initialRating);
-                                            String error = task.getException().getMessage();
-                                            Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
-                                        }
+                                                running_rating_query = false;
+                                            }
+                                        });
+                                    } else {
+                                        running_rating_query = false;
+                                        setRating(initialRating);
+                                        String error = task.getException().getMessage();
+                                        Toast.makeText(ProductDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
                                     }
-                                });
-                            }
+                                }
+                            });
                         }
                     }
                 }
@@ -620,10 +651,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         }
 
-    private long calculateAverageRating(long currentUserRating){
+    private float calculateAverageRating(long currentUserRating){
         long totalStars = 0;
         for (int x = 1;x < 6;x++){
-            totalStars = totalStars + ((long)documentSnapshot.get(x+"_star"))*x;
+            TextView ratingNo = (TextView) ratingsNoContainer.getChildAt(x-1);
+            totalStars = totalStars + (Long.parseLong(ratingNo.getText().toString())*x);
         }
         totalStars = totalStars + currentUserRating;
         return totalStars/((long)documentSnapshot.get("total_ratings")+1);
