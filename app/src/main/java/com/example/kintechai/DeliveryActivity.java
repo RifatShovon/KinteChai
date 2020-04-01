@@ -42,9 +42,6 @@ public class DeliveryActivity extends AppCompatActivity {
         deliveryRecyclerView.setLayoutManager(layoutManager);
 
         List<CartItemModel> cartItemModelList = new ArrayList<>();
-        cartItemModelList.add(new CartItemModel(0,R.drawable.product_image,"Motorcycle Bike KTM RC 390", 2, "BDT.5,00,000/=","BDT.5,20,000/=",1,0,0));
-        cartItemModelList.add(new CartItemModel(0,R.drawable.product_image,"Motorcycle Bike KTM RC 390", 0, "BDT.5,00,000/=","BDT.5,20,000/=",1,1,0));
-        cartItemModelList.add(new CartItemModel(0,R.drawable.product_image,"Motorcycle Bike KTM RC 390", 2, "BDT.5,00,000/=","BDT.5,20,000/=",1,2,0));
         cartItemModelList.add(new CartItemModel(1,"price (3 items)", "BDT.30000/=", "Free", "BDT.30000/=", "BDT.2000/="));
 
         CartAdapter cartAdapter = new CartAdapter(cartItemModelList);

@@ -1,6 +1,7 @@
 package com.example.kintechai;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -29,6 +30,8 @@ public class MyCartFragment extends Fragment {
 
     private RecyclerView cartItemsRecyclerview;
     private Button continueBtn;
+    private Dialog loadingDialog;
+    public static CartAdapter cartAdapter;
 
 
     @Override
@@ -36,6 +39,15 @@ public class MyCartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_my_cart, container, false);
+
+        ////////////////////////////// loading dialog
+        loadingDialog = new Dialog(getContext());
+        loadingDialog.setContentView(R.layout.loading_progress_dialog);
+        loadingDialog.setCancelable(false);
+        loadingDialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialog.show();
+        ////////////////////////////// loading dialog //////////////////////////////////////
 
         cartItemsRecyclerview = view.findViewById(R.id.cart_items_recyclerview);
         continueBtn = view.findViewById(R.id.cart_continue_btn);
@@ -45,16 +57,16 @@ public class MyCartFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         cartItemsRecyclerview.setLayoutManager(layoutManager);
 
-        List<CartItemModel> cartItemModelList = new ArrayList<>();
-        cartItemModelList.add(new CartItemModel(0,R.drawable.product_image,"Motorcycle Bike KTM RC 390", 2, "BDT.5,00,000/=","BDT.5,20,000/=",1,0,0));
-        cartItemModelList.add(new CartItemModel(0,R.drawable.product_image,"Motorcycle Bike KTM RC 390", 0, "BDT.5,00,000/=","BDT.5,20,000/=",1,1,0));
-        cartItemModelList.add(new CartItemModel(0,R.drawable.product_image,"Motorcycle Bike KTM RC 390", 2, "BDT.5,00,000/=","BDT.5,20,000/=",1,2,0));
-        cartItemModelList.add(new CartItemModel(1,"price (3 items)", "BDT.30000/=", "Free", "BDT.30000/=", "BDT.2000/="));
+        if (DBqueries.cartItemModelList.size() == 0){
+            DBqueries.cartList.clear();
+            DBqueries.loadCartList(getContext(),loadingDialog,true);
+        }else {
+            loadingDialog.dismiss();
+        }
 
-        CartAdapter cartAdapter = new CartAdapter(cartItemModelList);
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList);
         cartItemsRecyclerview.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
-
 
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
