@@ -320,6 +320,36 @@ public class DBqueries {
         });
     }
 
+    public static void removeFromCart(final int index, final Context context){
+        final String removedProductId = cartList.get(index);
+        cartList.remove(index);
+        Map<String,Object> updateCartList = new HashMap<>();
+
+        for (int x = 0;x < cartList.size();x++){
+            updateCartList.put("product_ID_"+x,cartList.get(x));
+        }
+        updateCartList.put("list_size",(long)cartList.size());
+
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_CART")
+                .set(updateCartList).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    if (cartItemModelList.size() != 0){
+                        cartItemModelList.remove(index);
+                        MyCartFragment.cartAdapter.notifyDataSetChanged();
+                    }
+                    Toast.makeText(context,"Remove From Cart!",Toast.LENGTH_SHORT).show();
+                }else {
+                    cartList.add(index,removedProductId);
+                    String error = task.getException().getMessage();
+                    Toast.makeText(context,error,Toast.LENGTH_SHORT).show();
+                }
+                ProductDetailsActivity.running_cart_query = false;
+            }
+        });
+    }
+
     public static void clearData(){
         categoryModelList.clear();
         lists.clear();
