@@ -339,6 +339,9 @@ public class DBqueries {
                         cartItemModelList.remove(index);
                         MyCartFragment.cartAdapter.notifyDataSetChanged();
                     }
+                    if (ProductDetailsActivity.cartItem != null) {
+                        ProductDetailsActivity.cartItem.setActionView(null);
+                    }
                     Toast.makeText(context,"Remove From Cart!",Toast.LENGTH_SHORT).show();
                 }else {
                     cartList.add(index,removedProductId);
