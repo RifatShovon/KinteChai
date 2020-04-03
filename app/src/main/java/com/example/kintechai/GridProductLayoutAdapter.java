@@ -41,16 +41,16 @@ public class GridProductLayoutAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
         View view;
-        if (convertView == null){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_scroll_item_layout,null);
+        if (convertView == null) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_scroll_item_layout, null);
             view.setElevation(0);
             view.setBackgroundColor(Color.parseColor("#ffffff"));
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent productDetailsIntent = new Intent(parent.getContext(),ProductDetailsActivity.class);
-                    productDetailsIntent.putExtra("PRODUCT_ID",horizontalProductScrollModelList.get(position).getProductID());
+                    Intent productDetailsIntent = new Intent(parent.getContext(), ProductDetailsActivity.class);
+                    productDetailsIntent.putExtra("PRODUCT_ID", horizontalProductScrollModelList.get(position).getProductID());
                     parent.getContext().startActivity(productDetailsIntent);
                 }
             });
@@ -63,9 +63,9 @@ public class GridProductLayoutAdapter extends BaseAdapter {
             Glide.with(parent.getContext()).load(horizontalProductScrollModelList.get(position).getProductImage()).apply(new RequestOptions().placeholder(R.mipmap.icon_placeholder)).into(productImage);
             productTitle.setText(horizontalProductScrollModelList.get(position).getProductTitle());
             productDescription.setText(horizontalProductScrollModelList.get(position).getProductDescription());
-            productPrice.setText("BDT."+horizontalProductScrollModelList.get(position).getProductPrice()+"/=");
+            productPrice.setText("BDT." + horizontalProductScrollModelList.get(position).getProductPrice() + "/=");
 
-        }else {
+        } else {
             view = convertView;
         }
         return view;

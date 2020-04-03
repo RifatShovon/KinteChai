@@ -26,7 +26,7 @@
             android:layout_marginTop="16dp"
             android:text="PRICE DETAILS"
             android:textSize="18sp"
-            android:textColor="#000000"
+            android:textColor="#1830BA"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

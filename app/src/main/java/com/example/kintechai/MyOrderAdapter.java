@@ -26,7 +26,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
     @NonNull
     @Override
     public MyOrderAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.my_order_item_layout,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.my_order_item_layout, viewGroup, false);
         return new Viewholder(view);
     }
 
@@ -36,7 +36,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
         int rating = myOrderItemModelList.get(position).getRating();
         String title = myOrderItemModelList.get(position).getProductTitle();
         String deliveredDate = myOrderItemModelList.get(position).getDeliveryStatus();
-        viewholder.setData(resource,title,deliveredDate,rating);
+        viewholder.setData(resource, title, deliveredDate, rating);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
         return myOrderItemModelList.size();
     }
 
-    class Viewholder extends RecyclerView.ViewHolder{
+    class Viewholder extends RecyclerView.ViewHolder {
 
         private ImageView productImage;
         private ImageView orderIndicator;
@@ -63,29 +63,29 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent orderDetailsIntent = new Intent(itemView.getContext(),OrderDetailsActivity.class);
+                    Intent orderDetailsIntent = new Intent(itemView.getContext(), OrderDetailsActivity.class);
                     itemView.getContext().startActivity(orderDetailsIntent);
                 }
             });
 
         }
 
-        private void setData(int resource, String title, String deliveredDate, int rating){
+        private void setData(int resource, String title, String deliveredDate, int rating) {
             productImage.setImageResource(resource);
             productTitle.setText(title);
             if (deliveredDate.equals("Cancelled")) {
                 orderIndicator.setImageTintList(ColorStateList.valueOf(itemView.getContext().getResources().getColor(R.color.colorRed)));
-            }else {
+            } else {
                 orderIndicator.setImageTintList(ColorStateList.valueOf(itemView.getContext().getResources().getColor(R.color.successGreen)));
             }
-                deliveryStatus.setText(deliveredDate);
+            deliveryStatus.setText(deliveredDate);
 
             ///// rating layout
 
             setRating(rating);
-            for (int x = 0; x < rateNowContainer.getChildCount(); x++){
+            for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
                 final int starPosition = x;
-                rateNowContainer.getChildAt(x).setOnClickListener(new View.OnClickListener(){
+                rateNowContainer.getChildAt(x).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         setRating(starPosition);
@@ -95,6 +95,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
 
             ///// rating layout
         }
+
         private void setRating(int starPosition) {
             for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
                 ImageView starBtn = (ImageView) rateNowContainer.getChildAt(x);

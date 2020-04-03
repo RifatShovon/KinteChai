@@ -28,12 +28,12 @@ public class SliderAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.slider_layout,container,false);
+        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.slider_layout, container, false);
         ConstraintLayout bannerContainer = view.findViewById(R.id.banner_container);
         bannerContainer.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(sliderModelList.get(position).getBackgroundColor())));
         ImageView banner = view.findViewById(R.id.banner_slide);
         Glide.with(container.getContext()).load(sliderModelList.get(position).getBanner()).apply(new RequestOptions().placeholder(R.mipmap.banner_placeholder)).into(banner);
-        container.addView(view,0);
+        container.addView(view, 0);
         return view;
     }
 

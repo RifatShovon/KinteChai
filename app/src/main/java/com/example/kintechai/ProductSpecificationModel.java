@@ -19,6 +19,7 @@ public class ProductSpecificationModel {
 
     /////// specification title
     private String title;
+
     public ProductSpecificationModel(int type, String title) {
         this.type = type;
         this.title = title;
@@ -34,24 +35,28 @@ public class ProductSpecificationModel {
     /////// specification title
 
 
-
     ////// Specification body
     private String featureName;
     private String featureValue;
+
     public ProductSpecificationModel(int type, String featureName, String featureValue) {
         this.type = type;
         this.featureName = featureName;
         this.featureValue = featureValue;
     }
+
     public String getFeatureName() {
         return featureName;
     }
+
     public void setFeatureName(String featureName) {
         this.featureName = featureName;
     }
+
     public String getFeatureValue() {
         return featureValue;
     }
+
     public void setFeatureValue(String featureValue) {
         this.featureValue = featureValue;
     }

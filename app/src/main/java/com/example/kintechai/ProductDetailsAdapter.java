@@ -25,7 +25,7 @@ public class ProductDetailsAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case 0:
                 ProductDescriptionFragment productDescriptionFragment1 = new ProductDescriptionFragment();
                 productDescriptionFragment1.body = productDescription;
@@ -38,8 +38,8 @@ public class ProductDetailsAdapter extends FragmentPagerAdapter {
                 ProductDescriptionFragment productDescriptionFragment2 = new ProductDescriptionFragment();
                 productDescriptionFragment2.body = productOtherDetails;
                 return productDescriptionFragment2;
-                default:
-                    return null;
+            default:
+                return null;
         }
     }
 

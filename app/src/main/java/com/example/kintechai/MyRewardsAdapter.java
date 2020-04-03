@@ -24,9 +24,9 @@ public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.View
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view;
-        if (useMiniLayout){
+        if (useMiniLayout) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.mini_rewards_item_layout, viewGroup, false);
-        }else {
+        } else {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.rewards_item_layout, viewGroup, false);
         }
         return new Viewholder(view);
@@ -37,7 +37,7 @@ public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.View
         String title = rewardModelList.get(position).getTitle();
         String date = rewardModelList.get(position).getExpiryDate();
         String body = rewardModelList.get(position).getCouponBody();
-        viewholder.setData(title,date,body);
+        viewholder.setData(title, date, body);
     }
 
     @Override
@@ -57,12 +57,13 @@ public class MyRewardsAdapter extends RecyclerView.Adapter<MyRewardsAdapter.View
             couponExpiryDate = itemView.findViewById(R.id.coupon_validity);
             couponBody = itemView.findViewById(R.id.coupon_body);
         }
-        private void setData(final String title, final String date, final String body){
+
+        private void setData(final String title, final String date, final String body) {
             couponTitle.setText(title);
             couponExpiryDate.setText(date);
             couponBody.setText(body);
 
-            if (useMiniLayout){
+            if (useMiniLayout) {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

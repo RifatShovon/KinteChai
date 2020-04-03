@@ -112,7 +112,7 @@ public class ResetPasswordFragment extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
 
                 resetPasswordBtn.setEnabled(false);
-                resetPasswordBtn.setTextColor(Color.argb(50,255,255,255));
+                resetPasswordBtn.setTextColor(Color.argb(50, 255, 255, 255));
 
                 firebaseAuth.sendPasswordResetEmail(registeredEmail.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -121,13 +121,13 @@ public class ResetPasswordFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     //Toast.makeText(getActivity(),"email sent successfully!",Toast.LENGTH_LONG).show();
 
-                                    ScaleAnimation scaleAnimation = new ScaleAnimation(1,0,1,0,emailIcon.getWidth()/2,emailIcon.getHeight()/2);
+                                    ScaleAnimation scaleAnimation = new ScaleAnimation(1, 0, 1, 0, emailIcon.getWidth() / 2, emailIcon.getHeight() / 2);
                                     scaleAnimation.setDuration(100);
                                     scaleAnimation.setInterpolator(new AccelerateInterpolator());
                                     scaleAnimation.setRepeatMode(Animation.REVERSE);
                                     scaleAnimation.setRepeatCount(1);
 
-                                    scaleAnimation.setAnimationListener(new Animation.AnimationListener(){
+                                    scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
                                         @Override
                                         public void onAnimationStart(Animation animation) {
 
@@ -156,7 +156,7 @@ public class ResetPasswordFragment extends Fragment {
                                     String error = task.getException().getMessage();
 
                                     resetPasswordBtn.setEnabled(true);
-                                    resetPasswordBtn.setTextColor(Color.rgb(255,255,255));
+                                    resetPasswordBtn.setTextColor(Color.rgb(255, 255, 255));
 
                                     emailIconText.setText(error);
                                     emailIconText.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -180,13 +180,13 @@ public class ResetPasswordFragment extends Fragment {
 
     }
 
-    private void checkInputs(){
-        if (TextUtils.isEmpty(registeredEmail.getText())){
+    private void checkInputs() {
+        if (TextUtils.isEmpty(registeredEmail.getText())) {
             resetPasswordBtn.setEnabled(false);
-            resetPasswordBtn.setTextColor(Color.argb(50,255,255,255));
-        }else{
+            resetPasswordBtn.setTextColor(Color.argb(50, 255, 255, 255));
+        } else {
             resetPasswordBtn.setEnabled(true);
-            resetPasswordBtn.setTextColor(Color.rgb(255,255,255));
+            resetPasswordBtn.setTextColor(Color.rgb(255, 255, 255));
         }
     }
 

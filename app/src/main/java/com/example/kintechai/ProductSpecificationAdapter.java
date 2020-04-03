@@ -65,7 +65,7 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
     @Override
     public void onBindViewHolder(@NonNull ProductSpecificationAdapter.ViewHolder viewHolder, int position) {
 
-        switch (productSpecificationModelList.get(position).getType()){
+        switch (productSpecificationModelList.get(position).getType()) {
             case ProductSpecificationModel.SPECIFICATION_TITLE:
                 viewHolder.setTitle(productSpecificationModelList.get(position).getTitle());
                 break;
@@ -74,8 +74,8 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
                 String featureDetail = productSpecificationModelList.get(position).getFeatureValue();
                 viewHolder.setFeatures(featureTitle, featureDetail);
                 break;
-                default:
-                    return;
+            default:
+                return;
         }
     }
 
@@ -93,10 +93,12 @@ public class ProductSpecificationAdapter extends RecyclerView.Adapter<ProductSpe
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
-        private void setTitle(String titleText){
+
+        private void setTitle(String titleText) {
             title = (TextView) itemView;
             title.setText(titleText);
         }
+
         private void setFeatures(String featureTitle, String featureDetail) {
             featureName = itemView.findViewById(R.id.feature_name);
             featureValue = itemView.findViewById(R.id.feature_value);

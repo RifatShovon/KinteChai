@@ -20,17 +20,18 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
 
     private List<AddressesModel> addressesModelList;
     private int MODE;
-    private int preSelectedPosition = -1;
+    private int preSelectedPosition;
 
     public AddressesAdapter(List<AddressesModel> addressesModelList, int MODE) {
         this.addressesModelList = addressesModelList;
         this.MODE = MODE;
+        preSelectedPosition = DBqueries.selectedAddress;
     }
 
     @NonNull
     @Override
     public AddressesAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.addresses_item_layout,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.addresses_item_layout, viewGroup, false);
         return new Viewholder(view);
     }
 
@@ -40,7 +41,7 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
         String address = addressesModelList.get(position).getAddress();
         String pincode = addressesModelList.get(position).getPincode();
         Boolean selected = addressesModelList.get(position).getSelected();
-        viewholder.setData(name, address, pincode, selected,position);
+        viewholder.setData(name, address, pincode, selected, position);
     }
 
     @Override
@@ -64,17 +65,18 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
             icon = itemView.findViewById(R.id.icon_view);
             optionContainer = itemView.findViewById(R.id.option_container);
         }
-        private void setData(String userName, String userAddress, String userPincode, Boolean selected, final int position){
+
+        private void setData(String userName, String userAddress, String userPincode, Boolean selected, final int position) {
             fullname.setText(userName);
             address.setText(userAddress);
             pincode.setText(userPincode);
 
-            if (MODE == SELECT_ADDRESS){
+            if (MODE == SELECT_ADDRESS) {
                 icon.setImageResource(R.mipmap.check);
-                if (selected){
+                if (selected) {
                     icon.setVisibility(View.VISIBLE);
                     preSelectedPosition = position;
-                }else {
+                } else {
                     icon.setVisibility(View.GONE);
                 }
                 itemView.setOnClickListener(new View.OnClickListener() {
@@ -85,24 +87,25 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
                             addressesModelList.get(preSelectedPosition).setSelected(false);
                             refreshItem(preSelectedPosition, position);
                             preSelectedPosition = position;
+                            DBqueries.selectedAddress = position;
                         }
                     }
                 });
-            }else if (MODE == MANAGE_ADDRESS){
+            } else if (MODE == MANAGE_ADDRESS) {
                 optionContainer.setVisibility(View.GONE);
                 icon.setImageResource(R.mipmap.vertical_dots);
                 icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         optionContainer.setVisibility(View.VISIBLE);
-                        refreshItem(preSelectedPosition,preSelectedPosition);
+                        refreshItem(preSelectedPosition, preSelectedPosition);
                         preSelectedPosition = position;
                     }
                 });
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        refreshItem(preSelectedPosition,preSelectedPosition);
+                        refreshItem(preSelectedPosition, preSelectedPosition);
                         preSelectedPosition = -1;
                     }
                 });

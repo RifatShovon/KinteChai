@@ -22,10 +22,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         framelayout = findViewById(R.id.register_framelayout);
 
-        if (setSignUpFragment){
+        if (setSignUpFragment) {
             setSignUpFragment = false;
             setDefaultFragment(new SignUpFragment());
-        }else {
+        } else {
             setDefaultFragment(new SignInFragment());
         }
     }
@@ -33,11 +33,11 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (keyCode == KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             SignUpFragment.disableCloseBtn = false;
             SignUpFragment.disableCloseBtn = false; //////////////// todo: make is SignInFragment.disablecloseBtn = false;
 
-            if (onResetPasswordFragment){
+            if (onResetPasswordFragment) {
                 onResetPasswordFragment = false;
                 setFragment(new SignInFragment());
                 return false;
@@ -49,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void setDefaultFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(framelayout.getId(),fragment);
+        fragmentTransaction.replace(framelayout.getId(), fragment);
         fragmentTransaction.commit();
     }
 

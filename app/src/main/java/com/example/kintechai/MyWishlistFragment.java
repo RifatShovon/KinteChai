@@ -41,7 +41,7 @@ public class MyWishlistFragment extends Fragment {
         loadingDialog.setContentView(R.layout.loading_progress_dialog);
         loadingDialog.setCancelable(false);
         loadingDialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
-        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         loadingDialog.show();
         ////////////////////////////// loading dialog //////////////////////////////////////
 
@@ -57,14 +57,14 @@ public class MyWishlistFragment extends Fragment {
         wishlistModelList.add(new WishlistModel(R.drawable.product_image,"Honda CB Trigger",4,"5",165,"BDT.5,55,0000/=","BDT.5,80,000/=","Cash On Delivery"));
         wishlistModelList.add(new WishlistModel(R.drawable.laptop,"Lenovo Ideapad",1,"1.9",1451,"BDT.55,0000/=","BDT.80,000/=","Cash On Delivery"));
 */
-       if (DBqueries.wishlistModelList.size() == 0){
-           DBqueries.wishList.clear();
-           DBqueries.loadWishlist(getContext(),loadingDialog,true);
-       }else {
-           loadingDialog.dismiss();
-       }
+        if (DBqueries.wishlistModelList.size() == 0) {
+            DBqueries.wishList.clear();
+            DBqueries.loadWishlist(getContext(), loadingDialog, true);
+        } else {
+            loadingDialog.dismiss();
+        }
 
-        wishlistAdapter = new WishlistAdapter(DBqueries.wishlistModelList,true);
+        wishlistAdapter = new WishlistAdapter(DBqueries.wishlistModelList, true);
         wishlistRecyclerview.setAdapter(wishlistAdapter);
         wishlistAdapter.notifyDataSetChanged();
 

@@ -77,9 +77,9 @@ public class SignInFragment extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        if (disableCloseBtn){
+        if (disableCloseBtn) {
             closeBtn.setVisibility(View.GONE);
-        }else {
+        } else {
             closeBtn.setVisibility(View.VISIBLE);
         }
         return view;
@@ -161,48 +161,49 @@ public class SignInFragment extends Fragment {
     }
 
     private void checkInputs() {
-        if (!TextUtils.isEmpty(email.getText())){
-            if (!TextUtils.isEmpty(password.getText())){
+        if (!TextUtils.isEmpty(email.getText())) {
+            if (!TextUtils.isEmpty(password.getText())) {
                 signInBtn.setEnabled(true);
-                signInBtn.setTextColor(Color.rgb(255,255,255));
-            }else{
+                signInBtn.setTextColor(Color.rgb(255, 255, 255));
+            } else {
                 signInBtn.setEnabled(false);
-                signInBtn.setTextColor(Color.argb(50,255, 255, 255));
+                signInBtn.setTextColor(Color.argb(50, 255, 255, 255));
             }
-        }else{
+        } else {
             signInBtn.setEnabled(false);
-            signInBtn.setTextColor(Color.argb(50,255, 255, 255));
+            signInBtn.setTextColor(Color.argb(50, 255, 255, 255));
         }
     }
 
-    private void checkEmailAndPassword(){
-        if (email.getText().toString().matches(emailPattern)){
-            if (password.length() >= 8){
+    private void checkEmailAndPassword() {
+        if (email.getText().toString().matches(emailPattern)) {
+            if (password.length() >= 8) {
 
-                firebaseAuth.signInWithEmailAndPassword(email.getText().toString(),password.getText().toString())
+                firebaseAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
+                                if (task.isSuccessful()) {
                                     mainIntent();
-                                }else{
+                                } else {
                                     String error = task.getException().getMessage();
                                     Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
 
-            }else{
+            } else {
                 Toast.makeText(getActivity(), "Incorrect Email or Password!", Toast.LENGTH_SHORT).show();
             }
-        }else{
+        } else {
             Toast.makeText(getActivity(), "Incorrect Email or Password!", Toast.LENGTH_SHORT).show();
         }
     }
-    private void mainIntent(){
-        if (disableCloseBtn){
+
+    private void mainIntent() {
+        if (disableCloseBtn) {
             disableCloseBtn = false;
-        }else {
+        } else {
             Intent mainIntent = new Intent(getActivity(), Main2Activity.class);
             startActivity(mainIntent);
         }

@@ -12,7 +12,7 @@ public class WishlistModel {
     private String cuttedPrice;
     private boolean COD;
 
-    public WishlistModel(String productId,String productImage, String productTitle, long freeCoupons, String rating, long totalRatings, String productPrice, String cuttedPrice, boolean COD) {
+    public WishlistModel(String productId, String productImage, String productTitle, long freeCoupons, String rating, long totalRatings, String productPrice, String cuttedPrice, boolean COD) {
         this.productId = productId;
         this.productImage = productImage;
         this.productTitle = productTitle;

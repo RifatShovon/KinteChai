@@ -40,14 +40,14 @@ public class MyCartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_my_cart, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_cart, container, false);
 
         ////////////////////////////// loading dialog
         loadingDialog = new Dialog(getContext());
         loadingDialog.setContentView(R.layout.loading_progress_dialog);
         loadingDialog.setCancelable(false);
         loadingDialog.getWindow().setBackgroundDrawable(getContext().getDrawable(R.drawable.slider_background));
-        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         loadingDialog.show();
         ////////////////////////////// loading dialog //////////////////////////////////////
 
@@ -60,14 +60,14 @@ public class MyCartFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         cartItemsRecyclerview.setLayoutManager(layoutManager);
 
-        if (DBqueries.cartItemModelList.size() == 0){
+        if (DBqueries.cartItemModelList.size() == 0) {
             DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(),loadingDialog,true, new TextView(getContext()));
-        }else {
+            DBqueries.loadCartList(getContext(), loadingDialog, true, new TextView(getContext()));
+        } else {
             loadingDialog.dismiss();
         }
 
-        cartAdapter = new CartAdapter(DBqueries.cartItemModelList,totalAmount);
+        cartAdapter = new CartAdapter(DBqueries.cartItemModelList, totalAmount, true);
         cartItemsRecyclerview.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
 
@@ -75,7 +75,7 @@ public class MyCartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 loadingDialog.show();
-                DBqueries.loadAddresses(getContext(),loadingDialog);
+                DBqueries.loadAddresses(getContext(), loadingDialog);
             }
         });
         return view;

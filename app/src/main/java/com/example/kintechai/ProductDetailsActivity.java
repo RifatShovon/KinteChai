@@ -246,7 +246,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             DBqueries.loadRatingList(ProductDetailsActivity.this);
                         }
                         if (DBqueries.cartList.size() == 0) {
-                            DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false,badgeCount);
+                            DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount);
                         }
                         if (DBqueries.wishList.size() == 0) {
                             DBqueries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
@@ -714,11 +714,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
         if (currentUser != null) {
             if (DBqueries.cartList.size() == 0) {
                 DBqueries.loadCartList(ProductDetailsActivity.this, loadingDialog, false, badgeCount);
-            }else {
+            } else {
                 badgeCount.setVisibility(View.VISIBLE);
                 if (DBqueries.cartList.size() < 99) {
                     badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
-                }else {
+                } else {
                     badgeCount.setText("99");
                 }
             }

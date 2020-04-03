@@ -33,14 +33,14 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.wishlist_item_layout,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.wishlist_item_layout, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         String productId = wishlistModelList.get(position).getProductId();
-        String  resource = wishlistModelList.get(position).getProductImage();
+        String resource = wishlistModelList.get(position).getProductImage();
         String title = wishlistModelList.get(position).getProductTitle();
         long freeCoupons = wishlistModelList.get(position).getFreeCoupons();
         String rating = wishlistModelList.get(position).getRating();
@@ -48,7 +48,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
         String productPrice = wishlistModelList.get(position).getProductPrice();
         String cuttedPrice = wishlistModelList.get(position).getCuttedPrice();
         boolean paymentMethod = wishlistModelList.get(position).isCOD();
-        viewHolder.setData(productId,resource,title,freeCoupons,rating,totalRatings,productPrice,cuttedPrice,paymentMethod,position);
+        viewHolder.setData(productId, resource, title, freeCoupons, rating, totalRatings, productPrice, cuttedPrice, paymentMethod, position);
 
         if (lastPosition < position) {
             Animation animation = AnimationUtils.loadAnimation(viewHolder.itemView.getContext(), R.anim.fade_in);
@@ -56,11 +56,13 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             lastPosition = position;
         }
     }
+
     @Override
     public int getItemCount() {
         return wishlistModelList.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView productImage;
         private TextView productTitle;
         private TextView freeCoupons;
@@ -88,34 +90,35 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             deleteBtn = itemView.findViewById(R.id.delete_btn);
 
         }
-        private void setData(final String productId, String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean COD, final int index){
+
+        private void setData(final String productId, String resource, String title, long freeCouponsNo, String averageRate, long totalRatingsNo, String price, String cuttedPriceValue, boolean COD, final int index) {
             Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.mipmap.icon_placeholder)).into(productImage);
             productTitle.setText(title);
-            if (freeCouponsNo != 0){
+            if (freeCouponsNo != 0) {
                 couponIcon.setVisibility(View.VISIBLE);
                 if (freeCouponsNo == 1) {
                     freeCoupons.setText("free " + freeCouponsNo + " coupon");
-                }else {
+                } else {
                     freeCoupons.setText("free " + freeCouponsNo + " coupons");
                 }
-            }else {
+            } else {
                 couponIcon.setVisibility(View.INVISIBLE);
                 freeCoupons.setVisibility(View.INVISIBLE);
             }
 
             rating.setText(averageRate);
-            totalRatings.setText("("+totalRatingsNo+") total ratings");
-            productPrice.setText("BDT."+price+"/=");
-            cuttedPrice.setText("BDT."+cuttedPriceValue+"/=");
-            if (COD){
+            totalRatings.setText("(" + totalRatingsNo + ") total ratings");
+            productPrice.setText("BDT." + price + "/=");
+            cuttedPrice.setText("BDT." + cuttedPriceValue + "/=");
+            if (COD) {
                 paymentMethod.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 paymentMethod.setVisibility(View.INVISIBLE);
             }
 
-            if (wishlist){
+            if (wishlist) {
                 deleteBtn.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 deleteBtn.setVisibility(View.GONE);
             }
             deleteBtn.setOnClickListener(new View.OnClickListener() {
@@ -132,8 +135,8 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent productDetailsIntent = new Intent(itemView.getContext(),ProductDetailsActivity.class);
-                    productDetailsIntent.putExtra("PRODUCT_ID",productId);
+                    Intent productDetailsIntent = new Intent(itemView.getContext(), ProductDetailsActivity.class);
+                    productDetailsIntent.putExtra("PRODUCT_ID", productId);
                     itemView.getContext().startActivity(productDetailsIntent);
                 }
             });

@@ -25,10 +25,12 @@ public class CartAdapter extends RecyclerView.Adapter {
     private List<CartItemModel> cartItemModelList;
     private int lastPosition = -1;
     private TextView cartTotalAmount;
+    private boolean showDeleteBtn;
 
-    public CartAdapter(List<CartItemModel> cartItemModelList, TextView cartTotalAmount) {
+    public CartAdapter(List<CartItemModel> cartItemModelList, TextView cartTotalAmount, boolean showDeleteBtn) {
         this.cartItemModelList = cartItemModelList;
         this.cartTotalAmount = cartTotalAmount;
+        this.showDeleteBtn = showDeleteBtn;
     }
 
     @Override
@@ -70,7 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 String cuttedPrice = cartItemModelList.get(position).getCuttedPrice();
                 Long offersApplied = cartItemModelList.get(position).getOffersApplied();
 
-                ((CartItemViewholder) viewHolder).setItemDetails(productID, resource, title, freeCoupons, productPrice, cuttedPrice, offersApplied,position);
+                ((CartItemViewholder) viewHolder).setItemDetails(productID, resource, title, freeCoupons, productPrice, cuttedPrice, offersApplied, position);
                 break;
             case CartItemModel.TOTAL_AMOUNT:
                 int totalItems = 0;
@@ -79,19 +81,19 @@ public class CartAdapter extends RecyclerView.Adapter {
                 int totalAmount;
                 int savedAmount = 0;
 
-                for (int x = 0;x < cartItemModelList.size();x++){
+                for (int x = 0; x < cartItemModelList.size(); x++) {
 
-                    if (cartItemModelList.get(x).getType() == CartItemModel.CART_ITEM){
+                    if (cartItemModelList.get(x).getType() == CartItemModel.CART_ITEM) {
                         totalItems++;
                         //totalItemPrice = totalItemPrice + Integer.parseInt(cartItemModelList.get(x).getProductPrice());
-                        totalItemPrice = totalItemPrice +Integer.parseInt(cartItemModelList.get(x).getProductPrice());
+                        totalItemPrice = totalItemPrice + Integer.parseInt(cartItemModelList.get(x).getProductPrice());
                     }
                 }
 
-                if (totalItemPrice > 500){
+                if (totalItemPrice > 500) {
                     deliveryPrice = "FREE";
                     totalAmount = totalItemPrice;
-                }else {
+                } else {
                     deliveryPrice = "60";
                     totalAmount = totalItemPrice + 60;
                 }
@@ -171,7 +173,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     final Dialog quantityDialog = new Dialog(itemView.getContext());
                     quantityDialog.setContentView(R.layout.quantity_dialog);
-                    quantityDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                    quantityDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     quantityDialog.setCancelable(false);
 
                     final EditText quantityNo = quantityDialog.findViewById(R.id.quantity_no);
@@ -188,7 +190,7 @@ public class CartAdapter extends RecyclerView.Adapter {
                     okBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            productQuantity.setText("Qty: "+quantityNo.getText());
+                            productQuantity.setText("Qty: " + quantityNo.getText());
                             quantityDialog.dismiss();
                         }
                     });
@@ -196,12 +198,18 @@ public class CartAdapter extends RecyclerView.Adapter {
                 }
             });
 
+            if (showDeleteBtn){
+                deleteBtn.setVisibility(View.VISIBLE);
+            }else {
+                deleteBtn.setVisibility(View.GONE);
+            }
+
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!ProductDetailsActivity.running_cart_query){
+                    if (!ProductDetailsActivity.running_cart_query) {
                         ProductDetailsActivity.running_cart_query = true;
-                        DBqueries.removeFromCart(position,itemView.getContext());
+                        DBqueries.removeFromCart(position, itemView.getContext());
                     }
                 }
             });
@@ -209,35 +217,35 @@ public class CartAdapter extends RecyclerView.Adapter {
     }
 
 
-        class CartTotalAmountViewholder extends RecyclerView.ViewHolder {
+    class CartTotalAmountViewholder extends RecyclerView.ViewHolder {
 
-            private TextView totalItems;
-            private TextView totalItemPrice;
-            private TextView deliveryPrice;
-            private TextView totalAmount;
-            private TextView savedAmount;
+        private TextView totalItems;
+        private TextView totalItemPrice;
+        private TextView deliveryPrice;
+        private TextView totalAmount;
+        private TextView savedAmount;
 
-            public CartTotalAmountViewholder(@NonNull View itemView) {
-                super(itemView);
+        public CartTotalAmountViewholder(@NonNull View itemView) {
+            super(itemView);
 
-                totalItems = itemView.findViewById(R.id.total_items);
-                totalItemPrice = itemView.findViewById(R.id.total_items_price);
-                deliveryPrice = itemView.findViewById(R.id.delivery_price);
-                totalAmount = itemView.findViewById(R.id.total_price);
-                savedAmount = itemView.findViewById(R.id.saved_amount);
+            totalItems = itemView.findViewById(R.id.total_items);
+            totalItemPrice = itemView.findViewById(R.id.total_items_price);
+            deliveryPrice = itemView.findViewById(R.id.delivery_price);
+            totalAmount = itemView.findViewById(R.id.total_price);
+            savedAmount = itemView.findViewById(R.id.saved_amount);
+        }
+
+        private void setTotalAmount(int totalItemText, int totalItemPriceText, String deliveryPriceText, int totalAmountText, int savedAmountText) {
+            totalItems.setText("Price(" + totalItemText + " items)");
+            totalItemPrice.setText("BDT." + totalItemPriceText + "/=");
+            if (deliveryPriceText.equals("FREE")) {
+                deliveryPrice.setText(deliveryPriceText);
+            } else {
+                deliveryPrice.setText("BDT." + deliveryPriceText + "/=");
             }
-
-            private void setTotalAmount(int totalItemText, int totalItemPriceText, String deliveryPriceText, int totalAmountText, int savedAmountText) {
-                totalItems.setText("Price("+ totalItemText+" items)");
-                totalItemPrice.setText("BDT."+ totalItemPriceText +"/=");
-                if (deliveryPriceText.equals("FREE")){
-                    deliveryPrice.setText(deliveryPriceText);
-                }else {
-                    deliveryPrice.setText("BDT."+ deliveryPriceText +"/=");
-                }
-                totalAmount.setText("BDT."+ totalAmountText +"/=");
-                cartTotalAmount.setText("BDT."+ totalAmountText +"/=");
-                savedAmount.setText("You saved BDT."+ savedAmountText +"/= on this order.");
-            }
+            totalAmount.setText("BDT." + totalAmountText + "/=");
+            cartTotalAmount.setText("BDT." + totalAmountText + "/=");
+            savedAmount.setText("You saved BDT." + savedAmountText + "/= on this order.");
         }
     }
+}

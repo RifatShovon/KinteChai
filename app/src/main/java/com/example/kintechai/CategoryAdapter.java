@@ -30,7 +30,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @NonNull
     @Override
     public CategoryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.category_item, viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.category_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -52,7 +52,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return categoryModelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView categoryIcon;
         private TextView categoryName;
@@ -63,14 +63,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             categoryName = itemView.findViewById(R.id.category_name);
         }
 
-        private void setCategoryIcon(String iconUrl){
+        private void setCategoryIcon(String iconUrl) {
             if (!iconUrl.equals("null")) {
                 Glide.with(itemView.getContext()).load(iconUrl).apply(new RequestOptions().placeholder(R.mipmap.icon_placeholder)).into(categoryIcon);
-            }else {
+            } else {
                 categoryIcon.setImageResource(R.mipmap.home_icon);
             }
         }
-        private void setCategory(final String name,final int position){
+
+        private void setCategory(final String name, final int position) {
             categoryName.setText(name);
 
             if (!name.equals("")) {

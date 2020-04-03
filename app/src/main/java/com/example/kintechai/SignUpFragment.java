@@ -95,9 +95,9 @@ public class SignUpFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        if (disableCloseBtn){
+        if (disableCloseBtn) {
             closeBtn.setVisibility(View.GONE);
-        }else {
+        } else {
             closeBtn.setVisibility(View.VISIBLE);
         }
 
@@ -214,61 +214,62 @@ public class SignUpFragment extends Fragment {
                         signUpBtn.setTextColor(Color.rgb(255, 255, 255));
                     } else {
                         signUpBtn.setEnabled(false);
-                        signUpBtn.setTextColor(Color.argb(50,255, 255, 255));
+                        signUpBtn.setTextColor(Color.argb(50, 255, 255, 255));
                     }
                 } else {
                     signUpBtn.setEnabled(false);
-                    signUpBtn.setTextColor(Color.argb(50,255, 255, 255));
+                    signUpBtn.setTextColor(Color.argb(50, 255, 255, 255));
                 }
             } else {
                 signUpBtn.setEnabled(false);
-                signUpBtn.setTextColor(Color.argb(50,255, 255, 255));
+                signUpBtn.setTextColor(Color.argb(50, 255, 255, 255));
             }
         } else {
             signUpBtn.setEnabled(false);
-            signUpBtn.setTextColor(Color.argb(50,255,255,255));
+            signUpBtn.setTextColor(Color.argb(50, 255, 255, 255));
         }
     }
-    private void checkEmailAndPassword(){
+
+    private void checkEmailAndPassword() {
 
         Drawable customErrorIcon = getResources().getDrawable(R.mipmap.custom_error_icon);
-        customErrorIcon.setBounds(0,0,customErrorIcon.getIntrinsicWidth(),customErrorIcon.getIntrinsicHeight());
+        customErrorIcon.setBounds(0, 0, customErrorIcon.getIntrinsicWidth(), customErrorIcon.getIntrinsicHeight());
 
-        if (emailId.getText().toString().matches(emailPattern)){
-            if (password.getText().toString().equals(confirmPassword.getText().toString())){
+        if (emailId.getText().toString().matches(emailPattern)) {
+            if (password.getText().toString().equals(confirmPassword.getText().toString())) {
 
                 signUpBtn.setEnabled(false);
-                signUpBtn.setTextColor(Color.argb(50,255, 255, 255));
+                signUpBtn.setTextColor(Color.argb(50, 255, 255, 255));
 
                 firebaseAuth.createUserWithEmailAndPassword(emailId.getText().toString(), password.getText().toString())
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
+                                if (task.isSuccessful()) {
 
-                                    Map<String,Object> userdata = new HashMap<>();
-                                    userdata.put("username",userName.getText().toString());
+                                    Map<String, Object> userdata = new HashMap<>();
+                                    userdata.put("username", userName.getText().toString());
 
                                     firebaseFirestore.collection("USERS").document(firebaseAuth.getUid())
                                             .set(userdata)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
 
                                                         CollectionReference userDataReference = firebaseFirestore.collection("USERS").document(firebaseAuth.getUid()).collection("USER_DATA");
 
                                                         ///////////////////////////////////////////////// MAPS
-                                                        Map<String,Object> wishlistMap = new HashMap<>();
+                                                        Map<String, Object> wishlistMap = new HashMap<>();
                                                         wishlistMap.put("list_size", (long) 0);
 
-                                                        Map<String,Object> ratingsMap = new HashMap<>();
+                                                        Map<String, Object> ratingsMap = new HashMap<>();
                                                         ratingsMap.put("list_size", (long) 0);
 
-                                                        Map<String,Object> cartMap = new HashMap<>();
+                                                        Map<String, Object> cartMap = new HashMap<>();
                                                         cartMap.put("list_size", (long) 0);
 
-                                                        Map<String,Object> myAddressesMap = new HashMap<>();
+                                                        Map<String, Object> myAddressesMap = new HashMap<>();
                                                         myAddressesMap.put("list_size", (long) 0);
                                                         ///////////////////////////////////////////////// MAPS //////////////////////////////////////////////
 
@@ -278,24 +279,24 @@ public class SignUpFragment extends Fragment {
                                                         documentNames.add("MY_CART");
                                                         documentNames.add("MY_ADDRESSES");
 
-                                                        List<Map<String,Object>> documentFields = new ArrayList<>();
+                                                        List<Map<String, Object>> documentFields = new ArrayList<>();
                                                         documentFields.add(wishlistMap);
                                                         documentFields.add(ratingsMap);
                                                         documentFields.add(cartMap);
                                                         documentFields.add(myAddressesMap);
 
-                                                        for (int x = 0;x < documentNames.size();x++){
+                                                        for (int x = 0; x < documentNames.size(); x++) {
 
                                                             final int finalX = x;
                                                             userDataReference.document(documentNames.get(x))
                                                                     .set(documentFields.get(x)).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                 @Override
                                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                                    if (task.isSuccessful()){
-                                                                        if (finalX == documentNames.size() -1) {
+                                                                    if (task.isSuccessful()) {
+                                                                        if (finalX == documentNames.size() - 1) {
                                                                             mainIntent();
                                                                         }
-                                                                    }else {
+                                                                    } else {
                                                                         signUpBtn.setEnabled(true);
                                                                         signUpBtn.setTextColor(Color.rgb(255, 255, 255));
                                                                         String error = task.getException().getMessage();
@@ -305,13 +306,13 @@ public class SignUpFragment extends Fragment {
                                                             });
 
                                                         }
-                                                    }else{
+                                                    } else {
                                                         String error = task.getException().getMessage();
                                                         Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });
-                                }else{
+                                } else {
                                     signUpBtn.setEnabled(true);
                                     signUpBtn.setTextColor(Color.rgb(255, 255, 255));
                                     String error = task.getException().getMessage();
@@ -319,18 +320,18 @@ public class SignUpFragment extends Fragment {
                                 }
                             }
                         });
-            }else {
+            } else {
                 confirmPassword.setError("Password Doesn't Matched!", customErrorIcon);
             }
-        }else {
-            emailId.setError("Invalid Email!",customErrorIcon);
+        } else {
+            emailId.setError("Invalid Email!", customErrorIcon);
         }
     }
 
-    private void mainIntent(){
-        if (disableCloseBtn){
+    private void mainIntent() {
+        if (disableCloseBtn) {
             disableCloseBtn = false;
-        }else {
+        } else {
             Intent mainIntent = new Intent(getActivity(), Main2Activity.class);
             startActivity(mainIntent);
         }
