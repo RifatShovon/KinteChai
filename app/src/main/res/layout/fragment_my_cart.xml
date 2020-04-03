@@ -41,6 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="BDT. 15,999/="
+                android:layout_gravity="center"
                 android:textColor="#173EC2"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -49,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total Amount"
+                android:layout_gravity="center"
                 android:textColor="#173EC2"
                 android:textStyle="bold" />
 

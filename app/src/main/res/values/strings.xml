@@ -37,4 +37,75 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+
+
+    <string-array name="Bangladesh_City">
+        <item>BAGERHAT</item>
+        <item>BANDARBAN</item>
+        <item>BARGUNA</item>
+        <item>BARISAL</item>
+        <item>BHOLA</item>
+        <item>BRAHMANBARIA</item>
+        <item>CHANDPUR</item>
+        <item>CHITTAGONG</item>
+        <item>CHUADANGA</item>
+        <item>COMILLA</item>
+        <item>COX\'S BAZAR</item>
+        <item>DHAKA</item>
+        <item>DINAJPUR</item>
+        <item>FARIDPUR</item>
+        <item>FENI</item>
+        <item>GAIBANDHA</item>
+        <item>GAZIPUR</item>
+        <item>GOPALGANJ</item>
+        <item>HABIGANJ</item>
+        <item>JAIPURHAT</item>
+        <item>JAMALPUR</item>
+        <item>JESSOR</item>
+        <item>JHALAKATI</item>
+        <item>JHENAIDAH</item>
+        <item>KHAGRACHARI</item>
+        <item>KHULNA</item>
+        <item>KISHOREGANJ</item>
+        <item>KURIGRAM</item>
+        <item>KUSHTIA</item>
+        <item>LAKSHMIPUR</item>
+        <item>LALMONIRHAT</item>
+        <item>MADARIPUR</item>
+        <item>MAGURA</item>
+        <item>MANIKGANG</item>
+        <item>MEHERPUR</item>
+        <item>MOULOVIBAZAR</item>
+        <item>MUNSHIGANJ</item>
+        <item>MYMENSINGH</item>
+        <item>NAOGAON</item>
+        <item>NARAIL</item>
+        <item>NARAYANGANJ</item>
+        <item>NARSINGDI</item>
+        <item>NATORE</item>
+        <item>NAWABGANJ</item>
+        <item>NETRAKONA</item>
+        <item>NILPHAMARI</item>
+        <item>NOAKHALI</item>
+        <item>PABNA</item>
+        <item>PANCHAGARH</item>
+        <item>PARBATTYA CHATTAGRAM</item>
+        <item>PATUAKHALI</item>
+        <item>PIROJPUR</item>
+        <item>RAJBARI</item>
+        <item>RAJSHAHI</item>
+        <item>RANGPUR</item>
+        <item>SATKHIRA</item>
+        <item>SHARIATPUR</item>
+        <item>SHERPUR</item>
+        <item>SIRAJGANJ</item>
+        <item>SUNJAMGANJ</item>
+        <item>SYLHET</item>
+        <item>TANGAIL</item>
+        <item>THAKURGAON</item>
+    </string-array>
+
+
+
+
 </resources>

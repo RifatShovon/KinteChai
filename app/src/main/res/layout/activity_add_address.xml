@@ -50,7 +50,7 @@
                 android:layout_marginBottom="16dp"
                 app:srcCompat="@mipmap/address" />
 
-            <EditText
+            <!--<EditText
                 android:id="@+id/city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +59,17 @@
                 android:layout_marginEnd="16dp"
                 android:textColor="@color/colorAccent"
                 android:inputType="textPersonName"
-                android:hint="City*" />
+                android:hint="City*" />-->
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/city_spinner"
+                android:layout_width="379dp"
+                android:layout_height="46dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_background"
+                android:backgroundTint="@color/RecyclerViewBackground" />
 
             <EditText
                 android:id="@+id/locality"
@@ -108,15 +118,15 @@
                     android:inputType="number"
                     android:textColor="@color/colorAccent" />
 
-                <EditText
+                <!--<androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/state_spinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:hint="State"
-                    android:inputType="textPersonName"
+                    android:background="@drawable/border_background"
+                    android:backgroundTint="@color/RecyclerViewBackground"
                     android:layout_marginStart="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:textColor="@color/colorAccent"/>
+                    android:layout_marginEnd="16dp"/>-->
 
             </LinearLayout>
 
