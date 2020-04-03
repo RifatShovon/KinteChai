@@ -69,6 +69,7 @@ public class Main2Activity extends AppCompatActivity
     private Toolbar toolbar;
     private Dialog signInDialog;
     private FirebaseUser currentUser;
+    private TextView badgeCount;
 
     public static DrawerLayout drawer;
 
@@ -199,15 +200,21 @@ public class Main2Activity extends AppCompatActivity
             getMenuInflater().inflate(R.menu.main2, menu);
 
             MenuItem cartItem = menu.findItem(R.id.main_cart_icon);
-            if (DBqueries.cartList.size() > 0){
                 cartItem.setActionView(R.layout.badge_layout);
                 ImageView badgeIcon = cartItem.getActionView().findViewById(R.id.badge_icon);
                 badgeIcon.setImageResource(R.mipmap.cart_white);
-                TextView badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
-                if (DBqueries.cartList.size() < 99) {
-                    badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
-                }else {
-                    badgeCount.setText("99");
+                badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
+                if (currentUser != null){
+                    if (DBqueries.cartList.size() == 0) {
+                        DBqueries.loadCartList(Main2Activity.this, new Dialog(Main2Activity.this), false,badgeCount);
+                    }else {
+                        badgeCount.setVisibility(View.VISIBLE);
+                        if (DBqueries.cartList.size() < 99) {
+                            badgeCount.setText(String.valueOf(DBqueries.cartList.size()));
+                        }else {
+                            badgeCount.setText("99");
+                        }
+                    }
                 }
 
                 cartItem.getActionView().setOnClickListener(new View.OnClickListener() {
@@ -220,9 +227,6 @@ public class Main2Activity extends AppCompatActivity
                         }
                     }
                 });
-            }else {
-                cartItem.setActionView(null);
-            }
         }
         return true;
     }
