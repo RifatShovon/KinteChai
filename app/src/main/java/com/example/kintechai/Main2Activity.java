@@ -209,7 +209,7 @@ public class Main2Activity extends AppCompatActivity
             badgeCount = cartItem.getActionView().findViewById(R.id.badge_count);
             if (currentUser != null) {
                 if (DBqueries.cartList.size() == 0) {
-                    DBqueries.loadCartList(Main2Activity.this, new Dialog(Main2Activity.this), false, badgeCount);
+                    DBqueries.loadCartList(Main2Activity.this, new Dialog(Main2Activity.this), false, badgeCount,new TextView(Main2Activity.this));
                 } else {
                     badgeCount.setVisibility(View.VISIBLE);
                     if (DBqueries.cartList.size() < 99) {
@@ -277,39 +277,50 @@ public class Main2Activity extends AppCompatActivity
         }*/
     }
 
+
+    MenuItem menuItem;
+
     @SuppressWarnings("StatementWithEmptyBody")
     public boolean onNavigationItemSelected(MenuItem item) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (currentUser != null) {
-            int id = item.getItemId();
-            toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+        drawer.closeDrawer(GravityCompat.START);
+        menuItem = item;
 
-            if (id == R.id.nav_my_mall) {
-                actionBarLogo.setVisibility(View.VISIBLE);
-                invalidateOptionsMenu();
-                setFragment(new HomeFragment(), HOME_FRAGMENT);
-            } else if (id == R.id.nav_my_orders) {
-                gotoFragment("My Orders", new MyOrdersFragment(), ORDERS_FRAGMENT);
-            } else if (id == R.id.nav_my_rewards) {
-                gotoFragment("My Rewards", new MyRewardsFragment(), REWARDS_FRAGMENT);
-                toolbar.setTitleTextColor(getResources().getColor(R.color.btnWhite));
-            } else if (id == R.id.nav_my_cart) {
-                gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
-            } else if (id == R.id.nav_my_wishlist) {
-                gotoFragment("My Wishlist", new MyWishlistFragment(), WISHLIST_FRAGMENT);
-            } else if (id == R.id.nav_my_account) {
-                gotoFragment("My Account", new MyAccountFragment(), ACCOUNT_FRAGMENT);
-            } else if (id == R.id.nav_sign_out) {
-                FirebaseAuth.getInstance().signOut();
-                DBqueries.clearData();
-                Intent registerIntent = new Intent(Main2Activity.this, RegisterActivity.class);
-                startActivity(registerIntent);
-                finish();
-            }
-            drawer.closeDrawer(GravityCompat.START);
+
+        if (currentUser != null) {
+            drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+                @Override
+                public void onDrawerClosed(View drawerView) {
+                    super.onDrawerClosed(drawerView);
+                    int id = menuItem.getItemId();
+                    toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
+
+                    if (id == R.id.nav_my_mall) {
+                        actionBarLogo.setVisibility(View.VISIBLE);
+                        invalidateOptionsMenu();
+                        setFragment(new HomeFragment(), HOME_FRAGMENT);
+                    } else if (id == R.id.nav_my_orders) {
+                        gotoFragment("My Orders", new MyOrdersFragment(), ORDERS_FRAGMENT);
+                    } else if (id == R.id.nav_my_rewards) {
+                        gotoFragment("My Rewards", new MyRewardsFragment(), REWARDS_FRAGMENT);
+                        toolbar.setTitleTextColor(getResources().getColor(R.color.btnWhite));
+                    } else if (id == R.id.nav_my_cart) {
+                        gotoFragment("My Cart", new MyCartFragment(), CART_FRAGMENT);
+                    } else if (id == R.id.nav_my_wishlist) {
+                        gotoFragment("My Wishlist", new MyWishlistFragment(), WISHLIST_FRAGMENT);
+                    } else if (id == R.id.nav_my_account) {
+                        gotoFragment("My Account", new MyAccountFragment(), ACCOUNT_FRAGMENT);
+                    } else if (id == R.id.nav_sign_out) {
+                        FirebaseAuth.getInstance().signOut();
+                        DBqueries.clearData();
+                        Intent registerIntent = new Intent(Main2Activity.this, RegisterActivity.class);
+                        startActivity(registerIntent);
+                        finish();
+                    }
+                }
+            });
             return true;
         } else {
-            drawer.closeDrawer(GravityCompat.START);
             signInDialog.show();
             return false;
         }
