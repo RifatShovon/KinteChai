@@ -58,6 +58,7 @@ public class Main2Activity extends AppCompatActivity
     private static final int WISHLIST_FRAGMENT = 3;
     private static final int REWARDS_FRAGMENT = 4;
     private static final int ACCOUNT_FRAGMENT = 5;
+    private static final int ABOUT_US_FRAGMENT = 6;
     public static Boolean showCart = false;
 
 
@@ -310,6 +311,8 @@ public class Main2Activity extends AppCompatActivity
                         gotoFragment("My Wishlist", new MyWishlistFragment(), WISHLIST_FRAGMENT);
                     } else if (id == R.id.nav_my_account) {
                         gotoFragment("My Account", new MyAccountFragment(), ACCOUNT_FRAGMENT);
+                    } else if(id == R.id.nav_about_us){
+                        gotoFragment("About Us", new AboutUsFragment(), ABOUT_US_FRAGMENT);
                     } else if (id == R.id.nav_sign_out) {
                         FirebaseAuth.getInstance().signOut();
                         DBqueries.clearData();

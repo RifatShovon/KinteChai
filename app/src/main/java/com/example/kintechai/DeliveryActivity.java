@@ -2,12 +2,18 @@ package com.example.kintechai;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +32,12 @@ public class DeliveryActivity extends AppCompatActivity {
     private TextView fullname;
     private TextView fullAddress;
     private TextView pincode;
+    private Button continueBtn;
+    private Dialog loadingDialog;
+    private Dialog paymentMethodDialog;
+    private ImageButton bkash;
+    private ImageButton cashOnDelivery;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +57,27 @@ public class DeliveryActivity extends AppCompatActivity {
         fullname = findViewById(R.id.fullname);
         fullAddress = findViewById(R.id.address);
         pincode = findViewById(R.id.pincode);
+        continueBtn = findViewById(R.id.cart_continue_btn);
+
+
+        ////////////////////////////// loading dialog
+        loadingDialog = new Dialog(DeliveryActivity.this);
+        loadingDialog.setContentView(R.layout.loading_progress_dialog);
+        loadingDialog.setCancelable(false);
+        loadingDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ////////////////////////////// loading dialog //////////////////////////////////////
+
+        ////////////////////////////// payment method dialog
+        paymentMethodDialog = new Dialog(DeliveryActivity.this);
+        paymentMethodDialog.setContentView(R.layout.payment_method);
+        paymentMethodDialog.setCancelable(true);
+        paymentMethodDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
+        paymentMethodDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        bkash = paymentMethodDialog.findViewById(R.id.bkash);
+        cashOnDelivery = paymentMethodDialog.findViewById(R.id.cod_btn);
+        ////////////////////////////// payment method dialog //////////////////////////////////////
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -65,7 +98,37 @@ public class DeliveryActivity extends AppCompatActivity {
         });
 
 
+        continueBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paymentMethodDialog.show();
+            }
+        });
 
+        bkash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    paymentMethodDialog.dismiss();
+                    BkashActivity();
+            }
+        });
+
+
+
+        cashOnDelivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                paymentMethodDialog.dismiss();
+                loadingDialog.show();
+            }
+        });
+
+    }
+
+
+    public void BkashActivity(){
+        Intent intent = new Intent(this, BkashActivity.class);
+        startActivity(intent);
     }
 
     @Override
