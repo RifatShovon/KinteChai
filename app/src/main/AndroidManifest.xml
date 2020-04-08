@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/logo_icon2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ConfirmOrderActivity"></activity>
         <activity android:name=".BkashActivity" />
         <activity android:name=".ViewAllActivity" />
         <activity android:name=".MyAddressesActivity" />

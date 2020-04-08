@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class BkashActivity extends AppCompatActivity {
     private EditText transectionId;
     private Button payNowBtn;
     private Dialog loadingDialog;
+    public static Activity bkashActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,36 +48,28 @@ public class BkashActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!transectionId.getText().toString().isEmpty()) {
+                    bkashActivity = BkashActivity.this;
                     loadingDialog.show();
-                    //todo: payment successfull activity
+                    ConfirmOrderActivity();
                 } else {
                     Toast.makeText(BkashActivity.this, "Give Transection ID Please", Toast.LENGTH_SHORT).show();
                 }
-                //loadingDialog.dismiss();
+                loadingDialog.dismiss();
             }
         });
 
     }
 
-   /* public void afterpaymentctivity(){
-        Intent intent = new Intent(this, afterpaymentctivity().class);
+   public void ConfirmOrderActivity(){
+        Intent intent = new Intent(this, ConfirmOrderActivity.class);
         startActivity(intent);
-    }*/
-
-    /*public boolean onOptionsItemSelected(MenuItem item) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home){
+            bkashActivity = null;
             finish();
             return true;
         }

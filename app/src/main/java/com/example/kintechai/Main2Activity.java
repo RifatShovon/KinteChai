@@ -1,6 +1,7 @@
 package com.example.kintechai;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -60,6 +61,7 @@ public class Main2Activity extends AppCompatActivity
     private static final int ACCOUNT_FRAGMENT = 5;
     private static final int ABOUT_US_FRAGMENT = 6;
     public static Boolean showCart = false;
+    public static Activity main2Activity;
 
 
     private FrameLayout frameLayout;
@@ -102,6 +104,7 @@ public class Main2Activity extends AppCompatActivity
 
         frameLayout = findViewById(R.id.main_framelayout);
         if (showCart) {
+            main2Activity = this;
             drawer.setDrawerLockMode(1);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             gotoFragment("My Cart", new MyCartFragment(), -2);
@@ -183,6 +186,7 @@ public class Main2Activity extends AppCompatActivity
                 super.onBackPressed();
             } else {
                 if (showCart) {
+                    main2Activity = null;
                     showCart = false;
                     finish();
                 } else {
@@ -256,6 +260,7 @@ public class Main2Activity extends AppCompatActivity
             return true;
         } else if (id == android.R.id.home) {
             if (showCart) {
+                main2Activity = null;
                 showCart = false;
                 finish();
                 return true;

@@ -2,6 +2,7 @@ package com.example.kintechai;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,6 +38,7 @@ public class DeliveryActivity extends AppCompatActivity {
     private Dialog paymentMethodDialog;
     private ImageButton bkash;
     private ImageButton cashOnDelivery;
+    public static Activity deliveryActivity;
 
 
     @Override
@@ -101,6 +103,7 @@ public class DeliveryActivity extends AppCompatActivity {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                deliveryActivity = DeliveryActivity.this;
                 paymentMethodDialog.show();
             }
         });
@@ -114,15 +117,14 @@ public class DeliveryActivity extends AppCompatActivity {
         });
 
 
-
         cashOnDelivery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 paymentMethodDialog.dismiss();
-                loadingDialog.show();
+                Intent intent = new Intent(DeliveryActivity.this,ConfirmOrderActivity.class);
+                startActivity(intent);
             }
         });
-
     }
 
 
@@ -144,6 +146,7 @@ public class DeliveryActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         int id = item.getItemId();
         if (id == android.R.id.home) {
+            deliveryActivity = null;
             finish();
             return true;
         }
