@@ -279,7 +279,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         ALREADY_ADDED_TO_WISHLIST = false;
                     }
 
-                    if ((boolean)documentSnapshot.get("in_stock")){
+                    if ((boolean) documentSnapshot.get("in_stock")) {
                         addToCartBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -311,7 +311,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                                     , (long) 1
                                                                     , (long) 0
                                                                     , (long) 0
-                                                                    ,(boolean)documentSnapshot.get("in_stock")));
+                                                                    , (boolean) documentSnapshot.get("in_stock")));
                                                         }
                                                         ALREADY_ADDED_TO_CART = true;
                                                         DBqueries.cartList.add(productID);
@@ -331,12 +331,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                 }
                             }
                         });
-                    }else {
+                    } else {
                         buyNowBtn.setVisibility(View.GONE);
                         TextView outOfStock = (TextView) addToCartBtn.getChildAt(0);
-                        outOfStock.setText("Out of Stock");
-                        outOfStock.setTextColor(getResources().getColor(R.color.colorAccent));
-                        outOfStock.setCompoundDrawables(null,null,null,null);
+                        outOfStock.setText("<< Out of Stock >>");
+                        outOfStock.setTextColor(getResources().getColor(R.color.colorRed));
+                        outOfStock.setCompoundDrawables(null, null, null, null);
                     }
 
                 } else {
@@ -381,7 +381,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                     , (long) documentSnapshot.get("total_ratings")
                                                     , documentSnapshot.get("product_price").toString()
                                                     , documentSnapshot.get("cutted_price").toString()
-                                                    , (boolean) documentSnapshot.get("COD")));
+                                                    , (boolean) documentSnapshot.get("COD")
+                                                    , (boolean) documentSnapshot.get("in_stock")));
                                         }
 
                                         ALREADY_ADDED_TO_WISHLIST = true;
@@ -542,6 +543,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 if (currentUser == null) {
                     signInDialog.show();
                 } else {
+                    ConfirmOrderActivity.fromCart = false;
                     loadingDialog.show();
                     productDetailsActivity = ProductDetailsActivity.this;
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
@@ -553,11 +555,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             , (long) 1
                             , (long) 0
                             , (long) 0
-                            ,(boolean)documentSnapshot.get("in_stock")));
+                            , (boolean) documentSnapshot.get("in_stock")));
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                     if (DBqueries.addressesModelList.size() == 0) {
                         DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog);
-                    }else {
+                    } else {
                         loadingDialog.dismiss();
                         Intent deliveryIntent = new Intent(ProductDetailsActivity.this, DeliveryActivity.class);
                         startActivity(deliveryIntent);
@@ -792,6 +794,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         productDetailsActivity = null;

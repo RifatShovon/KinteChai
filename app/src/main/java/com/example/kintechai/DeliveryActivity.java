@@ -112,6 +112,7 @@ public class DeliveryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                     paymentMethodDialog.dismiss();
+                    loadingDialog.show();
                     BkashActivity();
             }
         });
@@ -126,7 +127,6 @@ public class DeliveryActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public void BkashActivity(){
         Intent intent = new Intent(this, BkashActivity.class);
@@ -152,4 +152,10 @@ public class DeliveryActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /*@Override
+    protected void onPause() {
+        super.onPause();
+        loadingDialog.dismiss();
+    }*/
 }

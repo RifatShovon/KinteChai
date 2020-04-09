@@ -116,7 +116,8 @@ public class DBqueries {
                                                 , (long) documentSnapshot.get("total_ratings_" + x)
                                                 , documentSnapshot.get("product_price_" + x).toString()
                                                 , documentSnapshot.get("cutted_price_" + x).toString()
-                                                , (boolean) documentSnapshot.get("COD_" + x)));
+                                                , (boolean) documentSnapshot.get("COD_" + x)
+                                                , (boolean) documentSnapshot.get("in_stock_" + x)));
                                     }
                                     lists.get(index).add(new HomePageModel(2, documentSnapshot.get("layout_title").toString(), documentSnapshot.get("layout_background").toString(), horizontalProductScrollModelList, viewAllProductList));
 
@@ -184,7 +185,8 @@ public class DBqueries {
                                                 , (long) task.getResult().get("total_ratings")
                                                 , task.getResult().get("product_price").toString()
                                                 , task.getResult().get("cutted_price").toString()
-                                                , (boolean) task.getResult().get("COD")));
+                                                , (boolean) task.getResult().get("COD")
+                                                , (boolean) task.getResult().get("in_stock")));
 
                                         MyWishlistFragment.wishlistAdapter.notifyDataSetChanged();
 
@@ -281,7 +283,7 @@ public class DBqueries {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     for (long x = 0; x < (long) task.getResult().get("list_size"); x++) {
-                        cartList.add(task.getResult().get("product_ID_" + x).toString());
+                        cartList.add((String) task.getResult().get("product_ID_" + x));
 
                         if (DBqueries.cartList.contains(ProductDetailsActivity.productID)) {
                             ProductDetailsActivity.ALREADY_ADDED_TO_CART = true;
@@ -291,7 +293,7 @@ public class DBqueries {
 
                         if (loadProductData) {
                             cartItemModelList.clear();
-                            final String productId = task.getResult().get("product_ID_" + x).toString();
+                            final String productId = (String) task.getResult().get("product_ID_" + x);
                             firebaseFirestore.collection("PRODUCTS").document(productId)
                                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
@@ -309,7 +311,7 @@ public class DBqueries {
                                                 , (long) 1
                                                 , (long) 0
                                                 , (long) 0
-                                                , (boolean)task.getResult().get("in_stock")));
+                                                , (boolean) task.getResult().get("in_stock")));
 
                                         if (cartList.size() == 1) {
                                             cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
@@ -394,7 +396,7 @@ public class DBqueries {
                     Intent deliveryIntent;
                     if ((long) task.getResult().get("list_size") == 0) {
                         deliveryIntent = new Intent(context, AddAddressActivity.class);
-                        deliveryIntent.putExtra("INTENT","deliveryIntent");
+                        deliveryIntent.putExtra("INTENT", "deliveryIntent");
                     } else {
                         for (long x = 1; x < (long) task.getResult().get("list_size") + 1; x++) {
                             addressesModelList.add(new AddressesModel(task.getResult().get("fullname_" + x).toString()
@@ -428,5 +430,8 @@ public class DBqueries {
         wishlistModelList.clear();
         cartList.clear();
         cartItemModelList.clear();
+        myRatedIds.clear();
+        myRating.clear();
+        addressesModelList.clear();
     }
 }

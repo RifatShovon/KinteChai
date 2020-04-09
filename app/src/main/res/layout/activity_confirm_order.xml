@@ -8,26 +8,6 @@
     android:id="@+id/container"
     tools:context=".ConfirmOrderActivity">
 
-    <!--<com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:theme="@style/AppTheme.PopupOverlay"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>-->
-
     <LinearLayout
         android:id="@+id/linearLayout10"
         android:layout_width="0dp"
@@ -106,7 +86,7 @@
         android:text="Expected delivery within 4-6 days."
         android:textAlignment="center"
         android:textColor="#01A209"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/continue_shopping_btn"
         app:layout_constraintEnd_toEndOf="parent"

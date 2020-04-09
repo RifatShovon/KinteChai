@@ -52,9 +52,9 @@ public class BkashActivity extends AppCompatActivity {
                     loadingDialog.show();
                     ConfirmOrderActivity();
                 } else {
+                    loadingDialog.dismiss();
                     Toast.makeText(BkashActivity.this, "Give Transection ID Please", Toast.LENGTH_SHORT).show();
                 }
-                loadingDialog.dismiss();
             }
         });
 
@@ -75,4 +75,5 @@ public class BkashActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
