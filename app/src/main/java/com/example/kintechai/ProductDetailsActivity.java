@@ -311,7 +311,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                                     , (long) 1
                                                                     , (long) 0
                                                                     , (long) 0
-                                                                    , (boolean) documentSnapshot.get("in_stock")));
+                                                                    , (boolean) documentSnapshot.get("in_stock")
+                                                                    , (long) documentSnapshot.get("max-quantity")));
                                                         }
                                                         ALREADY_ADDED_TO_CART = true;
                                                         DBqueries.cartList.add(productID);
@@ -512,7 +513,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                             DBqueries.wishlistModelList.get(index).setTotalRatings(Long.parseLong(totalRatingsFigure.getText().toString()));
 
                                                         }
-
                                                     } else {
                                                         setRating(initialRating);
                                                         String error = task.getException().getMessage();
@@ -555,7 +555,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             , (long) 1
                             , (long) 0
                             , (long) 0
-                            , (boolean) documentSnapshot.get("in_stock")));
+                            , (boolean) documentSnapshot.get("in_stock")
+                            , (long) documentSnapshot.get("max-quantity")));
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                     if (DBqueries.addressesModelList.size() == 0) {
                         DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog);

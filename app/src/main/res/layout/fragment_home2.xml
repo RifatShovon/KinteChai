@@ -55,6 +55,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Retry"
+        android:background="@drawable/rounded_button"
         android:textAllCaps="false"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@color/colorAccent"

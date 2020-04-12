@@ -6,11 +6,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -33,6 +35,8 @@ import static com.example.kintechai.DBqueries.cartList;
 public class ConfirmOrderActivity extends AppCompatActivity {
 
     public static Activity confirmOrder;
+
+    //public static List<CartItemModel> cartItemModelList;
 
     private ImageButton continueShoppingBtn;
     private TextView orderId;
@@ -108,7 +112,6 @@ public class ConfirmOrderActivity extends AppCompatActivity {
                 }
             });
         }
-
 
         continueShoppingBtn.setOnClickListener(new View.OnClickListener() {
             @Override

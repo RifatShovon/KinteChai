@@ -3,11 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:backgroundTint="@color/colorPrimary"
     tools:context=".MyRewardsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/about_us_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:backgroundTint="@color/colorPrimary"
         android:layout_marginTop="56dp" />
 </FrameLayout>

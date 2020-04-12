@@ -111,9 +111,9 @@ public class DeliveryActivity extends AppCompatActivity {
         bkash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    paymentMethodDialog.dismiss();
-                    loadingDialog.show();
-                    BkashActivity();
+                paymentMethodDialog.dismiss();
+                loadingDialog.show();
+                BkashActivity();
             }
         });
 
@@ -122,13 +122,13 @@ public class DeliveryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 paymentMethodDialog.dismiss();
-                Intent intent = new Intent(DeliveryActivity.this,ConfirmOrderActivity.class);
+                Intent intent = new Intent(DeliveryActivity.this, ConfirmOrderActivity.class);
                 startActivity(intent);
             }
         });
     }
 
-    public void BkashActivity(){
+    public void BkashActivity() {
         Intent intent = new Intent(this, BkashActivity.class);
         startActivity(intent);
     }

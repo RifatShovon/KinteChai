@@ -60,7 +60,7 @@ public class BkashActivity extends AppCompatActivity {
 
     }
 
-   public void ConfirmOrderActivity(){
+    public void ConfirmOrderActivity() {
         Intent intent = new Intent(this, ConfirmOrderActivity.class);
         startActivity(intent);
     }
@@ -68,7 +68,7 @@ public class BkashActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home){
+        if (id == android.R.id.home) {
             bkashActivity = null;
             finish();
             return true;

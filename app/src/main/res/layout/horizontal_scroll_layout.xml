@@ -31,6 +31,7 @@
         android:layout_marginEnd="8dp"
         android:backgroundTint="#63A1E7"
         android:text="View All"
+        android:background="@drawable/rounded_button"
         android:textColor="@color/colorPrimary"
         android:textSize="12sp"
         android:textStyle="bold"
