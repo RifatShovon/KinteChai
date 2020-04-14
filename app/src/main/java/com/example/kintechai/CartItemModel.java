@@ -1,5 +1,8 @@
 package com.example.kintechai;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CartItemModel {
 
     public static final int CART_ITEM = 0;
@@ -24,11 +27,13 @@ public class CartItemModel {
     private String cuttedPrice;
     private Long productQuantity;
     private Long maxQuantity;
+    private Long stockQuantity;
     private Long offersApplied;
     private Long couponsApplied;
     private boolean inStock;
+    private List<String> qtyIDs;
 
-    public CartItemModel(int type, String productID, String productImage, String productTitle, Long freeCoupons, String productPrice, String cuttedPrice, Long productQuantity, Long offersApplied, Long couponsApplied, boolean inStock, Long maxQuantity) {
+    public CartItemModel(int type, String productID, String productImage, String productTitle, Long freeCoupons, String productPrice, String cuttedPrice, Long productQuantity, Long offersApplied, Long couponsApplied, boolean inStock, Long maxQuantity, Long stockQuantity) {
         this.type = type;
         this.productID = productID;
         this.productImage = productImage;
@@ -38,9 +43,27 @@ public class CartItemModel {
         this.cuttedPrice = cuttedPrice;
         this.productQuantity = productQuantity;
         this.maxQuantity = maxQuantity;
+        this.stockQuantity = stockQuantity;
         this.offersApplied = offersApplied;
         this.couponsApplied = couponsApplied;
         this.inStock = inStock;
+        this.qtyIDs = new ArrayList<>();
+    }
+
+    public Long getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(Long stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+    public List<String> getQtyIDs() {
+        return qtyIDs;
+    }
+
+    public void setQtyIDs(List<String> qtyIDs) {
+        this.qtyIDs = qtyIDs;
     }
 
     public Long getMaxQuantity() {

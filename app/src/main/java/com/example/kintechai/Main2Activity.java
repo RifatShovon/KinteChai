@@ -62,6 +62,7 @@ public class Main2Activity extends AppCompatActivity
     private static final int ABOUT_US_FRAGMENT = 6;
     public static Boolean showCart = false;
     public static Activity main2Activity;
+    public static boolean resetMainActivity = false;
 
 
     private FrameLayout frameLayout;
@@ -171,6 +172,12 @@ public class Main2Activity extends AppCompatActivity
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         } else {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
+        }
+        if (resetMainActivity){
+            actionBarLogo.setVisibility(View.VISIBLE);
+            resetMainActivity = false;
+            setFragment(new HomeFragment(), HOME_FRAGMENT);
+            navigationView.getMenu().getItem(0).setChecked(true);
         }
         invalidateOptionsMenu();
     }

@@ -43,6 +43,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
     private boolean successResponse = false;
     public static boolean fromCart;
     private Dialog loadingDialog;
+
+    private FirebaseFirestore firebaseFirestore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,13 +61,29 @@ public class ConfirmOrderActivity extends AppCompatActivity {
         loadingDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ////////////////////////////// loading dialog //////////////////////////////////////
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
         successResponse = true;
+
+        DeliveryActivity.getQtyIDs = false;
+        for (int x = 0; x < cartItemModelList.size() - 1; x++) {
+
+            for (String qtyID : cartItemModelList.get(x).getQtyIDs()){
+
+                firebaseFirestore.collection("PRODUCTS").document(cartItemModelList.get(x).getProductID()).collection("QUANTITY").document(qtyID).update("user_ID", FirebaseAuth.getInstance().getUid());
+
+            }
+
+        }
+
         if (Main2Activity.main2Activity != null){
             Main2Activity.main2Activity.finish();
             Main2Activity.main2Activity = null;
             Main2Activity.showCart = false;
+        }else {
+            Main2Activity.resetMainActivity = true;
         }
+
         if (ProductDetailsActivity.productDetailsActivity != null){
             ProductDetailsActivity.productDetailsActivity.finish();
             ProductDetailsActivity.productDetailsActivity = null;
