@@ -67,13 +67,9 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         DeliveryActivity.getQtyIDs = false;
         for (int x = 0; x < cartItemModelList.size() - 1; x++) {
-
             for (String qtyID : cartItemModelList.get(x).getQtyIDs()){
-
                 firebaseFirestore.collection("PRODUCTS").document(cartItemModelList.get(x).getProductID()).collection("QUANTITY").document(qtyID).update("user_ID", FirebaseAuth.getInstance().getUid());
-
             }
-
         }
 
         if (Main2Activity.main2Activity != null){
