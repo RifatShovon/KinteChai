@@ -17,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -28,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +57,8 @@ public class DBqueries {
 
     public static int selectedAddress = -1;
     public static List<AddressesModel> addressesModelList = new ArrayList<>();
+
+    public static List<RewardModel> rewardModelList = new ArrayList<>();
 
     public static void loadCategories(final RecyclerView categoryRecyclerView, final Context context) {
         categoryModelList.clear();
@@ -184,9 +188,9 @@ public class DBqueries {
                                                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                        if (task.isSuccessful()){
+                                                        if (task.isSuccessful()) {
 
-                                                            if (task.getResult().getDocuments().size() < (long) documentSnapshot.get("stock_quantity")){
+                                                            if (task.getResult().getDocuments().size() < (long) documentSnapshot.get("stock_quantity")) {
                                                                 wishlistModelList.add(new WishlistModel(productId, documentSnapshot.get("product_image_1").toString()
                                                                         , documentSnapshot.get("product_title").toString()
                                                                         , (long) documentSnapshot.get("free_coupons")
@@ -208,9 +212,9 @@ public class DBqueries {
                                                                         , false));
                                                             }
                                                             MyWishlistFragment.wishlistAdapter.notifyDataSetChanged();
-                                                        }else {
+                                                        } else {
                                                             String error = task.getException().getMessage();
-                                                            Toast.makeText(context,error,Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });
@@ -344,7 +348,7 @@ public class DBqueries {
                                                                 index = cartList.size() - 2;
                                                             }
 
-                                                            if (task.getResult().getDocuments().size() < (long) documentSnapshot.get("stock_quantity")){
+                                                            if (task.getResult().getDocuments().size() < (long) documentSnapshot.get("stock_quantity")) {
                                                                 cartItemModelList.add(index, new CartItemModel(CartItemModel.CART_ITEM, productId, documentSnapshot.get("product_image_1").toString()
                                                                         , documentSnapshot.get("product_title").toString()
                                                                         , (long) documentSnapshot.get("free_coupons")
@@ -354,7 +358,7 @@ public class DBqueries {
                                                                         , (long) 0
                                                                         , (long) 0
                                                                         , true
-                                                                        , (long)documentSnapshot.get("max-quantity")
+                                                                        , (long) documentSnapshot.get("max-quantity")
                                                                         , (long) documentSnapshot.get("stock_quantity")));
                                                             } else {
                                                                 cartItemModelList.add(index, new CartItemModel(CartItemModel.CART_ITEM, productId, documentSnapshot.get("product_image_1").toString()
@@ -366,7 +370,7 @@ public class DBqueries {
                                                                         , (long) 0
                                                                         , (long) 0
                                                                         , false
-                                                                        , (long)documentSnapshot.get("max-quantity")
+                                                                        , (long) documentSnapshot.get("max-quantity")
                                                                         , (long) documentSnapshot.get("stock_quantity")));
                                                             }
                                                             if (cartList.size() == 1) {
@@ -378,13 +382,12 @@ public class DBqueries {
                                                                 cartItemModelList.clear();
                                                             }
                                                             MyCartFragment.cartAdapter.notifyDataSetChanged();
-                                                        }else {
+                                                        } else {
                                                             String error = task.getException().getMessage();
-                                                            Toast.makeText(context,error,Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });
-
 
 
                                     } else {
@@ -487,6 +490,42 @@ public class DBqueries {
         });
     }
 
+    public static void loadRewards(final Context context, final Dialog loadingDialog) {
+        rewardModelList.clear();
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_REWARDS").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                if (documentSnapshot.get("type").toString().equals("Discount")) {
+                                    rewardModelList.add(new RewardModel(documentSnapshot.get("type").toString()
+                                            , documentSnapshot.get("lower_limit").toString()
+                                            , documentSnapshot.get("upper_limit").toString()
+                                            , documentSnapshot.get("percentage").toString()
+                                            , documentSnapshot.get("body").toString()
+                                            , documentSnapshot.getTimestamp("validity").toDate()
+                                    ));
+                                }else {
+                                    rewardModelList.add(new RewardModel(documentSnapshot.get("type").toString()
+                                            , documentSnapshot.get("lower_limit").toString()
+                                            , documentSnapshot.get("upper_limit").toString()
+                                            , (String) documentSnapshot.get("amount")
+                                            , documentSnapshot.get("body").toString()
+                                            , documentSnapshot.getTimestamp("validity").toDate()
+                                    ));
+                                }
+                            }
+                            MyRewardsFragment.myRewardsAdapter.notifyDataSetChanged();
+                        } else {
+                            String error = task.getException().getMessage();
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                        }
+                        loadingDialog.dismiss();
+                    }
+                });
+    }
+
     public static void clearData() {
         categoryModelList.clear();
         lists.clear();
@@ -498,5 +537,6 @@ public class DBqueries {
         myRatedIds.clear();
         myRating.clear();
         addressesModelList.clear();
+        rewardModelList.clear();
     }
 }

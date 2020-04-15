@@ -613,7 +613,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         couponsRecyclerView.setLayoutManager(layoutManager);
 
-        List<RewardModel> rewardModelList = new ArrayList<>();
+        /*List<RewardModel> rewardModelList = new ArrayList<>();
         rewardModelList.add(new RewardModel("Cashback", "till 2nd July, 2020", "GET 30% Cashback on any Product above BDT.1000/= and below BDT.5000/="));
         rewardModelList.add(new RewardModel("Discount", "till 10th March, 2020", "GET 20% OFF on any Product above BDT.2000/= and below BDT.4000/="));
         rewardModelList.add(new RewardModel("Buy 1 Get 1 Free", "till 2nd April, 2020", "Buy one and get one free!!"));
@@ -621,11 +621,11 @@ public class ProductDetailsActivity extends AppCompatActivity {
         rewardModelList.add(new RewardModel("Discount", "till 18th June, 2020", "GET 50% OFF on any Product above BDT.2000/= and below BDT.5000/="));
         rewardModelList.add(new RewardModel("Buy 1 Get 1 Free", "till 2nd July, 2020", "Buy one get one free!!"));
         rewardModelList.add(new RewardModel("20% OFF", "till 10th August, 2020", "GET 20% OFF on any Product above BDT.5000/= and below BDT.7000/="));
-        rewardModelList.add(new RewardModel("Dicount", "till 26th September, 2020", "GET 20% OFF on any Product above BDT.1000/= and below BDT.5000/="));
+        rewardModelList.add(new RewardModel("Dicount", "till 26th September, 2020", "GET 20% OFF on any Product above BDT.1000/= and below BDT.5000/="));*/
 
-        MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(rewardModelList, true);
+        /*MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(rewardModelList, true);
         couponsRecyclerView.setAdapter(myRewardsAdapter);
-        myRewardsAdapter.notifyDataSetChanged();
+        myRewardsAdapter.notifyDataSetChanged();*/
 
         toggleRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
