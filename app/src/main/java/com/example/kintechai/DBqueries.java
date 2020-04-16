@@ -513,6 +513,7 @@ public class DBqueries {
                                                                 , documentSnapshot.get("percentage").toString()
                                                                 , documentSnapshot.get("body").toString()
                                                                 , documentSnapshot.getTimestamp("validity").toDate()
+                                                                , (Boolean) documentSnapshot.get("already_used")
                                                         ));
                                                     } else if (documentSnapshot.get("type").toString().equals("Flat BDT.*OFF") && lastseenDate.before(documentSnapshot.getDate("validity"))){
                                                         rewardModelList.add(new RewardModel(documentSnapshot.get("type").toString()
@@ -521,6 +522,7 @@ public class DBqueries {
                                                                 , (String) documentSnapshot.get("amount")
                                                                 , documentSnapshot.get("body").toString()
                                                                 , documentSnapshot.getTimestamp("validity").toDate()
+                                                                , (Boolean) documentSnapshot.get("already_used")
                                                         ));
                                                     }
                                                 }

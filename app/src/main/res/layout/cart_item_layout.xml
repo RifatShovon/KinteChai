@@ -133,7 +133,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="#E91E63"
+        android:background="@color/couponRed"
         android:gravity="right"
         android:orientation="horizontal"
         android:padding="16dp"

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -151,6 +152,22 @@ public class CartAdapter extends RecyclerView.Adapter {
         private LinearLayout couponRedemptionLayout;
 
         private LinearLayout deleteBtn;
+        private Button redeemBtn;
+
+        ///////////////////////////////// /coupondialog //////////////////////////////////////
+
+        private TextView couponTitle;
+        private TextView couponExpiryDate;
+        private TextView couponBody;
+        private RecyclerView couponsRecyclerView;
+        private LinearLayout selectedCoupon;
+        private TextView originalPrice;
+        private TextView discountedPrice;
+        private LinearLayout applyORremoveBtnContainer;
+        private TextView footerText;
+        private Button removeCouponBtn, applyCouponBtn;
+        private String productOriginalPrice;
+        ////////////////////////////////// coupondialog ///////////////////////////////////////
 
 
         public CartItemViewholder(@NonNull View itemView) {
@@ -166,10 +183,11 @@ public class CartAdapter extends RecyclerView.Adapter {
             productQuantity = itemView.findViewById(R.id.product_quantity);
             couponRedemptionLayout = itemView.findViewById(R.id.coupon_redemption_layout);
 
+            redeemBtn = itemView.findViewById(R.id.coupon_redemption_btn);
             deleteBtn = itemView.findViewById(R.id.remove_item_btn);
         }
 
-        private void setItemDetails(final String productID, String resource, String title, Long freeCouponsNo, String productPriceText, String cuttedPriceText, Long offersAppliedNo, final int position, boolean inStock, final String quantity, final Long maxQuantity, boolean qtyError, final List<String> qtyIds, final Long stockQty) {
+        private void setItemDetails(final String productID, String resource, String title, Long freeCouponsNo, final String productPriceText, String cuttedPriceText, Long offersAppliedNo, final int position, boolean inStock, final String quantity, final Long maxQuantity, boolean qtyError, final List<String> qtyIds, final Long stockQty) {
             Glide.with(itemView.getContext()).load(resource).apply(new RequestOptions().placeholder(R.mipmap.icon_placeholder)).into(productImage);
             productTitle.setText(title);
 
@@ -352,6 +370,74 @@ public class CartAdapter extends RecyclerView.Adapter {
                 deleteBtn.setVisibility(View.GONE);
             }
 
+            redeemBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ////////// coupon dialog
+
+                    final Dialog checkCouponPriceDialog = new Dialog(itemView.getContext());
+                    checkCouponPriceDialog.setContentView(R.layout.coupon_redeem_dialog);
+                    checkCouponPriceDialog.setCancelable(true);
+                    checkCouponPriceDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+                    ImageView toggleRecyclerView = checkCouponPriceDialog.findViewById(R.id.toggle_recyclerview);
+                    couponsRecyclerView = checkCouponPriceDialog.findViewById(R.id.coupons_recyclerview);
+                    selectedCoupon = checkCouponPriceDialog.findViewById(R.id.selected_coupon);
+                    couponTitle = checkCouponPriceDialog.findViewById(R.id.coupon_title);
+                    couponExpiryDate = checkCouponPriceDialog.findViewById(R.id.coupon_validity);
+                    couponBody = checkCouponPriceDialog.findViewById(R.id.coupon_body);
+                    footerText = checkCouponPriceDialog.findViewById(R.id.footer_text);
+                    applyORremoveBtnContainer = checkCouponPriceDialog.findViewById(R.id.apply_or_remove_btns_container);
+                    removeCouponBtn = checkCouponPriceDialog.findViewById(R.id.remove_btn);
+                    applyCouponBtn = checkCouponPriceDialog.findViewById(R.id.apply_btn);
+
+                    footerText.setVisibility(View.GONE);
+                    applyORremoveBtnContainer.setVisibility(View.VISIBLE);
+
+
+
+                    originalPrice = checkCouponPriceDialog.findViewById(R.id.original_price);
+                    discountedPrice = checkCouponPriceDialog.findViewById(R.id.discounted_price);
+
+
+
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext());
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    couponsRecyclerView.setLayoutManager(layoutManager);
+
+                    /////////for coupon dialog
+                    originalPrice.setText(productPrice.getText());
+                    productOriginalPrice = productPriceText;
+                    MyRewardsAdapter myRewardsAdapter = new MyRewardsAdapter(DBqueries.rewardModelList, true, couponsRecyclerView, selectedCoupon, productOriginalPrice, couponTitle, couponExpiryDate, couponBody, discountedPrice);
+                    couponsRecyclerView.setAdapter(myRewardsAdapter);
+                    myRewardsAdapter.notifyDataSetChanged();
+                    ///////// for coupon dialog
+
+        /*List<RewardModel> rewardModelList = new ArrayList<>();
+        rewardModelList.add(new RewardModel("Cashback", "till 2nd July, 2020", "GET 30% Cashback on any Product above BDT.1000/= and below BDT.5000/="));
+        rewardModelList.add(new RewardModel("Discount", "till 10th March, 2020", "GET 20% OFF on any Product above BDT.2000/= and below BDT.4000/="));
+        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free", "till 2nd April, 2020", "Buy one and get one free!!"));
+        rewardModelList.add(new RewardModel("Cashback", "till 4th May, 2020", "GET 20% Cashback on any Product above BDT.1500/= and below BDT.5000/="));
+        rewardModelList.add(new RewardModel("Discount", "till 18th June, 2020", "GET 50% OFF on any Product above BDT.2000/= and below BDT.5000/="));
+        rewardModelList.add(new RewardModel("Buy 1 Get 1 Free", "till 2nd July, 2020", "Buy one get one free!!"));
+        rewardModelList.add(new RewardModel("20% OFF", "till 10th August, 2020", "GET 20% OFF on any Product above BDT.5000/= and below BDT.7000/="));
+        rewardModelList.add(new RewardModel("Dicount", "till 26th September, 2020", "GET 20% OFF on any Product above BDT.1000/= and below BDT.5000/="));*/
+
+
+
+                    toggleRecyclerView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDialogRecyclerView();
+                        }
+                    });
+                    checkCouponPriceDialog.show();
+
+                    ////////// coupon dialog  /////////////////////////////////////////////
+                }
+            });
+
             deleteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -361,6 +447,15 @@ public class CartAdapter extends RecyclerView.Adapter {
                     }
                 }
             });
+        }
+        private void showDialogRecyclerView() {
+            if (couponsRecyclerView.getVisibility() == View.GONE) {
+                couponsRecyclerView.setVisibility(View.VISIBLE);
+                selectedCoupon.setVisibility(View.GONE);
+            } else {
+                couponsRecyclerView.setVisibility(View.GONE);
+                selectedCoupon.setVisibility(View.VISIBLE);
+            }
         }
     }
 
