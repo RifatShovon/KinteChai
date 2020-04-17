@@ -206,8 +206,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
         rewardModelList.add(new RewardModel("20% OFF", "till 10th August, 2020", "GET 20% OFF on any Product above BDT.5000/= and below BDT.7000/="));
         rewardModelList.add(new RewardModel("Dicount", "till 26th September, 2020", "GET 20% OFF on any Product above BDT.1000/= and below BDT.5000/="));*/
 
-
-
         toggleRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

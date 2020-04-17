@@ -98,6 +98,7 @@
         android:textColor="#8BFF00"
         android:textSize="12sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_price" />
 
@@ -110,6 +111,7 @@
         android:textColor="#FF0000"
         android:textSize="12sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/offers_applied" />
 
@@ -146,10 +148,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Check price after Coupon redemption"
+            android:text="Apply your coupon here"
             android:textAlignment="center"
             android:textColor="#ffffff"
-            android:textStyle="bold" />
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/coupon_redemption_btn"

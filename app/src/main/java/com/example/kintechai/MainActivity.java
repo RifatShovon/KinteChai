@@ -27,11 +27,10 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        //SystemClock.sleep(3000);
+        SystemClock.sleep(10);
         /*Intent loginIntent = new Intent(MainActivity.this, RegisterActivity.class);
         startActivity(loginIntent);
         finish();*/
-
     }
 
     @Override

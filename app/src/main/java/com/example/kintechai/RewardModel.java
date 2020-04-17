@@ -7,22 +7,32 @@ import java.util.Date;
 public class RewardModel {
 
     private String type;
-    private String lowerLimit;
     private String upperLimit;
+    private String lowerLimit;
     private String discORamt;
     private String couponBody;
     private Date timestamp;
     private Boolean alreadyUsed;
+    private String couponId;
 
 
-    public RewardModel(String type, String lowerLimit, String upperLimit, String discORamt, String couponBody, Date timestamp, Boolean alreadyUsed) {
+    public RewardModel(String couponId, String type, String upperLimit, String lowerLimit, String discORamt, String couponBody, Date timestamp, Boolean alreadyUsed) {
+        this.couponId = couponId;
         this.type = type;
-        this.lowerLimit = lowerLimit;
         this.upperLimit = upperLimit;
+        this.lowerLimit = lowerLimit;
         this.discORamt = discORamt;
         this.couponBody = couponBody;
         this.timestamp = timestamp;
         this.alreadyUsed = alreadyUsed;
+    }
+
+    public String getCouponId() {
+        return couponId;
+    }
+
+    public void setCouponId(String couponId) {
+        this.couponId = couponId;
     }
 
     public Boolean getAlreadyUsed() {
@@ -41,20 +51,20 @@ public class RewardModel {
         this.type = type;
     }
 
-    public String getLowerLimit() {
-        return lowerLimit;
-    }
-
-    public void setLowerLimit(String lowerLimit) {
-        this.lowerLimit = lowerLimit;
-    }
-
     public String getUpperLimit() {
         return upperLimit;
     }
 
     public void setUpperLimit(String upperLimit) {
         this.upperLimit = upperLimit;
+    }
+
+    public String getLowerLimit() {
+        return lowerLimit;
+    }
+
+    public void setLowerLimit(String lowerLimit) {
+        this.lowerLimit = lowerLimit;
     }
 
     public String getDiscORamt() {
