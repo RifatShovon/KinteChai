@@ -227,8 +227,10 @@ public class DeliveryActivity extends AppCompatActivity {
                                                     });
                                         } else {
                                             loadingDialog.dismiss();
-                                            String error = task.getException().getMessage();
-                                            Toast.makeText(DeliveryActivity.this, error, Toast.LENGTH_SHORT).show();
+                                            // todo: these error handling code is important. but why it is showing nullpointerexception? :-(
+                                            /*String error = task.getException().getMessage();
+                                            Toast.makeText(DeliveryActivity.this, error, Toast.LENGTH_SHORT).show();*/
+
                                         }
                                     }
                                 }

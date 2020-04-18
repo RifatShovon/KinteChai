@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,9 +73,9 @@ public class MyCartFragment extends Fragment {
                 DeliveryActivity.cartItemModelList = new ArrayList<>();
                 ConfirmOrderActivity.fromCart = true;
 
-                for (int x = 0;x < DBqueries.cartItemModelList.size();x++){
+                for (int x = 0; x < DBqueries.cartItemModelList.size(); x++) {
                     CartItemModel cartItemModel = DBqueries.cartItemModelList.get(x);
-                    if (cartItemModel.isInStock()){
+                    if (cartItemModel.isInStock()) {
                         DeliveryActivity.cartItemModelList.add(cartItemModel);
                     }
                 }
@@ -83,7 +84,7 @@ public class MyCartFragment extends Fragment {
                 loadingDialog.show();
                 if (DBqueries.addressesModelList.size() == 0) {
                     DBqueries.loadAddresses(getContext(), loadingDialog);
-                }else {
+                } else {
                     loadingDialog.dismiss();
                     Intent deliveryIntent = new Intent(getContext(), DeliveryActivity.class);
                     startActivity(deliveryIntent);
@@ -97,20 +98,34 @@ public class MyCartFragment extends Fragment {
     public void onStart() {
         super.onStart();
         cartAdapter.notifyDataSetChanged();
-        if (DBqueries.rewardModelList.size() == 0){
+        if (DBqueries.rewardModelList.size() == 0) {
             loadingDialog.show();
-            DBqueries.loadRewards(getContext(),loadingDialog,false);
+            DBqueries.loadRewards(getContext(), loadingDialog, false);
         }
 
         if (DBqueries.cartItemModelList.size() == 0) {
             DBqueries.cartList.clear();
-            DBqueries.loadCartList(getContext(), loadingDialog, true, new TextView(getContext()),totalAmount);
+            DBqueries.loadCartList(getContext(), loadingDialog, true, new TextView(getContext()), totalAmount);
         } else {
-            if (DBqueries.cartItemModelList.get(DBqueries.cartItemModelList.size()-1).getType() == CartItemModel.TOTAL_AMOUNT){
+            if (DBqueries.cartItemModelList.get(DBqueries.cartItemModelList.size() - 1).getType() == CartItemModel.TOTAL_AMOUNT) {
                 LinearLayout parent = (LinearLayout) totalAmount.getParent().getParent();
                 parent.setVisibility(View.VISIBLE);
             }
             loadingDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        for (CartItemModel cartItemModel : DBqueries.cartItemModelList){
+            if (!TextUtils.isEmpty(cartItemModel.getSelectedCouponId())){
+                for (RewardModel rewardModel : DBqueries.rewardModelList) {
+                    if (rewardModel.getCouponId().equals(cartItemModel.getSelectedCouponId())) {
+                        rewardModel.setAlreadyUsed(false);
+                    }
+                }
+            }
         }
     }
 }
