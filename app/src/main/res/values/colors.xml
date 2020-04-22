@@ -9,5 +9,6 @@
     <color name="RecyclerViewBackground">#D4D5E4</color>
     <color name="couponPurple">#0033FD</color>
     <color name="couponRed">#E91E63</color>
+    <color name="quantityBoxWhite">#C4C4C4</color>
 
 </resources>

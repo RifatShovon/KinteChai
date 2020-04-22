@@ -98,13 +98,14 @@
             android:id="@+id/buy_now_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="BUY NOW"
-            android:stateListAnimator="@null"
-            android:textStyle="bold"
-            android:background="@color/colorPrimary"
-            android:textColor="#173EC2"
             android:layout_weight="1"
-            android:textSize="16sp"/>
+            android:background="@color/colorPrimary"
+            android:stateListAnimator="@null"
+            android:text="BUY NOW"
+            android:textColor="#173EC2"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </LinearLayout>
 

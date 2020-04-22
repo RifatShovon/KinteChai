@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -48,7 +49,7 @@ public class DeliveryActivity extends AppCompatActivity {
     private TextView fullAddress;
     private TextView pincode;
     private Button continueBtn;
-    private Dialog loadingDialog;
+    public static Dialog loadingDialog;
     private Dialog paymentMethodDialog;
     private ImageButton bkash;
     private ImageButton cashOnDelivery;
@@ -56,7 +57,6 @@ public class DeliveryActivity extends AppCompatActivity {
 
     private boolean successResponse = false;
     private FirebaseFirestore firebaseFirestore;
-    public static boolean allProductsAvailable;
     public static boolean getQtyIDs = true;
 
 
@@ -64,6 +64,9 @@ public class DeliveryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -100,7 +103,6 @@ public class DeliveryActivity extends AppCompatActivity {
         ////////////////////////////// payment method dialog //////////////////////////////////////
         firebaseFirestore = FirebaseFirestore.getInstance();
         getQtyIDs = true;
-        allProductsAvailable = true;
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -127,10 +129,14 @@ public class DeliveryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 deliveryActivity = DeliveryActivity.this;
-                if (allProductsAvailable) {
-                    paymentMethodDialog.show(); // never delete..
-                } else {
-                    ///// nothing
+                Boolean allProductsAvailable = true;
+                for (CartItemModel cartItemModel : cartItemModelList){
+                    if (cartItemModel.isQtyError()){
+                        allProductsAvailable = false;
+                    }
+                }
+                if (allProductsAvailable){
+                    paymentMethodDialog.show();
                 }
             }
         });
@@ -211,7 +217,6 @@ public class DeliveryActivity extends AppCompatActivity {
                                                                             cartItemModelList.get(finalX).setMaxQuantity(availableQty);
                                                                             Toast.makeText(DeliveryActivity.this, "Sorry ! All products may not be available in required quantity...", Toast.LENGTH_SHORT).show();
                                                                         }
-                                                                        allProductsAvailable = false;
                                                                     } else {
                                                                         availableQty++;
                                                                         noLongerAvailable = false;
@@ -331,6 +336,12 @@ public class DeliveryActivity extends AppCompatActivity {
         }
 
     }
+
+    /*private void placeOrderDetails(){
+        loadingDialog.show();
+
+
+    }*/
 }
 
 
