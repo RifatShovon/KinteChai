@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.example.kintechai.DBqueries.cartItemModelList;
 import static com.example.kintechai.DBqueries.cartList;
@@ -46,6 +47,7 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,10 @@ public class ConfirmOrderActivity extends AppCompatActivity {
 
         continueShoppingBtn = findViewById(R.id.continue_shopping_btn);
         orderId = findViewById(R.id.order_id);
+
+        String order_id = UUID.randomUUID().toString().substring(0,28);
+
+        orderId.setText("Order ID: "+DeliveryActivity.order_id);
 
         ////////////////////////////// loading dialog
         loadingDialog = new Dialog(ConfirmOrderActivity.this);
