@@ -298,8 +298,7 @@ public class Main2Activity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         menuItem = item;
-
-
+        
         if (currentUser != null) {
             drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
                 @Override

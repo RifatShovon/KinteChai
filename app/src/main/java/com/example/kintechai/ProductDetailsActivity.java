@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.kintechai.DBqueries.cartItemModelList;
 import static com.example.kintechai.Main2Activity.showCart;
 import static com.example.kintechai.RegisterActivity.setSignUpFragment;
 
