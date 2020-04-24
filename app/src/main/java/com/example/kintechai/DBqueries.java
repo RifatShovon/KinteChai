@@ -517,7 +517,7 @@ public class DBqueries {
                                                                 , documentSnapshot.getTimestamp("validity").toDate()
                                                                 , (Boolean) documentSnapshot.get("already_used")
                                                         ));
-                                                    } else if (documentSnapshot.get("type").toString().equals("Flat BDT.*OFF") && lastseenDate.before(documentSnapshot.getDate("validity"))){
+                                                    } else if (documentSnapshot.get("type").toString().equals("Flat BDT.*OFF") && lastseenDate.before(documentSnapshot.getDate("validity"))) {
                                                         rewardModelList.add(new RewardModel(documentSnapshot.getId(), documentSnapshot.get("type").toString()
                                                                 , documentSnapshot.get("lower_limit").toString()
                                                                 , documentSnapshot.get("upper_limit").toString()
@@ -549,25 +549,63 @@ public class DBqueries {
 
     }
 
-    /*public static void loadOrders(final Context context){
+    public static void loadOrders(final Context context, final MyOrderAdapter myOrderAdapter) {
         myOrderItemModelList.clear();
-        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USERS_ORDERS").get()
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                        if (task.isSuccessful()) {
 
-                                firebaseFirestore.collection("ORDERS")
+                            for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+
+                                firebaseFirestore.collection("ORDERS").document(documentSnapshot.getString("order_id")).collection("OrderItems").get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+
+                                                    for (DocumentSnapshot orderItems : task.getResult().getDocuments()) {
+                                                        MyOrderItemModel myOrderItemModel = new MyOrderItemModel(orderItems.getString("Product Id")
+                                                                , orderItems.getString("Order Status")
+                                                                , orderItems.getString("Address")
+                                                                , orderItems.getString("Coupon Id")
+                                                                , orderItems.getString("Cutted Price")
+                                                                , orderItems.getDate("Ordered Date")
+                                                                , orderItems.getDate("Packed Date")
+                                                                , orderItems.getDate("Shipped Date")
+                                                                , orderItems.getDate("Delivered Date")
+                                                                , orderItems.getDate("Cancelled Date")
+                                                                , orderItems.getString("Discounted Price")
+                                                                , orderItems.getLong("Free Coupons")
+                                                                , orderItems.getString("FullName")
+                                                                , orderItems.getString("ORDER ID")
+                                                                , orderItems.getString("Payment Method")
+                                                                , orderItems.getString("Pincode")
+                                                                , orderItems.getString("Product Price")
+                                                                , orderItems.getLong("Product Quantity")
+                                                                , orderItems.getString("User Id")
+                                                                , orderItems.getString("Product Image")
+                                                                , orderItems.getString("Product Title"));
+                                                        myOrderItemModelList.add(myOrderItemModel);
+                                                    }
+
+                                                    myOrderAdapter.notifyDataSetChanged();
+                                                } else {
+                                                    String error = task.getException().getMessage();
+                                                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
 
                             }
-                        }else {
+                        } else {
                             String error = task.getException().getMessage();
-                            Toast.makeText(context,error,Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-    }*/
+    }
 
     public static void clearData() {
         categoryModelList.clear();

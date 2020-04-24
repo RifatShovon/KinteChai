@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.Date;
 import java.util.List;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewholder> {
@@ -32,11 +35,33 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
 
     @Override
     public void onBindViewHolder(@NonNull MyOrderAdapter.Viewholder viewholder, int position) {
-        int resource = myOrderItemModelList.get(position).getProductImage();
-        int rating = myOrderItemModelList.get(position).getRating();
+        String resource = myOrderItemModelList.get(position).getProductImage();
+        //int rating = myOrderItemModelList.get(position).getRating();
         String title = myOrderItemModelList.get(position).getProductTitle();
-        String deliveredDate = myOrderItemModelList.get(position).getDeliveryStatus();
-        viewholder.setData(resource, title, deliveredDate, rating);
+        String orderStatus = myOrderItemModelList.get(position).getOrderStatus();
+        Date date;
+        switch (orderStatus) {
+
+            case "Ordered":
+                date = myOrderItemModelList.get(position).getOrderDate();
+                break;
+            case "Packed":
+                date = myOrderItemModelList.get(position).getPackedDate();
+                break;
+            case "Shipped":
+                date = myOrderItemModelList.get(position).getShippedDate();
+                break;
+            case "Delivered":
+                date = myOrderItemModelList.get(position).getDeliveredDate();
+                break;
+            case "Cancelled":
+                date = myOrderItemModelList.get(position).getCancelledDate();
+                break;
+            default:
+                date = myOrderItemModelList.get(position).getCancelledDate();
+
+        }
+        viewholder.setData(resource, title, orderStatus, date);
     }
 
     @Override
@@ -70,19 +95,19 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
 
         }
 
-        private void setData(int resource, String title, String deliveredDate, int rating) {
-            productImage.setImageResource(resource);
+        private void setData(String resource, String title, String orderStatus, Date date) {
+            Glide.with(itemView.getContext()).load(resource).into(productImage);
             productTitle.setText(title);
-            if (deliveredDate.equals("Cancelled")) {
+            if (orderStatus.equals("Cancelled")) {
                 orderIndicator.setImageTintList(ColorStateList.valueOf(itemView.getContext().getResources().getColor(R.color.colorRed)));
             } else {
                 orderIndicator.setImageTintList(ColorStateList.valueOf(itemView.getContext().getResources().getColor(R.color.successGreen)));
             }
-            deliveryStatus.setText(deliveredDate);
+            deliveryStatus.setText(orderStatus + String.valueOf(date));
 
             ///// rating layout
 
-            setRating(rating);
+            //  setRating(rating);
             for (int x = 0; x < rateNowContainer.getChildCount(); x++) {
                 final int starPosition = x;
                 rateNowContainer.getChildAt(x).setOnClickListener(new View.OnClickListener() {

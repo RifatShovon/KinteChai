@@ -59,7 +59,7 @@ public class DeliveryActivity extends AppCompatActivity {
     private ImageButton cashOnDelivery;
     public static Activity deliveryActivity;
 
-    public static String order_id = UUID.randomUUID().toString().substring(0,28);
+    public static String order_id = UUID.randomUUID().toString().substring(0, 28);
 
     private boolean successResponse = false;
     private FirebaseFirestore firebaseFirestore;
@@ -162,15 +162,15 @@ public class DeliveryActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Map<String,Object> userOrder = new HashMap<>();
-                                    userOrder.put("order_id",order_id);
+                                    Map<String, Object> userOrder = new HashMap<>();
+                                    userOrder.put("order_id", order_id);
                                     firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").document(order_id).set(userOrder)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
                                                         BkashActivity();
-                                                    }else {
+                                                    } else {
                                                         Toast.makeText(DeliveryActivity.this, "Failed to update user's order list", Toast.LENGTH_LONG).show();
                                                     }
                                                 }
@@ -203,15 +203,15 @@ public class DeliveryActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Map<String,Object> userOrder = new HashMap<>();
-                                    userOrder.put("order_id",order_id);
+                                    Map<String, Object> userOrder = new HashMap<>();
+                                    userOrder.put("order_id", order_id);
                                     firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").document(order_id).set(userOrder)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()){
+                                                    if (task.isSuccessful()) {
                                                         ///todo: nothing
-                                                    }else {
+                                                    } else {
                                                         Toast.makeText(DeliveryActivity.this, "Failed to update user's order list", Toast.LENGTH_LONG).show();
                                                     }
                                                 }
@@ -409,8 +409,10 @@ public class DeliveryActivity extends AppCompatActivity {
             if (cartItemModel.getType() == CartItemModel.CART_ITEM) {
 
                 Map<String, Object> orderDetails = new HashMap<>();
-                orderDetails.put("ORDER ID",order_id);
+                orderDetails.put("ORDER ID", order_id);
                 orderDetails.put("Product Id", cartItemModel.getProductID());
+                orderDetails.put("Product Image", cartItemModel.getProductImage());
+                orderDetails.put("Product Title", cartItemModel.getProductTitle());
                 orderDetails.put("User Id", userID);
                 orderDetails.put("Product Quantity", cartItemModel.getProductQuantity());
                 if (cartItemModel.getCuttedPrice() != null) {
@@ -445,7 +447,7 @@ public class DeliveryActivity extends AppCompatActivity {
                         .set(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             /*String error = task.getException().getMessage();
                             Toast.makeText(DeliveryActivity.this, error, Toast.LENGTH_SHORT).show();*/
                         }
@@ -485,8 +487,6 @@ public class DeliveryActivity extends AppCompatActivity {
         paymentMethodDialog.dismiss();
         loadingDialog.show();
         //BkashActivity();
-
-
     }
 
 
@@ -495,8 +495,6 @@ public class DeliveryActivity extends AppCompatActivity {
         paymentMethodDialog.dismiss();
         Intent intent = new Intent(DeliveryActivity.this, ConfirmOrderActivity.class);
         startActivity(intent);
-
-
     }
 }
 
