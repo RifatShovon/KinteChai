@@ -26,6 +26,7 @@ public class MyOrdersFragment extends Fragment {
     }
 
     private RecyclerView myOrdersRecyclerView;
+    public static MyOrderAdapter myOrderAdapter;
 
 
     @Override
@@ -45,7 +46,7 @@ public class MyOrdersFragment extends Fragment {
         myOrderItemModelList.add(new MyOrderItemModel(R.drawable.iphone, 0, "Iphone X", "Cancelled"));
         myOrderItemModelList.add(new MyOrderItemModel(R.drawable.product_image, 4, "Hondda CB Trigger", "Delivered on Mon, 15th JAN 2019"));*/
 
-        MyOrderAdapter myOrderAdapter = new MyOrderAdapter(DBqueries.myOrderItemModelList);
+        myOrderAdapter = new MyOrderAdapter(DBqueries.myOrderItemModelList);
         myOrdersRecyclerView.setAdapter(myOrderAdapter);
 
 

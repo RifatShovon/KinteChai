@@ -293,6 +293,11 @@ public class DBqueries {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
+                        List<String> orderProductIds = new ArrayList<>();
+                        for (int x = 0;x < myOrderItemModelList.size();x++){
+                            orderProductIds.add(myOrderItemModelList.get(x).getProductId());
+                        }
+
                         for (long x = 0; x < (long) task.getResult().get("list_size"); x++) {
                             myRatedIds.add(task.getResult().get("product_ID_" + x).toString());
                             myRating.add((long) task.getResult().get("rating_" + x));
@@ -302,6 +307,14 @@ public class DBqueries {
                                     ProductDetailsActivity.setRating(ProductDetailsActivity.initialRating);
                                 }
                             }
+
+                            if (orderProductIds.contains(task.getResult().get("product_ID_" + x).toString())){
+                                myOrderItemModelList.get(orderProductIds.indexOf(task.getResult().get("product_ID_" + x).toString())).setRating(Integer.parseInt(String.valueOf((long) task.getResult().get("rating_" + x))) - 1);
+                            }
+
+                        }
+                        if (MyOrdersFragment.myOrderAdapter != null){
+                            MyOrdersFragment.myOrderAdapter.notifyDataSetChanged();
                         }
                     } else {
                         String error = task.getException().getMessage();
@@ -589,7 +602,7 @@ public class DBqueries {
                                                                 , orderItems.getString("Product Title"));
                                                         myOrderItemModelList.add(myOrderItemModel);
                                                     }
-
+                                                    loadRatingList(context);
                                                     myOrderAdapter.notifyDataSetChanged();
                                                 } else {
                                                     String error = task.getException().getMessage();
@@ -597,7 +610,6 @@ public class DBqueries {
                                                 }
                                             }
                                         });
-
                             }
                         } else {
                             String error = task.getException().getMessage();
