@@ -554,7 +554,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
 
-
                                                         if (DBqueries.myRatedIds.contains(productID)) {
                                                             DBqueries.myRating.set(DBqueries.myRatedIds.indexOf(productID), (long) starPosition + 1);
 

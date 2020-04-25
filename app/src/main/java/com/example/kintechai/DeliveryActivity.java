@@ -442,6 +442,7 @@ public class DeliveryActivity extends AppCompatActivity {
                 orderDetails.put("FullName", fullname.getText());
                 orderDetails.put("Pincode", pincode.getText());
                 orderDetails.put("Free Coupons", cartItemModel.getFreeCoupons());
+                orderDetails.put("Delivery Price", cartItemModel.getDeliveryPrice());
 
                 firebaseFirestore.collection("ORDERS").document(order_id).collection("OrderItems").document(cartItemModel.getProductID())
                         .set(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -457,7 +458,7 @@ public class DeliveryActivity extends AppCompatActivity {
                 Map<String, Object> orderDetails = new HashMap<>();
                 orderDetails.put("Total Items", cartItemModel.getTotalItems());
                 orderDetails.put("Total Items Price", cartItemModel.getTotalItemPrice());
-                orderDetails.put("Deliver Price", cartItemModel.getDeliveryPrice());
+                orderDetails.put("Delivery Price", cartItemModel.getDeliveryPrice());
                 orderDetails.put("Total Amount", cartItemModel.getTotalAmount());
                 orderDetails.put("Saved Amount", cartItemModel.getSavedAmount());
                 orderDetails.put("Payment Status", "Not Paid");

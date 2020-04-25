@@ -9,13 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -24,7 +27,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewholder> {
 
@@ -95,7 +100,6 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
             rateNowContainer = itemView.findViewById(R.id.rate_now_container);
 
 
-
         }
 
         private void setData(String resource, String title, String orderStatus, Date date, final int rating, final String productID, final int position) {
@@ -112,7 +116,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
                 @Override
                 public void onClick(View v) {
                     Intent orderDetailsIntent = new Intent(itemView.getContext(), OrderDetailsActivity.class);
-                    orderDetailsIntent.putExtra("Position",position);
+                    orderDetailsIntent.putExtra("Position", position);
                     itemView.getContext().startActivity(orderDetailsIntent);
                 }
             });
@@ -134,28 +138,51 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
 
                                 DocumentSnapshot documentSnapshot = transaction.get(documentReference);
 
-                                if (rating != 0){
-                                    Long increase = documentSnapshot.getLong(starPosition+"_star") + 1;
-                                    Long decrease = documentSnapshot.getLong(rating+"_star") - 1;
-                                    transaction.update(documentReference,starPosition+"_star",increase);
-                                    transaction.update(documentReference,rating+"_star",decrease);
+                                if (rating != 0) {
+                                    Long increase = documentSnapshot.getLong(starPosition + 1 + "_star") + 1;
+                                    Long decrease = documentSnapshot.getLong(rating + 1 + "_star") - 1;
+                                    transaction.update(documentReference, starPosition + 1 + "_star", increase);
+                                    transaction.update(documentReference, rating + 1 + "_star", decrease);
 
-                                }else {
-                                    Long increase = documentSnapshot.getLong(starPosition+"_star") + 1;
-                                    transaction.update(documentReference,starPosition+"_star",increase);
+                                } else {
+                                    Long increase = documentSnapshot.getLong(starPosition + 1 + "_star") + 1;
+                                    transaction.update(documentReference, starPosition + 1 + "_star", increase);
                                 }
                                 return null;
                             }
                         }).addOnSuccessListener(new OnSuccessListener<Object>() {
                             @Override
                             public void onSuccess(Object object) {
-                                DBqueries.myOrderItemModelList.get(position).setRating(starPosition);
-                                if (DBqueries.myRatedIds.contains(productID)){
-                                    DBqueries.myRating.set(DBqueries.myRatedIds.indexOf(productID),Long.parseLong(String.valueOf(starPosition)));
-                                }else {
-                                    DBqueries.myRatedIds.add(productID);
-                                    DBqueries.myRating.add(Long.parseLong(String.valueOf(starPosition)));
+
+
+                                Map<String, Object> myRating = new HashMap<>();
+                                if (DBqueries.myRatedIds.contains(productID)) {
+                                    myRating.put("rating_" + DBqueries.myRatedIds.indexOf(productID), (long) starPosition + 1);
+                                } else {
+                                    myRating.put("list_size", (long) DBqueries.myRatedIds.size() + 1);
+                                    myRating.put("product_ID_" + DBqueries.myRatedIds.size(), productID);
+                                    myRating.put("rating_" + DBqueries.myRatedIds.size(), (long) starPosition + 1);
                                 }
+
+                                FirebaseFirestore.getInstance().collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_RATINGS")
+                                        .update(myRating).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+
+                                            DBqueries.myOrderItemModelList.get(position).setRating(starPosition);
+                                            if (DBqueries.myRatedIds.contains(productID)) {
+                                                DBqueries.myRating.set(DBqueries.myRatedIds.indexOf(productID), Long.parseLong(String.valueOf(starPosition + 1)));
+                                            } else {
+                                                DBqueries.myRatedIds.add(productID);
+                                                DBqueries.myRating.add(Long.parseLong(String.valueOf(starPosition + 1)));
+                                            }
+                                        } else {
+                                            String error = task.getException().getMessage();
+                                            Toast.makeText(itemView.getContext(), error, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             }
                         });
                     }

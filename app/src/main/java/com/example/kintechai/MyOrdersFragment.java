@@ -50,13 +50,16 @@ public class MyOrdersFragment extends Fragment {
         myOrdersRecyclerView.setAdapter(myOrderAdapter);
 
 
-        if (DBqueries.myOrderItemModelList.size() == 0){
-            DBqueries.loadOrders(getContext(),myOrderAdapter);
-        }
+        DBqueries.loadOrders(getContext(), myOrderAdapter);
 
         myOrderAdapter.notifyDataSetChanged();
 
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        myOrderAdapter.notifyDataSetChanged();
+    }
 }
