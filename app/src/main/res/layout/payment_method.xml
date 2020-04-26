@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/divider10"
+        android:id="@+id/devider"
         android:layout_width="1dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -44,7 +44,7 @@
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/divider10"
+        app:layout_constraintEnd_toStartOf="@+id/devider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29"
         app:srcCompat="@mipmap/cash_on_delivery_image" />
@@ -60,12 +60,12 @@
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/divider10"
+        app:layout_constraintStart_toEndOf="@+id/devider"
         app:layout_constraintTop_toBottomOf="@+id/textView29"
         app:srcCompat="@mipmap/bkash" />
 
     <TextView
-        android:id="@+id/textView32"
+        android:id="@+id/cod_btn_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -76,7 +76,7 @@
         android:textColor="#000000"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/divider10"
+        app:layout_constraintEnd_toStartOf="@+id/devider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cod_btn" />
 
@@ -93,7 +93,7 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/divider10"
+        app:layout_constraintStart_toEndOf="@+id/devider"
         app:layout_constraintTop_toBottomOf="@+id/bkash" />
 
 

@@ -1,5 +1,6 @@
 package com.example.kintechai;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -13,10 +14,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +38,11 @@ import java.util.Map;
 public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewholder> {
 
     private List<MyOrderItemModel> myOrderItemModelList;
+    private Dialog loadingDialog;
 
-    public MyOrderAdapter(List<MyOrderItemModel> myOrderItemModelList) {
+    public MyOrderAdapter(List<MyOrderItemModel> myOrderItemModelList, Dialog loadingDialog) {
         this.myOrderItemModelList = myOrderItemModelList;
+        this.loadingDialog = loadingDialog;
     }
 
     @NonNull
@@ -110,7 +116,8 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
             } else {
                 orderIndicator.setImageTintList(ColorStateList.valueOf(itemView.getContext().getResources().getColor(R.color.successGreen)));
             }
-            deliveryStatus.setText(orderStatus + String.valueOf(date));
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, dd MMM YYYY hh:mm aa");
+            deliveryStatus.setText(orderStatus + String.valueOf(simpleDateFormat.format(date)));
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -129,6 +136,7 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
                 rateNowContainer.getChildAt(x).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        loadingDialog.show();
                         setRating(starPosition);
                         final DocumentReference documentReference = FirebaseFirestore.getInstance().collection("PRODUCTS").document(productID);
                         FirebaseFirestore.getInstance().runTransaction(new Transaction.Function<Object>() {
@@ -153,7 +161,6 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
                         }).addOnSuccessListener(new OnSuccessListener<Object>() {
                             @Override
                             public void onSuccess(Object object) {
-
 
                                 Map<String, Object> myRating = new HashMap<>();
                                 if (DBqueries.myRatedIds.contains(productID)) {
@@ -181,6 +188,12 @@ public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.Viewhold
                                             String error = task.getException().getMessage();
                                             Toast.makeText(itemView.getContext(), error, Toast.LENGTH_SHORT).show();
                                         }
+                                        loadingDialog.dismiss();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        loadingDialog.dismiss();
                                     }
                                 });
                             }

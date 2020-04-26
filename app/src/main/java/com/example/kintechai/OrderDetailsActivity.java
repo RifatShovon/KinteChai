@@ -5,11 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Dialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +48,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private LinearLayout rateNowContainer;
     private TextView fullName, address, pincode;
     private TextView totalItems, totalItemsPrice, deliveryPrice, totalAmount, savedAmount;
+    private Dialog loadingDialog;
+    private SimpleDateFormat simpleDateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +61,14 @@ public class OrderDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Order details");
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ////////////////////////////// loading dialog
+        loadingDialog = new Dialog(OrderDetailsActivity.this);
+        loadingDialog.setContentView(R.layout.loading_progress_dialog);
+        loadingDialog.setCancelable(false);
+        loadingDialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.slider_background));
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ////////////////////////////// loading dialog //////////////////////////////////////
 
         position = getIntent().getIntExtra("Position", -1);
         final MyOrderItemModel model = DBqueries.myOrderItemModelList.get(position);
@@ -110,12 +124,13 @@ public class OrderDetailsActivity extends AppCompatActivity {
         quantity.setText("Qty: " + String.valueOf(model.getProductQuantity()));
         Glide.with(this).load(model.getProductImage()).into(productImage);
 
+        simpleDateFormat = new SimpleDateFormat("EEE, dd MMM YYYY hh:mm aa");
         switch (model.getOrderStatus()) {
 
             case "Ordered":
                 //orderedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 orderedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                orderedDate.setText(String.valueOf(model.getOrderDate()));
+                orderedDate.setText(String.valueOf(simpleDateFormat.format(model.getOrderDate())));
 
                 P_S_progress.setVisibility(View.GONE);
                 S_D_progress.setVisibility(View.GONE);
@@ -140,11 +155,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
             case "Packed":
                 //orderedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 orderedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                orderedDate.setText(String.valueOf(model.getOrderDate()));
+                orderedDate.setText(String.valueOf(simpleDateFormat.format(model.getOrderDate())));
 
                 //packedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 packedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                packedDate.setText(String.valueOf(model.getPackedDate()));
+                packedDate.setText(String.valueOf(simpleDateFormat.format(model.getPackedDate())));
 
                 O_P_progress.setVisibility(View.VISIBLE);
                 O_P_progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
@@ -166,15 +181,15 @@ public class OrderDetailsActivity extends AppCompatActivity {
             case "Shipped":
                 //orderedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 orderedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                orderedDate.setText(String.valueOf(model.getOrderDate()));
+                orderedDate.setText(String.valueOf(simpleDateFormat.format(model.getOrderDate())));
 
                 //packedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 packedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                packedDate.setText(String.valueOf(model.getPackedDate()));
+                packedDate.setText(String.valueOf(simpleDateFormat.format(model.getPackedDate())));
 
                 //shippedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 shippedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                shippedDate.setText(String.valueOf(model.getShippedDate()));
+                shippedDate.setText(String.valueOf(simpleDateFormat.format(model.getShippedDate())));
 
                 O_P_progress.setVisibility(View.VISIBLE);
                 O_P_progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
@@ -192,19 +207,19 @@ public class OrderDetailsActivity extends AppCompatActivity {
             case "Delivered":
                 //orderedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 orderedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                orderedDate.setText(String.valueOf(model.getOrderDate()));
+                orderedDate.setText(String.valueOf(simpleDateFormat.format(model.getOrderDate())));
 
                 //packedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 packedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                packedDate.setText(String.valueOf(model.getPackedDate()));
+                packedDate.setText(String.valueOf(simpleDateFormat.format(model.getPackedDate())));
 
                 //shippedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 shippedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                shippedDate.setText(String.valueOf(model.getShippedDate()));
+                shippedDate.setText(String.valueOf(simpleDateFormat.format(model.getShippedDate())));
 
                 //deliveredIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 deliveredIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                deliveredDate.setText(String.valueOf(model.getDeliveredDate()));
+                deliveredDate.setText(String.valueOf(simpleDateFormat.format(model.getDeliveredDate())));
 
                 O_P_progress.setVisibility(View.VISIBLE);
                 O_P_progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
@@ -223,19 +238,19 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
                         //orderedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                         orderedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                        orderedDate.setText(String.valueOf(model.getOrderDate()));
+                        orderedDate.setText(String.valueOf(simpleDateFormat.format(model.getOrderDate())));
 
                         //packedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                         packedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                        packedDate.setText(String.valueOf(model.getPackedDate()));
+                        packedDate.setText(String.valueOf(simpleDateFormat.format(model.getPackedDate())));
 
                         //shippedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                         shippedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                        shippedDate.setText(String.valueOf(model.getShippedDate()));
+                        shippedDate.setText(String.valueOf(simpleDateFormat.format(model.getShippedDate())));
 
                         //deliveredIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                         deliveredIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#95A5A6")));
-                        deliveredDate.setText(String.valueOf(model.getCancelledDate()));
+                        deliveredDate.setText(String.valueOf(simpleDateFormat.format(model.getCancelledDate())));
                         deliveredTitle.setText("Cancelled");
                         deliveredBody.setText("Your Order Has Been Cancelled.");
 
@@ -249,15 +264,15 @@ public class OrderDetailsActivity extends AppCompatActivity {
                     } else {
                         //orderedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                         orderedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                        orderedDate.setText(String.valueOf(model.getOrderDate()));
+                        orderedDate.setText(String.valueOf(simpleDateFormat.format(model.getOrderDate())));
 
                         //packedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                         packedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                        packedDate.setText(String.valueOf(model.getPackedDate()));
+                        packedDate.setText(String.valueOf(simpleDateFormat.format(model.getPackedDate())));
 
                         //shippedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                         shippedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#95A5A6")));
-                        shippedDate.setText(String.valueOf(model.getCancelledDate()));
+                        shippedDate.setText(String.valueOf(simpleDateFormat.format(model.getCancelledDate())));
                         shippedTitle.setText("Cancelled");
                         shippedBody.setText("Your Order Has Been Cancelled.");
 
@@ -277,11 +292,11 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 } else {
                     //orderedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                     orderedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
-                    orderedDate.setText(String.valueOf(model.getOrderDate()));
+                    orderedDate.setText(String.valueOf(simpleDateFormat.format(model.getOrderDate())));
 
                     //packedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
                     packedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#95A5A6")));
-                    packedDate.setText(String.valueOf(model.getCancelledDate()));
+                    packedDate.setText(String.valueOf(simpleDateFormat.format(model.getCancelledDate())));
                     packedTitle.setText("Cancelled");
                     packedBody.setText("Your Order Has Been Cancelled.");
 
@@ -314,6 +329,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
             rateNowContainer.getChildAt(x).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    loadingDialog.show();
                     setRating(starPosition);
                     final DocumentReference documentReference = FirebaseFirestore.getInstance().collection("PRODUCTS").document(model.getProductId());
                     FirebaseFirestore.getInstance().runTransaction(new Transaction.Function<Object>() {
@@ -365,6 +381,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
                                         String error = task.getException().getMessage();
                                         Toast.makeText(OrderDetailsActivity.this, error, Toast.LENGTH_SHORT).show();
                                     }
+                                    loadingDialog.dismiss();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    loadingDialog.dismiss();
                                 }
                             });
                         }

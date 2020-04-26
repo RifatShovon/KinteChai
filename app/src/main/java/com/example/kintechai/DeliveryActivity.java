@@ -54,6 +54,8 @@ public class DeliveryActivity extends AppCompatActivity {
     private Button continueBtn;
     public static Dialog loadingDialog;
     private Dialog paymentMethodDialog;
+    private TextView codTitle;
+    private View devider;
     private String paymentMethod = "BKASH";
     private ImageButton bkash;
     private ImageButton cashOnDelivery;
@@ -106,6 +108,8 @@ public class DeliveryActivity extends AppCompatActivity {
         paymentMethodDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         bkash = paymentMethodDialog.findViewById(R.id.bkash);
         cashOnDelivery = paymentMethodDialog.findViewById(R.id.cod_btn);
+        codTitle = paymentMethodDialog.findViewById(R.id.cod_btn_title);
+        devider = paymentMethodDialog.findViewById(R.id.devider);
         ////////////////////////////// payment method dialog //////////////////////////////////////
         firebaseFirestore = FirebaseFirestore.getInstance();
         getQtyIDs = true;
@@ -139,6 +143,21 @@ public class DeliveryActivity extends AppCompatActivity {
                 for (CartItemModel cartItemModel : cartItemModelList) {
                     if (cartItemModel.isQtyError()) {
                         allProductsAvailable = false;
+                        break;
+                    }
+                    if (cartItemModel.getType() == CartItemModel.CART_ITEM) {
+                        if (!cartItemModel.isCOD()) {
+                            cashOnDelivery.setEnabled(false);
+                            cashOnDelivery.setAlpha(0.5f);
+                            codTitle.setAlpha(0.5f);
+                            devider.setVisibility(View.GONE);
+                            break;
+                        } else {
+                            cashOnDelivery.setEnabled(true);
+                            cashOnDelivery.setAlpha(1f);
+                            codTitle.setAlpha(1f);
+                            cashOnDelivery.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
                 if (allProductsAvailable) {
