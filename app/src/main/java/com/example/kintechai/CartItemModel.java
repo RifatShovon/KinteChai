@@ -200,8 +200,9 @@ public class CartItemModel {
     }
 
     ///////////cart total
-    private int totalItems,totalItemPrice, totalAmount, savedAmount;
+    private int totalItems, totalItemPrice, totalAmount, savedAmount;
     private String deliveryPrice;
+
     public CartItemModel(int type) {
         this.type = type;
     }

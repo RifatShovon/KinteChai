@@ -183,6 +183,7 @@ public class DeliveryActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Map<String, Object> userOrder = new HashMap<>();
                                     userOrder.put("order_id", order_id);
+                                    userOrder.put("time", FieldValue.serverTimestamp());
                                     firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").document(order_id).set(userOrder)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
@@ -224,6 +225,7 @@ public class DeliveryActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Map<String, Object> userOrder = new HashMap<>();
                                     userOrder.put("order_id", order_id);
+                                    userOrder.put("time", FieldValue.serverTimestamp());
                                     firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").document(order_id).set(userOrder)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
@@ -427,7 +429,7 @@ public class DeliveryActivity extends AppCompatActivity {
         for (CartItemModel cartItemModel : cartItemModelList) {
             if (cartItemModel.getType() == CartItemModel.CART_ITEM) {
 
-                Map<String, Object> orderDetails = new HashMap<>();
+                Map<String,Object> orderDetails = new HashMap<>();
                 orderDetails.put("ORDER ID", order_id);
                 orderDetails.put("Product Id", cartItemModel.getProductID());
                 orderDetails.put("Product Image", cartItemModel.getProductImage());
@@ -461,7 +463,8 @@ public class DeliveryActivity extends AppCompatActivity {
                 orderDetails.put("FullName", fullname.getText());
                 orderDetails.put("Pincode", pincode.getText());
                 orderDetails.put("Free Coupons", cartItemModel.getFreeCoupons());
-                orderDetails.put("Delivery Price", cartItemModel.getDeliveryPrice());
+                orderDetails.put("Delivery Price", cartItemModelList.get(cartItemModelList.size() - 1).getDeliveryPrice());
+                orderDetails.put("Cancellation Requested", false);
 
                 firebaseFirestore.collection("ORDERS").document(order_id).collection("OrderItems").document(cartItemModel.getProductID())
                         .set(orderDetails).addOnCompleteListener(new OnCompleteListener<Void>() {

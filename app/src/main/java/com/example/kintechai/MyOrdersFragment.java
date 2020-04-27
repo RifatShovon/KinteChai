@@ -1,6 +1,5 @@
 package com.example.kintechai;
 
-
 import android.app.Dialog;
 import android.os.Bundle;
 
@@ -15,12 +14,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MyOrdersFragment extends Fragment {
-
 
     public MyOrdersFragment() {
         // Required empty public constructor
@@ -29,7 +26,6 @@ public class MyOrdersFragment extends Fragment {
     private RecyclerView myOrdersRecyclerView;
     public static MyOrderAdapter myOrderAdapter;
     private Dialog loadingDialog;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

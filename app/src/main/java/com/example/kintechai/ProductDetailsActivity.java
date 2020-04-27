@@ -81,7 +81,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private String productDescription;
     private String productOtherDetails;
 
-
     //////////////////// product description ///////////////////
 
     ///////////////////////////// rating layout
@@ -106,7 +105,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
     private int starPosition;
 
     private FirebaseFirestore firebaseFirestore;
-
 
     ///////////////////////////////// /coupondialog //////////////////////////////////////
 
@@ -318,10 +316,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                             if (DBqueries.wishList.size() == 0) {
                                                 DBqueries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
                                             }
-                                            if (DBqueries.rewardModelList.size() == 0){
-                                                DBqueries.loadRewards(ProductDetailsActivity.this,loadingDialog, false);
+                                            if (DBqueries.rewardModelList.size() == 0) {
+                                                DBqueries.loadRewards(ProductDetailsActivity.this, loadingDialog, false);
                                             }
-                                            if (DBqueries.cartList.size() != 0 && DBqueries.wishList.size() != 0 && DBqueries.rewardModelList.size() != 0){
+                                            if (DBqueries.cartList.size() != 0 && DBqueries.wishList.size() != 0 && DBqueries.rewardModelList.size() != 0) {
                                                 loadingDialog.dismiss();
                                             }
                                         } else {
@@ -375,7 +373,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                                                         if (task.isSuccessful()) {
 
                                                                             if (DBqueries.cartItemModelList.size() != 0) {
-                                                                                DBqueries.cartItemModelList.add(0, new CartItemModel(documentSnapshot.getBoolean("COD"),CartItemModel.CART_ITEM, productID, documentSnapshot.get("product_image_1").toString()
+                                                                                DBqueries.cartItemModelList.add(0, new CartItemModel(documentSnapshot.getBoolean("COD"), CartItemModel.CART_ITEM, productID, documentSnapshot.get("product_image_1").toString()
                                                                                         , documentSnapshot.get("product_title").toString()
                                                                                         , (long) documentSnapshot.get("free_coupons")
                                                                                         , documentSnapshot.get("product_price").toString()
@@ -627,7 +625,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     loadingDialog.show();
                     productDetailsActivity = ProductDetailsActivity.this;
                     DeliveryActivity.cartItemModelList = new ArrayList<>();
-                    DeliveryActivity.cartItemModelList.add(new CartItemModel(documentSnapshot.getBoolean("COD"),CartItemModel.CART_ITEM, productID, documentSnapshot.get("product_image_1").toString()
+                    DeliveryActivity.cartItemModelList.add(new CartItemModel(documentSnapshot.getBoolean("COD"), CartItemModel.CART_ITEM, productID, documentSnapshot.get("product_image_1").toString()
                             , documentSnapshot.get("product_title").toString()
                             , (long) documentSnapshot.get("free_coupons")
                             , documentSnapshot.get("product_price").toString()
@@ -649,7 +647,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-
 
 
         couponRedeemBtn.setOnClickListener(new View.OnClickListener() {
@@ -710,10 +707,10 @@ public class ProductDetailsActivity extends AppCompatActivity {
             if (DBqueries.wishList.size() == 0) {
                 DBqueries.loadWishlist(ProductDetailsActivity.this, loadingDialog, false);
             }
-            if (DBqueries.rewardModelList.size() == 0){
-                DBqueries.loadRewards(ProductDetailsActivity.this,loadingDialog, false);
+            if (DBqueries.rewardModelList.size() == 0) {
+                DBqueries.loadRewards(ProductDetailsActivity.this, loadingDialog, false);
             }
-            if (DBqueries.cartList.size() != 0 && DBqueries.wishList.size() != 0 && DBqueries.rewardModelList.size() != 0){
+            if (DBqueries.cartList.size() != 0 && DBqueries.wishList.size() != 0 && DBqueries.rewardModelList.size() != 0) {
                 loadingDialog.dismiss();
             }
         } else {
@@ -775,7 +772,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

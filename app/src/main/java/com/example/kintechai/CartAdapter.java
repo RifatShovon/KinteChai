@@ -221,9 +221,9 @@ public class CartAdapter extends RecyclerView.Adapter {
             checkCouponPriceDialog.setCancelable(false);
             checkCouponPriceDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            if (COD){
+            if (COD) {
                 codIndicator.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 codIndicator.setVisibility(View.INVISIBLE);
             }
 

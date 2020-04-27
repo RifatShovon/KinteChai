@@ -294,7 +294,7 @@ public class DBqueries {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         List<String> orderProductIds = new ArrayList<>();
-                        for (int x = 0;x < myOrderItemModelList.size();x++){
+                        for (int x = 0; x < myOrderItemModelList.size(); x++) {
                             orderProductIds.add(myOrderItemModelList.get(x).getProductId());
                         }
 
@@ -308,12 +308,12 @@ public class DBqueries {
                                 }
                             }
 
-                            if (orderProductIds.contains(task.getResult().get("product_ID_" + x).toString())){
+                            if (orderProductIds.contains(task.getResult().get("product_ID_" + x).toString())) {
                                 myOrderItemModelList.get(orderProductIds.indexOf(task.getResult().get("product_ID_" + x).toString())).setRating(Integer.parseInt(String.valueOf((long) task.getResult().get("rating_" + x))) - 1);
                             }
 
                         }
-                        if (MyOrdersFragment.myOrderAdapter != null){
+                        if (MyOrdersFragment.myOrderAdapter != null) {
                             MyOrdersFragment.myOrderAdapter.notifyDataSetChanged();
                         }
                     } else {
@@ -364,7 +364,7 @@ public class DBqueries {
                                                             }
 
                                                             if (task.getResult().getDocuments().size() < (long) documentSnapshot.get("stock_quantity")) {
-                                                                cartItemModelList.add(index, new CartItemModel(documentSnapshot.getBoolean("COD"),CartItemModel.CART_ITEM, productId, documentSnapshot.get("product_image_1").toString()
+                                                                cartItemModelList.add(index, new CartItemModel(documentSnapshot.getBoolean("COD"), CartItemModel.CART_ITEM, productId, documentSnapshot.get("product_image_1").toString()
                                                                         , documentSnapshot.get("product_title").toString()
                                                                         , (long) documentSnapshot.get("free_coupons")
                                                                         , documentSnapshot.get("product_price").toString()
@@ -376,7 +376,7 @@ public class DBqueries {
                                                                         , (long) documentSnapshot.get("max-quantity")
                                                                         , (long) documentSnapshot.get("stock_quantity")));
                                                             } else {
-                                                                cartItemModelList.add(index, new CartItemModel(documentSnapshot.getBoolean("COD"),CartItemModel.CART_ITEM, productId, documentSnapshot.get("product_image_1").toString()
+                                                                cartItemModelList.add(index, new CartItemModel(documentSnapshot.getBoolean("COD"), CartItemModel.CART_ITEM, productId, documentSnapshot.get("product_image_1").toString()
                                                                         , documentSnapshot.get("product_title").toString()
                                                                         , (long) documentSnapshot.get("free_coupons")
                                                                         , documentSnapshot.get("product_price").toString()
@@ -564,7 +564,7 @@ public class DBqueries {
 
     public static void loadOrders(final Context context, final MyOrderAdapter myOrderAdapter, final Dialog loadingDialog) {
         myOrderItemModelList.clear();
-        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").get()
+        firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").orderBy("time", Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -600,7 +600,8 @@ public class DBqueries {
                                                                 , orderItems.getString("User Id")
                                                                 , orderItems.getString("Product Image")
                                                                 , orderItems.getString("Product Title")
-                                                                , orderItems.getString("Delivery Price"));
+                                                                , orderItems.getString("Delivery Price")
+                                                                , orderItems.getBoolean("Cancellation Requested"));
                                                         myOrderItemModelList.add(myOrderItemModel);
                                                     }
                                                     loadRatingList(context);
