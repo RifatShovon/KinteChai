@@ -41,6 +41,9 @@ import static com.example.kintechai.ProductDetailsActivity.initialRating;
 public class DBqueries {
 
     public static FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+    public static String email,userName, profile;
+
     public static List<CategoryModel> categoryModelList = new ArrayList<>();
 
     public static List<List<HomePageModel>> lists = new ArrayList<>();
@@ -468,7 +471,7 @@ public class DBqueries {
         });
     }
 
-    public static void loadAddresses(final Context context, final Dialog loadingDialog) {
+    public static void loadAddresses(final Context context, final Dialog loadingDialog, final boolean gotoDeliveryActivity) {
 
         addressesModelList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_ADDRESSES")
@@ -476,7 +479,7 @@ public class DBqueries {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    Intent deliveryIntent;
+                    Intent deliveryIntent = null;
                     if ((long) task.getResult().get("list_size") == 0) {
                         deliveryIntent = new Intent(context, AddAddressActivity.class);
                         deliveryIntent.putExtra("INTENT", "deliveryIntent");
@@ -493,9 +496,13 @@ public class DBqueries {
 
                         }
 
-                        deliveryIntent = new Intent(context, DeliveryActivity.class);
+                        if (gotoDeliveryActivity) {
+                            deliveryIntent = new Intent(context, DeliveryActivity.class);
+                        }
                     }
-                    context.startActivity(deliveryIntent);
+                    if (gotoDeliveryActivity) {
+                        context.startActivity(deliveryIntent);
+                    }
                 } else {
                     String error = task.getException().getMessage();
                     Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
@@ -562,7 +569,7 @@ public class DBqueries {
 
     }
 
-    public static void loadOrders(final Context context, final MyOrderAdapter myOrderAdapter, final Dialog loadingDialog) {
+    public static void loadOrders(final Context context, @Nullable final MyOrderAdapter myOrderAdapter, final Dialog loadingDialog) {
         myOrderItemModelList.clear();
         firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_ORDERS").orderBy("time", Query.Direction.DESCENDING).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -605,7 +612,9 @@ public class DBqueries {
                                                         myOrderItemModelList.add(myOrderItemModel);
                                                     }
                                                     loadRatingList(context);
-                                                    myOrderAdapter.notifyDataSetChanged();
+                                                    if (myOrderAdapter != null) {
+                                                        myOrderAdapter.notifyDataSetChanged();
+                                                    }
                                                 } else {
                                                     String error = task.getException().getMessage();
                                                     Toast.makeText(context, error, Toast.LENGTH_SHORT).show();

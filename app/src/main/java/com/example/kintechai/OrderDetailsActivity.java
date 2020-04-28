@@ -218,7 +218,33 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 deliveredDate.setVisibility(View.GONE);
                 deliveredTitle.setVisibility(View.GONE);
                 break;
+            case "Out for Delivery":
+                //orderedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
+                orderedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
+                orderedDate.setText(String.valueOf(simpleDateFormat.format(model.getOrderDate())));
 
+                //packedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
+                packedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
+                packedDate.setText(String.valueOf(simpleDateFormat.format(model.getPackedDate())));
+
+                //shippedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
+                shippedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
+                shippedDate.setText(String.valueOf(simpleDateFormat.format(model.getShippedDate())));
+
+                //deliveredIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
+                deliveredIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
+                deliveredDate.setText(String.valueOf(simpleDateFormat.format(model.getDeliveredDate())));
+
+                O_P_progress.setVisibility(View.VISIBLE);
+                O_P_progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
+                P_S_progress.setVisibility(View.VISIBLE);
+                P_S_progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
+                S_D_progress.setVisibility(View.VISIBLE);
+                S_D_progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
+
+                deliveredTitle.setText("Out for Delivery");
+                deliveredBody.setText("You order is out for Delivery");
+                break;
             case "Delivered":
                 //orderedIndicator.setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.successGreen)));
                 orderedIndicator.setImageTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));

@@ -9,7 +9,7 @@
         android:id="@+id/linearLayout6"
         android:layout_width="0dp"
         android:layout_height="220dp"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/yellow_background"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,7 +18,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
         android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_height="92dp"
         android:elevation="51dp"
         android:src="@mipmap/profile_placeholder"
         app:civ_border_color="#ffffff"

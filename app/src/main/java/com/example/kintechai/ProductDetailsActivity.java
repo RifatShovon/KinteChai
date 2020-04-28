@@ -638,7 +638,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             , (long) documentSnapshot.get("stock_quantity")));
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                     if (DBqueries.addressesModelList.size() == 0) {
-                        DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog);
+                        DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog,true);
                     } else {
                         loadingDialog.dismiss();
                         Intent deliveryIntent = new Intent(ProductDetailsActivity.this, DeliveryActivity.class);

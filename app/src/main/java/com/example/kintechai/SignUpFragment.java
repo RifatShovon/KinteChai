@@ -249,6 +249,9 @@ public class SignUpFragment extends Fragment {
 
                                     Map<String, Object> userdata = new HashMap<>();
                                     userdata.put("username", userName.getText().toString());
+                                    userdata.put("email",emailId.getText().toString());
+                                    userdata.put("profile","");
+
 
                                     firebaseFirestore.collection("USERS").document(firebaseAuth.getUid())
                                             .set(userdata)

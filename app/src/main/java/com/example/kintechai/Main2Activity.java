@@ -24,12 +24,17 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -46,6 +51,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.kintechai.RegisterActivity.setSignUpFragment;
 
@@ -75,6 +82,9 @@ public class Main2Activity extends AppCompatActivity
     private Dialog signInDialog;
     private FirebaseUser currentUser;
     private TextView badgeCount;
+    private CircleImageView profileView;
+    private TextView userName,email;
+    private ImageView addProfileIcon;
     /*private int scrollFlags;
     private AppBarLayout.LayoutParams params;*/
 
@@ -104,6 +114,12 @@ public class Main2Activity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
 
         frameLayout = findViewById(R.id.main_framelayout);
+
+        profileView = navigationView.getHeaderView(0).findViewById(R.id.main_profile_image);
+        userName = navigationView.getHeaderView(0).findViewById(R.id.main_fullname);
+        email = navigationView.getHeaderView(0).findViewById(R.id.main_email);
+        addProfileIcon = navigationView.getHeaderView(0).findViewById(R.id.add_profile_icon);
+
         if (showCart) {
             main2Activity = this;
             drawer.setDrawerLockMode(1);
@@ -171,6 +187,34 @@ public class Main2Activity extends AppCompatActivity
         if (currentUser == null) {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         } else {
+            FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()){
+                        DBqueries.userName = task.getResult().getString("username");
+                        DBqueries.email = task.getResult().getString("email");
+                        DBqueries.profile = task.getResult().getString("profile");
+
+                        userName.setText(DBqueries.userName);
+                        email.setText(DBqueries.email);
+//                        if (DBqueries.profile.equals("")){
+                          if (DBqueries.profile == null){
+                            addProfileIcon.setVisibility(View.VISIBLE);
+                        }else {
+                            addProfileIcon.setVisibility(View.INVISIBLE);
+                            Glide.with(Main2Activity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_placeholder)).into(profileView);
+                        }
+
+
+                    }else {
+                        String error = task.getException().getMessage();
+                        Toast.makeText(Main2Activity.this,error,Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
         }
         if (resetMainActivity){
