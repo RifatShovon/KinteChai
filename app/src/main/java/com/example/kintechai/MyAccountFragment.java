@@ -168,33 +168,7 @@ public class MyAccountFragment extends Fragment {
                             address.setText("-");
                             pincode.setText("-");
                         }else {
-                            //todo: some code missing :-(
-                            /*addressName.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFullname());
-                            address.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAddress());
-                            pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());*/
-
-                            String nametext,mobileNo;
-                            nametext = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName();
-                            mobileNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
-                            if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")){
-                                addressName.setText(nametext +" - "+ mobileNo);
-                            }else {
-                                addressName.setText(nametext +" - "+ mobileNo + " or " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
-                            }
-
-                            String flatNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
-                            String locality = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLocality();
-                            String landmark = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
-                            String city = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
-
-                            if (landmark.equals("")){
-                                address.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " District: " + city);
-                            }else {
-                                address.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " Landmark: " + landmark + " District: " + city);
-                            }
-                            pincode.setText("Pincode: "+DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
-
-
+                            setAddress();
                         }
                     }
                 });
@@ -224,6 +198,43 @@ public class MyAccountFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!loadingDialog.isShowing()){
+            if (DBqueries.addressesModelList.size() == 0){
+                addressName.setText("No Address");
+                address.setText("-");
+                pincode.setText("-");
+            }else {
+                setAddress();
+            }
+        }
+    }
+
+    private void setAddress() {
+        String nametext,mobileNo;
+        nametext = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName();
+        mobileNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
+        if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")){
+            addressName.setText(nametext +" - "+ mobileNo);
+        }else {
+            addressName.setText(nametext +" - "+ mobileNo + " or " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
+        }
+
+        String flatNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
+        String locality = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLocality();
+        String landmark = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
+        String city = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
+
+        if (landmark.equals("")){
+            address.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " District: " + city);
+        }else {
+            address.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " Landmark: " + landmark + " District: " + city);
+        }
+        pincode.setText("Pincode: "+DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
     }
 
 }

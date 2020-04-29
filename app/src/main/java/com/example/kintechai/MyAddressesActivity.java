@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -58,6 +59,12 @@ public class MyAddressesActivity extends AppCompatActivity {
         loadingDialog.setCancelable(false);
         loadingDialog.getWindow().setBackgroundDrawable(this.getDrawable(R.drawable.slider_background));
         loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                addressesSaved.setText(String.valueOf(DBqueries.addressesModelList.size())+" saved addresses.");
+            }
+        });
         ////////////////////////////// loading dialog //////////////////////////////////////
 
         previousAddress = DBqueries.selectedAddress;
@@ -121,7 +128,7 @@ public class MyAddressesActivity extends AppCompatActivity {
             }
         });
 
-        addressesAdapter = new AddressesAdapter(DBqueries.addressesModelList, mode);
+        addressesAdapter = new AddressesAdapter(DBqueries.addressesModelList, mode,loadingDialog);
         myAddressesRecyclerView.setAdapter(addressesAdapter);
         ((SimpleItemAnimator) myAddressesRecyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         addressesAdapter.notifyDataSetChanged();
@@ -131,7 +138,11 @@ public class MyAddressesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent addAddressIntent = new Intent(MyAddressesActivity.this,AddAddressActivity.class);
-                addAddressIntent.putExtra("INTENT","null");
+                if (mode != SELECT_ADDRESS){
+                    addAddressIntent.putExtra("INTENT","manage");
+                }else {
+                    addAddressIntent.putExtra("INTENT", "null");
+                }
                 startActivity(addAddressIntent);
             }
         });
