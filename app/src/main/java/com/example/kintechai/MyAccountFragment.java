@@ -92,12 +92,14 @@ public class MyAccountFragment extends Fragment {
             Glide.with(getContext()).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_placeholder)).into(profilView);
         }
 
+        layoutContainer.getChildAt(1).setVisibility(View.GONE);
         loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 for (MyOrderItemModel orderItemModel : DBqueries.myOrderItemModelList) {
                     if (!orderItemModel.isCancellationRequested()) {
                         if (!orderItemModel.getOrderStatus().equals("Delivered") && !orderItemModel.getOrderStatus().equals("Cancelled")) {
+                            layoutContainer.getChildAt(1).setVisibility(View.VISIBLE);
                             Glide.with(getContext()).load(orderItemModel.getProductImage()).apply(new RequestOptions().placeholder(R.mipmap.icon_placeholder)).into(currentOrderImage);
                             tvCurrentOrderStatus.setText(orderItemModel.getOrderStatus());
 
@@ -134,48 +136,69 @@ public class MyAccountFragment extends Fragment {
                                     S_D_progress.setProgressBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#00ff00")));
                                     break;
                             }
-
-                            int i = 0;
-                            for (MyOrderItemModel myOrderItemModel : DBqueries.myOrderItemModelList) {
-                                if (i < 4) {
-                                    if (myOrderItemModel.getOrderStatus().equals("Delivered")) {
-                                        Glide.with(getContext()).load(myOrderItemModel.getProductImage()).apply(new RequestOptions().placeholder(R.mipmap.icon_placeholder)).into((CircleImageView) recentOrdersContainer.getChildAt(i));
-                                        i++;
-                                    }
-                                } else {
-                                    break;
-                                }
-                            }
-                            if (i == 0) {
-                                yourRecentOrdersTitle.setText("No Recent Orders.");
-                            }
-                            if (i < 3) {
-                                for (int x = i; x < 4; x++) {
-                                    recentOrdersContainer.getChildAt(x).setVisibility(View.GONE);
-                                }
-                            }
-                            loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    loadingDialog.setOnDismissListener(null);
-                                    if (DBqueries.addressesModelList.size() == 0){
-                                        addressName.setText("No Address");
-                                        address.setText("-");
-                                        pincode.setText("-");
-                                    }else {
-                                        //todo: some code missing :-(
-                                        addressName.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFullname());
-                                        address.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAddress());
-                                        pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
-                                    }
-                                }
-                            });
-                            DBqueries.loadAddresses(getContext(),loadingDialog,false);
-                            return;
                         }
                     }
                 }
-                layoutContainer.getChildAt(1).setVisibility(View.GONE);
+                int i = 0;
+                for (MyOrderItemModel myOrderItemModel : DBqueries.myOrderItemModelList) {
+                    if (i < 4) {
+                        if (myOrderItemModel.getOrderStatus().equals("Delivered")) {
+                            Glide.with(getContext()).load(myOrderItemModel.getProductImage()).apply(new RequestOptions().placeholder(R.mipmap.icon_placeholder)).into((CircleImageView) recentOrdersContainer.getChildAt(i));
+                            i++;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                if (i == 0) {
+                    yourRecentOrdersTitle.setText("No Recent Orders.");
+                }
+                if (i < 3) {
+                    for (int x = i; x < 4; x++) {
+                        recentOrdersContainer.getChildAt(x).setVisibility(View.GONE);
+                    }
+                }
+                loadingDialog.show();
+                loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        loadingDialog.setOnDismissListener(null);
+                        if (DBqueries.addressesModelList.size() == 0){
+                            addressName.setText("No Address");
+                            address.setText("-");
+                            pincode.setText("-");
+                        }else {
+                            //todo: some code missing :-(
+                            /*addressName.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFullname());
+                            address.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAddress());
+                            pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());*/
+
+                            String nametext,mobileNo;
+                            nametext = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName();
+                            mobileNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
+                            if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")){
+                                addressName.setText(nametext +" - "+ mobileNo);
+                            }else {
+                                addressName.setText(nametext +" - "+ mobileNo + " or " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
+                            }
+
+                            String flatNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
+                            String locality = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLocality();
+                            String landmark = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
+                            String city = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
+
+                            if (landmark.equals("")){
+                                address.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " District: " + city);
+                            }else {
+                                address.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " Landmark: " + landmark + " District: " + city);
+                            }
+                            pincode.setText("Pincode: "+DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
+
+
+                        }
+                    }
+                });
+                DBqueries.loadAddresses(getContext(),loadingDialog,false);
             }
         });
         DBqueries.loadOrders(getContext(), null, loadingDialog);

@@ -10,15 +10,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.textclassifier.ConversationActions;
+import android.view.textclassifier.TextLanguage;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.internal.StringResourceValueReader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import static com.example.kintechai.DBqueries.cartItemModelList;

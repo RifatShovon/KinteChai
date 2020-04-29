@@ -51,6 +51,7 @@ public class DeliveryActivity extends AppCompatActivity {
     private TextView fullname;
     private TextView fullAddress;
     private TextView pincode;
+    private String mobileNo;
     private Button continueBtn;
     public static Dialog loadingDialog;
     private Dialog paymentMethodDialog;
@@ -376,9 +377,26 @@ public class DeliveryActivity extends AppCompatActivity {
         //////////////////////accessing quantity////////////////////
 
 
-        fullname.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFullname());
-        fullAddress.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAddress());
-        pincode.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
+        mobileNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
+        if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")){
+            fullname.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName() +" - "+ mobileNo);
+            //fullname.setText(fullname+" - "+mobileNo);
+        }else {
+            fullname.setText(DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName() +" - "+ mobileNo + " or " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
+            //fullname.setText(fullname+" - "+mobileNo + " or " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
+        }
+
+        String flatNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
+        String locality = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLocality();
+        String landmark = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
+        String city = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
+
+        if (landmark.equals("")){
+            fullAddress.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " District: " + city);
+        }else {
+            fullAddress.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " Landmark: " + landmark + " District: " + city);
+        }
+        pincode.setText("Pincode: "+DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
         //super.onStart();
     }
 

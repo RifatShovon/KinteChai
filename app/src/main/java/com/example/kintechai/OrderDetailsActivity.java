@@ -128,8 +128,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
         savedAmount = findViewById(R.id.saved_amount);
 
 
-
-
         title.setText(model.getProductTitle());
         if (!model.getDiscountedPrice().equals("")) {
             price.setText("BDT." + model.getDiscountedPrice() + "/=");
