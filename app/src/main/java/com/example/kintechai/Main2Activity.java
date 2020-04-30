@@ -187,32 +187,44 @@ public class Main2Activity extends AppCompatActivity
         if (currentUser == null) {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         } else {
-            FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()){
-                        DBqueries.userName = task.getResult().getString("username");
-                        DBqueries.email = task.getResult().getString("email");
-                        DBqueries.profile = task.getResult().getString("profile");
+            if (DBqueries.email == null) {
+                FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DBqueries.userName = task.getResult().getString("username");
+                            DBqueries.email = task.getResult().getString("email");
+                            DBqueries.profile = task.getResult().getString("profile");
 
-                        userName.setText(DBqueries.userName);
-                        email.setText(DBqueries.email);
+                            userName.setText(DBqueries.userName);
+                            email.setText(DBqueries.email);
 //                        if (DBqueries.profile.equals("")){
-                          if (DBqueries.profile == null){
-                            addProfileIcon.setVisibility(View.VISIBLE);
-                        }else {
-                            addProfileIcon.setVisibility(View.INVISIBLE);
-                            Glide.with(Main2Activity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_placeholder)).into(profileView);
+                            if (DBqueries.profile == null) {
+                                addProfileIcon.setVisibility(View.VISIBLE);
+                            } else {
+                                addProfileIcon.setVisibility(View.INVISIBLE);
+                                Glide.with(Main2Activity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_placeholder)).into(profileView);
+                            }
+
+
+                        } else {
+                            String error = task.getException().getMessage();
+                            Toast.makeText(Main2Activity.this, error, Toast.LENGTH_SHORT).show();
                         }
-
-
-                    }else {
-                        String error = task.getException().getMessage();
-                        Toast.makeText(Main2Activity.this,error,Toast.LENGTH_SHORT).show();
                     }
+                });
+            }else {
+                userName.setText(DBqueries.userName);
+                email.setText(DBqueries.email);
+                if (DBqueries.profile == null) {
+                    profileView.setImageResource(R.mipmap.profile_placeholder);
+                    addProfileIcon.setVisibility(View.VISIBLE);
+                } else {
+                    addProfileIcon.setVisibility(View.INVISIBLE);
+                    Glide.with(Main2Activity.this).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_placeholder)).into(profileView);
                 }
-            });
+            }
 
 
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(true);
@@ -339,7 +351,7 @@ public class Main2Activity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     public boolean onNavigationItemSelected(MenuItem item) {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         menuItem = item;
         
@@ -375,6 +387,7 @@ public class Main2Activity extends AppCompatActivity
                         startActivity(registerIntent);
                         finish();
                     }
+                    drawer.removeDrawerListener(this);
                 }
             });
             return true;

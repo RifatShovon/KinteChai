@@ -90,16 +90,13 @@ public class MyAccountFragment extends Fragment {
 
         settingsBtn = view.findViewById(R.id.settings_btn);
 
-        name.setText(DBqueries.userName);
-        email.setText(DBqueries.email);
-        if (!DBqueries.profile.equals("")) {
-            Glide.with(getContext()).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_placeholder)).into(profilView);
-        }
 
         layoutContainer.getChildAt(1).setVisibility(View.GONE);
+
         loadingDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
+
                 for (MyOrderItemModel orderItemModel : DBqueries.myOrderItemModelList) {
                     if (!orderItemModel.isCancellationRequested()) {
                         if (!orderItemModel.getOrderStatus().equals("Delivered") && !orderItemModel.getOrderStatus().equals("Cancelled")) {
@@ -143,6 +140,7 @@ public class MyAccountFragment extends Fragment {
                         }
                     }
                 }
+
                 int i = 0;
                 for (MyOrderItemModel myOrderItemModel : DBqueries.myOrderItemModelList) {
                     if (i < 4) {
@@ -167,16 +165,16 @@ public class MyAccountFragment extends Fragment {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         loadingDialog.setOnDismissListener(null);
-                        if (DBqueries.addressesModelList.size() == 0){
+                        if (DBqueries.addressesModelList.size() == 0) {
                             addressName.setText("No Address");
                             address.setText("-");
                             pincode.setText("-");
-                        }else {
+                        } else {
                             setAddress();
                         }
                     }
                 });
-                DBqueries.loadAddresses(getContext(),loadingDialog,false);
+                DBqueries.loadAddresses(getContext(), loadingDialog, false);
             }
         });
         DBqueries.loadOrders(getContext(), null, loadingDialog);
@@ -205,10 +203,10 @@ public class MyAccountFragment extends Fragment {
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent updateUserInfo = new Intent(getContext(),UpdateUserInfoActivity.class);
-                updateUserInfo.putExtra("Name",name.getText());
-                updateUserInfo.putExtra("Email",email.getText());
-                updateUserInfo.putExtra("Photo",DBqueries.profile);
+                Intent updateUserInfo = new Intent(getContext(), UpdateUserInfoActivity.class);
+                updateUserInfo.putExtra("Name", name.getText());
+                updateUserInfo.putExtra("Email", email.getText());
+                updateUserInfo.putExtra("Photo", DBqueries.profile);
                 startActivity(updateUserInfo);
             }
         });
@@ -219,25 +217,35 @@ public class MyAccountFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (!loadingDialog.isShowing()){
-            if (DBqueries.addressesModelList.size() == 0){
+
+        name.setText(DBqueries.userName);
+        email.setText(DBqueries.email);
+        if (!DBqueries.profile.equals("")) {
+            Glide.with(getContext()).load(DBqueries.profile).apply(new RequestOptions().placeholder(R.mipmap.profile_placeholder)).into(profilView);
+        } else {
+            profilView.setImageResource(R.mipmap.profile_placeholder);
+        }
+
+        if (!loadingDialog.isShowing()) {
+            if (DBqueries.addressesModelList.size() == 0) {
                 addressName.setText("No Address");
                 address.setText("-");
                 pincode.setText("-");
-            }else {
+            } else {
                 setAddress();
             }
         }
     }
 
+
     private void setAddress() {
-        String nametext,mobileNo;
+        String nametext, mobileNo;
         nametext = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getName();
         mobileNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getMobileNo();
-        if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")){
-            addressName.setText(nametext +" - "+ mobileNo);
-        }else {
-            addressName.setText(nametext +" - "+ mobileNo + " or " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
+        if (DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo().equals("")) {
+            addressName.setText(nametext + " - " + mobileNo);
+        } else {
+            addressName.setText(nametext + " - " + mobileNo + " or " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getAlternateMobileNo());
         }
 
         String flatNo = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getFlatNo();
@@ -245,12 +253,12 @@ public class MyAccountFragment extends Fragment {
         String landmark = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getLandmark();
         String city = DBqueries.addressesModelList.get(DBqueries.selectedAddress).getCity();
 
-        if (landmark.equals("")){
-            address.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " District: " + city);
-        }else {
-            address.setText("Flat: "+ flatNo + " Locality/Street: " + locality + " Landmark: " + landmark + " District: " + city);
+        if (landmark.equals("")) {
+            address.setText("Flat: " + flatNo + " Locality/Street: " + locality + " District: " + city);
+        } else {
+            address.setText("Flat: " + flatNo + " Locality/Street: " + locality + " Landmark: " + landmark + " District: " + city);
         }
-        pincode.setText("Pincode: "+DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
+        pincode.setText("Pincode: " + DBqueries.addressesModelList.get(DBqueries.selectedAddress).getPincode());
     }
 
 }

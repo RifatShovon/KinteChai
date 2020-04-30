@@ -1,6 +1,6 @@
 package com.example.kintechai;
 
-
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -22,14 +22,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +46,8 @@ public class UpdatePasswordFragment extends Fragment {
 
     private EditText oldPassword, newPassword, confirmNewPassword;
     private Button updateBtn;
+    private String email;
+    private Dialog loadingDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +59,17 @@ public class UpdatePasswordFragment extends Fragment {
         newPassword = view.findViewById(R.id.new_password);
         confirmNewPassword = view.findViewById(R.id.confirm_new_password);
         updateBtn = view.findViewById(R.id.update_password_btn);
+
+        ////////////////////////////// loading dialog
+        loadingDialog = new Dialog(getContext());
+        loadingDialog.setContentView(R.layout.loading_progress_dialog);
+        loadingDialog.setCancelable(false);
+        loadingDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.slider_background));
+        loadingDialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ////////////////////////////// loading dialog //////////////////////////////////////
+
+        email = getArguments().getString("Email");
+
 
         oldPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -107,6 +123,13 @@ public class UpdatePasswordFragment extends Fragment {
             }
         });
 
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkEmailAndPassword();
+            }
+        });
+
         return view;
     }
 
@@ -136,7 +159,45 @@ public class UpdatePasswordFragment extends Fragment {
         customErrorIcon.setBounds(0, 0, customErrorIcon.getIntrinsicWidth(), customErrorIcon.getIntrinsicHeight());
 
         if (newPassword.getText().toString().equals(confirmNewPassword.getText().toString())) {
-            /////////////////update password
+
+            loadingDialog.show();
+            final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            AuthCredential credential = EmailAuthProvider
+                    .getCredential(email, oldPassword.getText().toString());
+
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+
+                                user.updatePassword(newPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()){
+                                            oldPassword.setText(null);
+                                            newPassword.setText(null);
+                                            confirmNewPassword.setText(null);
+                                            getActivity().finish();
+                                            Toast.makeText(getContext(),"Password Updated Successfully!",Toast.LENGTH_SHORT).show();
+
+                                        }else {
+                                            String error = task.getException().getMessage();
+                                            Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
+                                        }
+                                        loadingDialog.dismiss();
+                                    }
+                                });
+
+                            }else {
+                                loadingDialog.dismiss();
+                                String error = task.getException().getMessage();
+                                Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
         } else {
             confirmNewPassword.setError("Password Doesn't Matched!", customErrorIcon);
         }

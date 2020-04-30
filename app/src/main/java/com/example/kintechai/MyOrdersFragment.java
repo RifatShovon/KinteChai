@@ -56,10 +56,11 @@ public class MyOrdersFragment extends Fragment {
         myOrderAdapter = new MyOrderAdapter(DBqueries.myOrderItemModelList, loadingDialog);
         myOrdersRecyclerView.setAdapter(myOrderAdapter);
 
-
         DBqueries.loadOrders(getContext(), myOrderAdapter, loadingDialog);
 
         myOrderAdapter.notifyDataSetChanged();
+
+        loadingDialog.dismiss();
 
         return view;
     }

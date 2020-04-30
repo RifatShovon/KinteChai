@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.FrameLayout;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class UpdateUserInfoActivity extends AppCompatActivity {
 
@@ -69,6 +70,10 @@ public class UpdateUserInfoActivity extends AppCompatActivity {
             bundle.putString("Name", name);
             bundle.putString("Email", email);
             bundle.putString("Photo", photo);
+            fragment.setArguments(bundle);
+        }else {
+            Bundle bundle = new Bundle();
+            bundle.putString("Email", email);
             fragment.setArguments(bundle);
         }
         fragmentTransaction.replace(frameLayout.getId(), fragment);

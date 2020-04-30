@@ -77,6 +77,7 @@ public class AddAddressActivity extends AppCompatActivity {
         alternateMobileNo = findViewById(R.id.alternate_mobile_no);
         //stateSpinner = findViewById(R.id.state_spinner);
 
+        saveBtn = findViewById(R.id.save_btn);
 
         //////////spinner
         ArrayAdapter spinnerAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, cityList);
@@ -115,13 +116,12 @@ public class AddAddressActivity extends AppCompatActivity {
             mobileNo.setText(addressesModel.getMobileNo());
             alternateMobileNo.setText(addressesModel.getAlternateMobileNo());
 
-//            saveBtn.setText("Update");
+            saveBtn.setText("Update");
 
         } else {
             position = DBqueries.addressesModelList.size();
         }
 
-        saveBtn = findViewById(R.id.save_btn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
