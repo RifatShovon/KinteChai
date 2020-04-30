@@ -227,5 +227,6 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.View
                 });
             }
         }
+
     }
 }
