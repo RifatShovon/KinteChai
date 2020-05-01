@@ -187,9 +187,6 @@ public class Main2Activity extends AppCompatActivity
         if (currentUser == null) {
             navigationView.getMenu().getItem(navigationView.getMenu().size() - 1).setEnabled(false);
         } else {
-
-            DBqueries.checkNotifications(false);
-
             if (DBqueries.email == null) {
                 FirebaseFirestore.getInstance().collection("USERS").document(currentUser.getUid())
                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -244,7 +241,7 @@ public class Main2Activity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        DBqueries.checkNotifications(true);
+        DBqueries.checkNotifications(true,null);
 
     }
 
@@ -308,6 +305,25 @@ public class Main2Activity extends AppCompatActivity
                     }
                 }
             });
+
+            MenuItem notifyItem = menu.findItem(R.id.main_notification_icon);
+            notifyItem.setActionView(R.layout.badge_layout);
+            ImageView notifyIcon = cartItem.getActionView().findViewById(R.id.badge_icon);
+            notifyIcon.setImageResource(R.mipmap.bell);
+            TextView notifyCount = notifyItem.getActionView().findViewById(R.id.badge_count);
+
+            if (currentUser != null){
+                DBqueries.checkNotifications(false,notifyCount);
+            }
+
+            notifyItem.getActionView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent notificationIntent = new Intent(Main2Activity.this,NotificationActivity.class);
+                    startActivity(notificationIntent);
+                }
+            });
+
         }
         return true;
     }

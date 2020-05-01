@@ -644,7 +644,7 @@ public class DBqueries {
                 });
     }
 
-    public static void checkNotifications(boolean remove) {
+    public static void checkNotifications(boolean remove, @Nullable final TextView notifyCount) {
 
         if (remove) {
             registration.remove();
@@ -656,14 +656,29 @@ public class DBqueries {
 
                             if (documentSnapshot != null && documentSnapshot.exists()) {
                                 notificationModelList.clear();
+                                int unread = 0;
                                 for (long x = 0; x < (long) documentSnapshot.get("list_size"); x++) {
-                                    notificationModelList.add(new NotificationModel(documentSnapshot.get("Image_" + x).toString(), documentSnapshot.get("Body_" + x).toString(), documentSnapshot.getBoolean("Readed_" + x)));
+                                    notificationModelList.add(0, new NotificationModel(documentSnapshot.get("Image_" + x).toString(), documentSnapshot.get("Body_" + x).toString(), documentSnapshot.getBoolean("Readed_" + x)));
+                                    if (!documentSnapshot.getBoolean("Readed_" + x)) {
+                                        unread++;
+                                        if (notifyCount != null) {
+                                            if (unread > 0) {
+                                                notifyCount.setVisibility(View.VISIBLE);
+                                                if (unread < 99) {
+                                                    notifyCount.setText(String.valueOf(unread));
+                                                } else {
+                                                    notifyCount.setText("99");
+                                                }
+                                            } else {
+                                                notifyCount.setVisibility(View.INVISIBLE);
+                                            }
+                                        }
+                                    }
                                 }
                                 if (NotificationActivity.adapter != null) {
                                     NotificationActivity.adapter.notifyDataSetChanged();
                                 }
                             }
-
                         }
                     });
         }
