@@ -54,6 +54,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
     public static boolean running_cart_query = false;
     public static Activity productDetailsActivity;
 
+    public static boolean fromSearch = false;
+
     private ViewPager productImagesViewPager;
     private TextView productTitle;
     private TextView averageRatingMiniview;
@@ -638,7 +640,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             , (long) documentSnapshot.get("stock_quantity")));
                     DeliveryActivity.cartItemModelList.add(new CartItemModel(CartItemModel.TOTAL_AMOUNT));
                     if (DBqueries.addressesModelList.size() == 0) {
-                        DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog,true);
+                        DBqueries.loadAddresses(ProductDetailsActivity.this, loadingDialog, true);
                     } else {
                         loadingDialog.dismiss();
                         Intent deliveryIntent = new Intent(ProductDetailsActivity.this, DeliveryActivity.class);
@@ -821,7 +823,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
             finish();
             return true;
         } else if (id == R.id.main_search_icon) {
-            //todo: search
+            if (fromSearch) {
+                finish();
+            } else {
+                Intent searchIntent = new Intent(this, SearchActivity.class);
+                startActivity(searchIntent);
+            }
             return true;
         } else if (id == R.id.main_cart_icon) {
             if (currentUser == null) {
@@ -834,6 +841,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fromSearch = false;
     }
 
     @Override

@@ -31,12 +31,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/RecyclerViewBackground"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout5"
-        tools:visibility="gone" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout5" />
 
     <GridView
         android:id="@+id/grid_layout"
@@ -46,10 +45,10 @@
         android:horizontalSpacing="1dp"
         android:numColumns="auto_fit"
         android:verticalSpacing="1dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout5"
-        tools:visibility="gone" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

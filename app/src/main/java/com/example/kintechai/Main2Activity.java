@@ -309,7 +309,8 @@ public class Main2Activity extends AppCompatActivity
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorAccent));
 
         if (id == R.id.main_search_icon) {
-            //todo: search
+            Intent searchIntent = new Intent(this,SearchActivity.class);
+            startActivity(searchIntent);
             return true;
         } else if (id == R.id.main_notification_icon) {
             //todo: notification

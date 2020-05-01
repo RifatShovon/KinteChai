@@ -181,7 +181,6 @@ public class UpdatePasswordFragment extends Fragment {
                                             confirmNewPassword.setText(null);
                                             getActivity().finish();
                                             Toast.makeText(getContext(),"Password Updated Successfully!",Toast.LENGTH_SHORT).show();
-
                                         }else {
                                             String error = task.getException().getMessage();
                                             Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();

@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/product_title"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -37,8 +37,8 @@
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:tint="@color/successGreen"
+        app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_title"
         app:srcCompat="@drawable/default_dot" />
@@ -59,10 +59,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
         android:text="Your ratings"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/product_image"
+        app:layout_constraintBottom_toTopOf="@+id/rating_divider"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
@@ -79,9 +80,9 @@
         android:id="@+id/rate_now_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
