@@ -21,7 +21,10 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -64,6 +67,9 @@ public class DBqueries {
     public static List<RewardModel> rewardModelList = new ArrayList<>();
 
     public static List<MyOrderItemModel> myOrderItemModelList = new ArrayList<>();
+
+    public static List<NotificationModel> notificationModelList = new ArrayList<>();
+    public static ListenerRegistration registration;
 
     public static void loadCategories(final RecyclerView categoryRecyclerView, final Context context) {
         categoryModelList.clear();
@@ -636,6 +642,31 @@ public class DBqueries {
                         }
                     }
                 });
+    }
+
+    public static void checkNotifications(boolean remove) {
+
+        if (remove) {
+            registration.remove();
+        } else {
+            registration = firebaseFirestore.collection("USERS").document(FirebaseAuth.getInstance().getUid()).collection("USER_DATA").document("MY_NOTIFICATIONS")
+                    .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+
+                            if (documentSnapshot != null && documentSnapshot.exists()) {
+                                notificationModelList.clear();
+                                for (long x = 0; x < (long) documentSnapshot.get("list_size"); x++) {
+                                    notificationModelList.add(new NotificationModel(documentSnapshot.get("Image_" + x).toString(), documentSnapshot.get("Body_" + x).toString(), documentSnapshot.getBoolean("Readed_" + x)));
+                                }
+                                if (NotificationActivity.adapter != null) {
+                                    NotificationActivity.adapter.notifyDataSetChanged();
+                                }
+                            }
+
+                        }
+                    });
+        }
     }
 
     public static void clearData() {
