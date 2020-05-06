@@ -138,18 +138,22 @@ public class UpdatePasswordFragment extends Fragment {
             if (!TextUtils.isEmpty(newPassword.getText()) && newPassword.length() >= 8) {
                 if (!TextUtils.isEmpty(confirmNewPassword.getText()) && confirmNewPassword.length() >= 8) {
                     updateBtn.setEnabled(true);
-                    updateBtn.setTextColor(Color.rgb(255, 255, 255));
+                    //updateBtn.setTextColor(Color.rgb(255, 255, 255));
+                    updateBtn.setTextColor(getResources().getColor(R.color.colorAccent));
                 } else {
                     updateBtn.setEnabled(false);
-                    updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
+                    updateBtn.setTextColor(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled));
+//                    updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
                 }
             } else {
                 updateBtn.setEnabled(false);
-                updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
+                updateBtn.setTextColor(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled));
+//                updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
             }
         } else {
             updateBtn.setEnabled(false);
-            updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
+            updateBtn.setTextColor(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled));
+//            updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
         }
     }
 
@@ -175,24 +179,24 @@ public class UpdatePasswordFragment extends Fragment {
                                 user.updatePassword(newPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()){
+                                        if (task.isSuccessful()) {
                                             oldPassword.setText(null);
                                             newPassword.setText(null);
                                             confirmNewPassword.setText(null);
                                             getActivity().finish();
-                                            Toast.makeText(getContext(),"Password Updated Successfully!",Toast.LENGTH_SHORT).show();
-                                        }else {
+                                            Toast.makeText(getContext(), "Password Updated Successfully!", Toast.LENGTH_SHORT).show();
+                                        } else {
                                             String error = task.getException().getMessage();
-                                            Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
                                         }
                                         loadingDialog.dismiss();
                                     }
                                 });
 
-                            }else {
+                            } else {
                                 loadingDialog.dismiss();
                                 String error = task.getException().getMessage();
-                                Toast.makeText(getContext(),error,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

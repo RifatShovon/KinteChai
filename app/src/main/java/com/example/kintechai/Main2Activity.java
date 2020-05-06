@@ -308,7 +308,7 @@ public class Main2Activity extends AppCompatActivity
 
             MenuItem notifyItem = menu.findItem(R.id.main_notification_icon);
             notifyItem.setActionView(R.layout.badge_layout);
-            ImageView notifyIcon = cartItem.getActionView().findViewById(R.id.badge_icon);
+            ImageView notifyIcon = notifyItem.getActionView().findViewById(R.id.badge_icon);
             notifyIcon.setImageResource(R.mipmap.bell);
             TextView notifyCount = notifyItem.getActionView().findViewById(R.id.badge_count);
 

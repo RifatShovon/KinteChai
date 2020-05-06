@@ -193,14 +193,18 @@ public class UpdateInfoFragment extends Fragment {
         if (!TextUtils.isEmpty(emailField.getText())) {
             if (!TextUtils.isEmpty(nameField.getText())) {
                 updateBtn.setEnabled(true);
-                updateBtn.setTextColor(Color.rgb(255, 255, 255));
+                //updateBtn.setTextColor(Color.rgb(255, 255, 255));
+                updateBtn.setTextColor(getResources().getColor(R.color.colorAccent));
             } else {
                 updateBtn.setEnabled(false);
-                updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
+                //updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
+                updateBtn.setTextColor(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled));
+
             }
         } else {
             updateBtn.setEnabled(false);
-            updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
+            //updateBtn.setTextColor(Color.argb(50, 255, 255, 255));
+            updateBtn.setTextColor(getResources().getColor(R.color.common_google_signin_btn_text_dark_disabled));
         }
     }
 
